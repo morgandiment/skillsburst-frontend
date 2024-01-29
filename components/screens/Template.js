@@ -1,8 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
-import AnimatedButton from './components/buttons/AnimatedButton';
-import SimpleButton from './components/buttons/SimpleButton';
+import {SimpleButton, AnimatedButton } from './components/buttons/AnimatedButton';
 
 export default function App() {
   return (
