@@ -1,5 +1,6 @@
 Making a new screen:
-    Template file is at Components\Screens\Template.js
+    Template file is at screens\Template.js
     DUPLICATE this file DO NOT RENAME THE ORIGINAL FILE
     Rename duplicated file to whatever screen you are working on
     
+    Add name of screen to the imports and exports of the screens\Index.js

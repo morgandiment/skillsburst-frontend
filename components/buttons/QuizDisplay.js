@@ -1,14 +1,13 @@
 import React from 'react';
 import { Alert, Button, StyleSheet, View } from 'react-native';
 
-const SimpleButton = ({ title, onPress, style }) => {
+import thisQuiz from `../quizzes/${quizPath}`;
+
+const QuizDisplay = ({ quizPath, style }) => {
+  
   return (
     <View style={[styles.bgColor, style]}>
-      <Button
-        title={title}
-        onPress={onPress}
-        color={'#EEDFEE'}
-      />
+      
     </View>
   );
 };

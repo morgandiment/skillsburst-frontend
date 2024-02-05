@@ -1,0 +1,51 @@
+{
+    "quiz_name" : "Test Quiz",
+    "start_seconds" : 15,
+    "number_of_questions" : 4,
+    "Difficulty" : "Beginner",
+    "questions" : [
+        {
+            "question" : "What is 4 + 6?",
+            "answers" : [
+                "10",
+                "12",
+                "8",
+                "11"
+            ],
+            "correct_index" : "1"
+        },
+
+        {
+            "question" : "what is 6 / 3?",
+            "answers" : [
+                "1",
+                "3",
+                "2",
+                "6"
+            ],
+            "correct_index" : "3"
+        },
+
+        {
+            "question" : "what is 8 x 5?",
+            "answers" : [
+                "35",
+                "45",
+                "40",
+                "50"
+            ],
+            "correct_index" : "3"
+        },
+
+        {
+            "question" : "what is 6 - 10?",
+            "answers" : [
+                "-6",
+                "-4",
+                "0",
+                "-3"
+            ],
+            "correct_index" : "2"
+        }
+    ]
+}

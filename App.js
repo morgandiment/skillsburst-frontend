@@ -1,19 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
+import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import AnimatedButton from './components/buttons/AnimatedButton';
-import SimpleButton from './components/buttons/SimpleButton';
+import {SimpleButton, AnimatedButton } from './components/Index.js';
+import { Template, QuizAutoBuild, LandingPage } from './screens/Index.js';
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <SimpleButton title={"simple button"} message={"message"}></SimpleButton>
-      <AnimatedButton title={"animated button"} message={"message"}></AnimatedButton>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{
+          headerStyle: { 
+            backgroundColor: '#eeeeee',
+          },
+          headerTintColor: '#000000',
+          headerTitleStyle: { fontWeight: 'bold'},
+        }}
+      >
+        
+        <Stack.Screen name="LandingPage" component={LandingPage} options={{title: 'Welcome [Username]'}}/>
+        <Stack.Screen name="QuizAutoBuild" component={QuizAutoBuild} options={{title: 'Programatically made quiz page'}}/>
+        <Stack.Screen name="Template" component={Template} options={{title: 'Template'}}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {
