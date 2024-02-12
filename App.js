@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import {SimpleButton, AnimatedButton } from './components/Index.js';
-import { Template, QuizAutoBuild, LandingPage } from './screens/Index.js';
+import { Template, QuizAutoBuild, LandingPage, LoginPage, SignupPage } from './screens/Index.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,7 +19,8 @@ function App() {
           headerTitleStyle: { fontWeight: 'bold'},
         }}
       >
-        
+
+        <Stack.Screen name="SignupPage" component={SignupPage} options={{headerShown: false}}/>
         <Stack.Screen name="LandingPage" component={LandingPage} options={{title: 'Welcome [Username]'}}/>
         <Stack.Screen name="QuizAutoBuild" component={QuizAutoBuild} options={{title: 'Programatically made quiz page'}}/>
         <Stack.Screen name="Template" component={Template} options={{title: 'Template'}}/>

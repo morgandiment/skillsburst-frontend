@@ -5,6 +5,8 @@ const images = {
         house_icon: require('./house_icon.png'),
         bag_icon: require('./bag_icon.png'),
     },
+
+    skillsburst_banner_logo: require('./skillsburst_banner_logo.png')
 };
 
 export default images;

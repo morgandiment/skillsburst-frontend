@@ -4,7 +4,7 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 import { CirclePictureButton, DropdownMenu } from '../components/Index.js';
 
 //import {  } from './Index.js';
-import Images from '../components/images/Index.js';
+import Images from '.././images/Index.js';
 
 function LandingPage({ navigation }) {
   return (

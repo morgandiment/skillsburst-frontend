@@ -7,7 +7,7 @@ import Animated, {
   } from 'react-native-reanimated';
 
 import { CirclePictureButton } from '../Index.js';
-import Images from '../components/images/Index.js';
+import Images from '../../images/Index.js';
 
 const DropdownMenu = ({ children, style }) => {
   
