@@ -1,22 +1,19 @@
 import React from 'react';
-import { Alert, Button, StyleSheet, View } from 'react-native';
+import { Alert, Button, StyleSheet, View, Pressable, Text, TouchableOpacity } from 'react-native';
 
-const SimpleButton = ({ title, onPress, style }) => {
+const SimpleButton = ({ title, onPress, style, textStyle }) => {
   return (
-    <View style={[styles.bgColor, style]}>
-      <Button
-        title={title}
-        onPress={onPress}
-        color={'#EEDFEE'}
-      />
-    </View>
+    <TouchableOpacity style={[styles.pressableStyle, style]} onPress={onPress}>
+      <Text style={textStyle}>{title}</Text>
+    </TouchableOpacity>
   );
 };
 
 export default SimpleButton;
 
 const styles = StyleSheet.create({
-  bgColor: {
-    backgroundColor: '#988EAA',
-  },
+  pressableStyle : {
+    alignItems: "center",
+    justifyContent: "center",
+  }
 });

@@ -6,7 +6,7 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 
-const AnimatedButton = ({ title, message }) => {
+const AnimatedButton = ({ title, style, textStyle }) => {
   const scale = useSharedValue(60);
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -24,12 +24,11 @@ const AnimatedButton = ({ title, message }) => {
 
   return (
     <TouchableOpacity
-      onPress={() => Alert.alert(message)}
-      onPressIn={() => (scale.value = 20)}
+      onPressIn={() => (scale.value = 50)}
       onPressOut={() => (scale.value = 60)}
     >
-      <Animated.View style={[styles.wrapper, animatedStyle]}>
-        <Animated.Text style={[styles.textStyle, animatedTextStyle]}>
+      <Animated.View style={[styles.wrapper, style, animatedStyle]}>
+        <Animated.Text style={[styles.textStyle, textStyle, animatedTextStyle]}>
           {title}
         </Animated.Text>
       </Animated.View>
@@ -43,12 +42,9 @@ const styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 10,
-    backgroundColor: 'red',
-    borderRadius: 30,
   },
+
   textStyle: {
     color: 'white',
-    fontSize: 16,
   },
 });

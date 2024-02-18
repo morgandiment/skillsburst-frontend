@@ -21,6 +21,7 @@ function App() {
       >
 
         <Stack.Screen name="SignupPage" component={SignupPage} options={{headerShown: false}}/>
+        <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}}/>
         <Stack.Screen name="LandingPage" component={LandingPage} options={{title: 'Welcome [Username]'}}/>
         <Stack.Screen name="QuizAutoBuild" component={QuizAutoBuild} options={{title: 'Programatically made quiz page'}}/>
         <Stack.Screen name="Template" component={Template} options={{title: 'Template'}}/>
