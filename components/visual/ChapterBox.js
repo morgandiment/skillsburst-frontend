@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Image } from 'rea
 
 import Svg, { Path, Circle } from 'react-native-svg';
 import Animated, { useSharedValue, withTiming } from 'react-native-reanimated';
+import Images from '../../images/Index';
 
 const windowHeight = Dimensions.get('window').height * 0.85;
 
@@ -10,7 +11,7 @@ const ChapterBox = ({
     style, 
     navigation,
     name = 'Default Name',
-    completion = 1,
+    completion = 3,
     units = 10,
     locked = true,
     onPress = () => {},
@@ -19,7 +20,7 @@ const ChapterBox = ({
     const percentage = completion / units * 100;
 
     return (
-        <View style={ChapterStyle.chapterContainer}>
+        <View style={[ChapterStyle.chapterContainer, style]}>
             {/* Main overView */}
            
             <View style={ChapterStyle.topView}>
@@ -31,10 +32,24 @@ const ChapterBox = ({
             <View style={ChapterStyle.barContainer}>
                 
                 <View style={ChapterStyle.bar}>
-                    <Image style={[ChapterStyle.blackCircle, {left: percentage + '%', top: '-20%'}]} source={require('../../images/BlackCircle.png')}/>
+                    <Image style={[ChapterStyle.blackCircle, {left: percentage + '%', top: '-20%'}]} source={Images.other.black_circle}/>
                     <View style={[ChapterStyle.innerBar, {width: percentage + '%'}]}/>
+                </View>                
+            </View>
+
+            {/* Achievements */}
+            <View style={{ height: '40%', justifyContent: "center", backgroundColor: "white", flexDirection: 'row'}}>
+                <TouchableOpacity style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <View style={{flexDirection: 'row', alignItems: 'center', width: '70%'}} >  
+                        <Image style={{flex: 1, aspectRatio: 1.6, resizeMode: 'contain'}} source={Images.icons.trophy_icon_filled}/>
+                        <Text flex={1.7}><Text style={[{fontWeight: 'bold'}]}>{completion}</Text>/{units}</Text>
+                    </View>
+                    <Text style={{fontSize: 10}}>Unlocked</Text>
+                </TouchableOpacity>
+
+                <View flex={3}>
+
                 </View>
-                
             </View>
         </View>
     );
@@ -49,7 +64,6 @@ const ChapterStyle = StyleSheet.create({
         elevation: 4,
         borderRadius: 10,
         backgroundColor: 'white',
-        marginBottom: windowHeight / 60,
     },
     topView: {
         flexDirection: 'row',
@@ -87,8 +101,8 @@ const ChapterStyle = StyleSheet.create({
         backgroundColor: '#0EF0A4',
     },
     blackCircle: {
-        height: '140%',
-        width: '4%',
+        height: '130%',
+        width: '3%',
         position: 'absolute',
     },  
 });

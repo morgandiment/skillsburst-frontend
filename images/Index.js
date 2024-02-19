@@ -13,6 +13,7 @@ const images = {
         multiply_icon: require('./multiply_icon.png'),
         plus_icon: require('./plus_icon.png'),
         settings_icon: require('./settings_icon.png'),
+        trophy_icon_filled: require('./trophy_icon_filled.png'),
 
     },
 

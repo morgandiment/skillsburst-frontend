@@ -1,14 +1,15 @@
-import { StyleSheet, Text,  View, ScrollView} from 'react-native';
+import { StyleSheet, Text,  View, ScrollView, Dimensions} from 'react-native';
 import {Header, Navbar, ChapterBox} from '../../components/Index.js';
 
-// Page template for pages that require both header and footer 
+const windowHeight = Dimensions.get('window').height * 0.85;
+const windowWidth = Dimensions.get('window').width;
 
 const CoursePage = ({style, route, navigation}) => {
     // Contains the relevant course, will be used to fetch other course details
     const {name} = route.params;
 
     // Data to be fetched
-    const description = "ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd";
+    const description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nec dui nunc mattis enim ut tellus elementum sagittis vitae. Risus pretium quam";
     const gameSelection = [];
     const chapters = [];
 
@@ -20,25 +21,29 @@ const CoursePage = ({style, route, navigation}) => {
                     {/* Course Overview */}
                     <View>
                         <Text style={CourseStyle.heading}>{name}</Text>
-                        <Text style={CourseStyle.description}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nec dui nunc mattis enim ut tellus elementum sagittis vitae. Risus pretium quam</Text>
+                        <Text style={CourseStyle.description}>{description}</Text>
                     </View>
 
                     {/* Display avaliable games*/}
-                    <View>
-
+                    <View style={{height: windowHeight/4, width: windowWidth, alignSelf: 'center', marginVertical: '1%'}}>
+                        <ScrollView horizontal={true}>
+                            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}> 
+                                <View style={{height: '90%', width: windowWidth*.6, backgroundColor: 'blue', marginHorizontal: windowWidth/20, borderRadius: 25,}}></View>
+                                <View style={{height: '90%', width: windowWidth*.6, backgroundColor: 'blue',  marginHorizontal: windowWidth/20, borderRadius: 25,}}></View>
+                                <View style={{height: '90%', width: windowWidth*.6, backgroundColor: 'blue',  marginHorizontal: windowWidth/20, borderRadius: 25,}}></View>
+                            </View>
+                        </ScrollView>
                     </View>
 
                     {/* Display chapters */}
-
                     <View style={CourseStyle.chapterContainer}>
                         <Text style={CourseStyle.subHeading}>Chapters</Text>
                         <Text>Fully complete a chapter for a special acheivement!</Text>
-                        <ChapterBox/>
-                        <ChapterBox/>
-                        <ChapterBox/>
-                    </View>
+                        <ChapterBox style={{marginBottom: '6%', marginTop: '6%'}}/>
+                        <ChapterBox style={{marginBottom: '6%'}}/>
+                        <ChapterBox style={{marginBottom: '6%'}}/>
 
-                    <View style={{margin: '100%'}}/>
+                    </View>
 
                 </View>
             </ScrollView>
