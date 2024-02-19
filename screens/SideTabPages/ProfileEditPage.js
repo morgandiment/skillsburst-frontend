@@ -1,5 +1,4 @@
 import { StyleSheet, View, Text} from 'react-native';
-
 import { Header, Navbar } from '../../components/Index.js';
 
 const ProfileEditPage = ({style, navigation}) => {

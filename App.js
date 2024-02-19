@@ -22,7 +22,7 @@ function App() {
             headerTitleStyle: { fontWeight: 'bold'},
           }}
         >
-          
+
           <Stack.Screen name="SignupPage" component={SignupPage} options={{headerShown: false}}/>
           <Stack.Screen name="LandingPage" component={LandingPage} options={{title: 'Welcome [Username]'}}/>
           <Stack.Screen name="QuizAutoBuild" component={QuizAutoBuild} options={{title: 'Programatically made quiz page'}}/>

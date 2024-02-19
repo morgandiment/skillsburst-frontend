@@ -27,7 +27,8 @@ const images = {
         ribbon: require('./ribbon.png'),
     },
 
-    skillsburst_banner_logo: require('./skillsburst_banner_logo.png')
+    skillsburst_banner_logo: require('./skillsburst_banner_logo.png'),
+    default_Image: require('./defaultImage.png'),
 };
 
 export default images;

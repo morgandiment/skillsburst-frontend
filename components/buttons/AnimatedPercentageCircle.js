@@ -3,10 +3,9 @@ import Svg, { Circle } from 'react-native-svg';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import Animated, { useAnimatedProps, useSharedValue, withTiming } from 'react-native-reanimated'; 
 
-import Images from '../../images/Index'
+import Images from '../../images/Index';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
-
 
 const AnimatedPercentageCircle = ({
     w = 10, // Width of the pecentage bar
@@ -22,7 +21,7 @@ const AnimatedPercentageCircle = ({
     onPress = () => {},
   
     // Default image
-    img = Images.icons.dice_icon,
+    img = Images.default_Image,
   }) => {
 
 

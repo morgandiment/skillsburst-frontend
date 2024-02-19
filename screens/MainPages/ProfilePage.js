@@ -1,5 +1,4 @@
 import { StyleSheet, View} from 'react-native';
-
 import { Header, Navbar } from '../../components/Index.js';
 
 const ProfilePage = ({navigation}) => {

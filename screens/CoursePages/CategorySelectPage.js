@@ -1,7 +1,7 @@
 import { StyleSheet, View, Dimensions, ScrollView } from 'react-native';
-import {Header, Navbar, Ribbon, Padlock, PercentageCircle} from '../components/Index.js';
+import {Header, Navbar, Ribbon, Padlock, PercentageCircle} from '../../components/Index.js';
 
-import Images from '.././images/Index.js';
+import Images from '../../images/Index.js';
 
 const windowWidth = Dimensions.get('window').width;
 

@@ -18,7 +18,7 @@ const PercentageCircle = ({
     onPress = () => {},
   
     // Default image
-    img = Images.icons.dice_icon,
+    img = Images.default_Image,
   }) => {
     // Percentage bar circle
     var total = r*2 + w;

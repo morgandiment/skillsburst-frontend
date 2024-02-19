@@ -1,5 +1,4 @@
 import { StyleSheet, Text,  View, ScrollView} from 'react-native';
-
 import {Header, Navbar, ChapterBox} from '../../components/Index.js';
 
 // Page template for pages that require both header and footer 
