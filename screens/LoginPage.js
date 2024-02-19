@@ -1,6 +1,5 @@
-import * as React from 'react';
+import React , {useState} from 'react';
 import { Button, StyleSheet, Text, View, Image, Keyboard, TouchableWithoutFeedback} from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
 
 import { SimpleButton, TextInputWithIcon } from '../components/Index.js';
 //import {  } from './Index.js';
@@ -20,7 +19,7 @@ function SignupPage({ navigation }) {
           style={styles.textInputStyle}
           textStyle={{fontSize: 20}}
           placeholder={"Email or Username"}
-          imagePath={Images.icons.username_icon}
+          imagePath={Images.icons.username}
         />
         
         <TextInputWithIcon
@@ -28,7 +27,7 @@ function SignupPage({ navigation }) {
           textStyle={{fontSize: 20}}
           placeholder={"Password"}
           isPassword={true}
-          imagePath={Images.icons.key_icon}
+          imagePath={Images.icons.key}
         />
 
         <SimpleButton
@@ -44,7 +43,6 @@ function SignupPage({ navigation }) {
           title={"Don't have an account?"}
           onPress={() => navigation.navigate('SignupPage')}
         />
-
       </View>
     </TouchableWithoutFeedback>
   );
@@ -80,12 +78,12 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: "10%",
     width: "40%",
-
     paddingVertical: 10,
   },
 
   createAccountText: {
-    color: "white",
-    fontSize: 14
+    color: "#fec165",
+    fontSize: 14,
+    textDecorationLine: 'underline',
   }
 });

@@ -21,20 +21,20 @@ function SignupPage({ navigation }) {
           style={styles.textInputStyle}
           textStyle={{fontSize: 20}}
           placeholder={"Full Name"}
-          imagePath={Images.icons.username_icon}
+          imagePath={Images.icons.username}
         />
 
         <TextInputWithIcon
           style={styles.textInputStyle}
           textStyle={{fontSize: 20}}
           placeholder={"Email Address"}
-          imagePath={Images.icons.letter_icon}
+          imagePath={Images.icons.letter}
         />
 
         <View style={styles.dateInputStyle}>
           <Image
             style={styles.iconStyle}
-            source={Images.icons.calander_search_icon}
+            source={Images.icons.calander_search}
           />
 
           <DateTimePicker
@@ -50,7 +50,7 @@ function SignupPage({ navigation }) {
           textStyle={{fontSize: 20}}
           placeholder={"Password"}
           isPassword={true}
-          imagePath={Images.icons.key_icon}
+          imagePath={Images.icons.key}
         />
 
         <TextInputWithIcon
@@ -58,7 +58,7 @@ function SignupPage({ navigation }) {
           textStyle={{fontSize: 20}}
           placeholder={"Confirm Password"}
           isPassword={true}
-          imagePath={Images.icons.key_icon}
+          imagePath={Images.icons.key}
         />
 
         <SimpleButton
@@ -119,13 +119,13 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: "10%",
     width: "40%",
-
     paddingVertical: 10,
   },
 
   createAccountText: {
-    color: "white",
+    color: "#fec165",
     fontSize: 14,
+    textDecorationLine: 'underline'
   },
 
   iconStyle: {
