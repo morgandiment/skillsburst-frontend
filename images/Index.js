@@ -1,10 +1,5 @@
 const images = {
     icons: {
-        person_icon: require('./person_icon.png'),
-        trophy_icon: require('./trophy_icon.png'),
-        house_icon: require('./house_icon.png'),
-        bag_icon: require('./bag_icon.png'),
-
         contact_icon: require('./contact_icon.png'),
         dice_icon: require('./dice_icon.png'),
         digital_icon: require('./digital_icon.png'),
@@ -14,6 +9,16 @@ const images = {
         plus_icon: require('./plus_icon.png'),
         settings_icon: require('./settings_icon.png'),
         trophy_icon_filled: require('./trophy_icon_filled.png'),
+
+        
+        eye_closed: require('./eye_closed_icon.svg'),
+        eye_open: require('./eye_open_icon.svg'),
+        key: require('./key_icon.svg'),
+        letter: require('./letter_icon.svg'),
+        login: require('./login_icon.svg'),
+        username: require('./username_icon.svg'),
+        calander_search: require('./calander_search_icon.svg'),
+        trophy_star: require('./trophy_star_icon.svg'),
 
     },
 

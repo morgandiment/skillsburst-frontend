@@ -2,7 +2,7 @@ import SimpleButton from './buttons/SimpleButton.js';
 import AnimatedButton from './buttons/AnimatedButton.js';
 import CirclePictureButton from '../components/buttons/CirclePictureButton.js';
 import DropdownMenu from './buttons/DropdownMenu.js';
-import TextInput from './buttons/TextInput.js';
+import TextInputWithIcon from './inputs/TextInputWithIcon.js';
 
 import Ribbon from './visual/Ribbon.js';
 import Padlock from './visual/Padlock.js';
@@ -19,7 +19,6 @@ export {
     AnimatedButton,
     CirclePictureButton,
     DropdownMenu,
-    TextInput,
     Ribbon,
     Padlock,
     ChapterBox,
@@ -28,4 +27,5 @@ export {
     Navbar,
     AnimatedPercentageCircle,
     PercentageCircle,
+    TextInputWithIcon,
 }
