@@ -12,7 +12,7 @@ const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 // Tab variables
-const tabWidth = windowWidth * 0.8;
+const tabWidth = windowWidth * 0.7;
 
 const Header = ({style, navigation}) => {
 
@@ -71,16 +71,18 @@ const Header = ({style, navigation}) => {
 
             {/* Text area */}
             <View height={'80%'} backgroundColor={'white'}> 
+
               <TabEntry text={'Planning Board'}/>
               <TabEntry text={'Invite Friends'}/>
               <TabEntry text={'Rate App'}/>
-              <TabEntry text={'Feedback'}/>
+              <TabEntry text={'Feedback'} onPress={() => navigation.navigate('Feedback')}/>
 
               <View style={TabStyles.textSeperator}/>
 
-              <TabEntry text={'Contact us'} onPress={() => navigation.navigate('About')} img={Images.icons.contact_icon}/>
-              <TabEntry text={'Help'} img={Images.other.questionMark}/>
+              <TabEntry text={'Contact us'} onPress={() => navigation.navigate('Contact')} img={Images.icons.contact_icon}/>
+              <TabEntry text={'Help'} onPress={() => navigation.navigate('Help')} img={Images.other.questionMark}/>
               <TabEntry text={'Settings'} onPress={() => navigation.navigate('Settings')} img={Images.icons.settings_icon}/>
+
             </View>
           </Animated.View>
         </GestureDetector>

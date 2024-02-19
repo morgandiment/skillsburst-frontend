@@ -8,7 +8,7 @@ const Ribbon = ({
   
     return (
       <View style={{justifyContent: "center", alignItems: "center", height: w/2, width: w}}>
-        <Image style={{ flex: 1, resizeMode: 'contain'}} source={Images.other.Ribbon}/>
+        <Image style={{ flex: 1, resizeMode: 'contain'}} source={Images.other.ribbon}/>
         <Text style={{position: "absolute", top: w/10,}}>{t}</Text>
       </View>
     );

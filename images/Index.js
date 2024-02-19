@@ -24,6 +24,7 @@ const images = {
         questionMark: require('./questionMark.png'),
         headerDropdown: require('./headerDropdown.png'),
         black_circle: require('./BlackCircle.png'),
+        ribbon: require('./ribbon.png'),
     },
 
     skillsburst_banner_logo: require('./skillsburst_banner_logo.png')

@@ -1,11 +1,7 @@
 import { StyleSheet, Text, View, Dimensions, TouchableOpacity, ScrollView, Image } from 'react-native';
+import {Header, Navbar, AnimatedPercentageCircle, AnimatedProgressBar} from '../../components/Index.js';
 
-import AnimatedProgressBar from '../components/visual/AnimatedBar';
-import AnimatedPercentageCircle from '../components/buttons/AnimatedPercentageCircle';
-import Header from '../components/navigation/Header';
-import Navbar from '../components/navigation/Navbar';
-
-import Images from '.././images/Index.js';
+import Images from '../../images/Index.js';
 
 const windowWidth = Dimensions.get('window').width * 0.9;
 const windowHeight = Dimensions.get('window').height * 0.85;
@@ -69,9 +65,9 @@ const HomePage = ({style, navigation}) => {
                         <ScrollView width={'100%'}>
                             <View alignItems={'center'}>
                                 <CourseView name={'Arithmetic'} percentage={0.75} img={Images.icons.dice_icon} onPress={() => {navigation.navigate('CoursePage', {name: 'Arithmetic'})}} />
-                                <CourseView name={'Literacy'} percentage={0.6} img={Images.icons.literacy_icon} />
-                                <CourseView name={'Digital'} percentage={0.2} img={Images.icons.digital_icon}  />
-                                <CourseView name={'Interview Skills'} percentage={0} img={Images.icons.plus_icon}  />
+                                <CourseView name={'Literacy'} percentage={0.6} img={Images.icons.literacy_icon} onPress={() => {navigation.navigate('CoursePage', {name: 'Literacy'})}} />
+                                <CourseView name={'Digital'} percentage={0.2} img={Images.icons.digital_icon}  onPress={() => {navigation.navigate('CoursePage', {name: 'Digital'})}} />
+                                <CourseView name={'Interview Skills'} percentage={0} img={Images.icons.plus_icon}  onPress={() => {navigation.navigate('CoursePage', {name: 'Interview Skills'})}} />
                                 <CourseView/>
                                 <CourseView/>
                             </View>
