@@ -53,7 +53,7 @@ const HomePage = ({style, navigation}) => {
                     <View style={[styles.continueContainer, styles.iosShadow]} >
                         <View flex={1.5} alignItems={'center'} justifyContent={'center'}>
                             {/* Needs a number instead of percentage for sizing due to svg*/}
-                            <AnimatedPercentageCircle onPress={() => navigation.navigate('AnimatedCategoryPage')} active={true} imgARatio={0.5} percentage={0.75} w={windowWidth / 30} r={windowWidth / 7} img={Images.other.play} barEmptyColor={'#056b7a'} />
+                            <AnimatedPercentageCircle onPress={() => {navigation.navigate('QuizPage', {path: '/quizzes/multipleChoiceTest.json'})}} active={true} imgARatio={0.5} percentage={0.75} w={windowWidth / 30} r={windowWidth / 7} img={Images.other.play} barEmptyColor={'#056b7a'} />
                         </View>
                         <View flex={2} justifyContent={'center'}>
                             <View height={'70%'} width={'90%'} alignItems={'center'}  borderRadius={20} backgroundColor={'#01778a'}>

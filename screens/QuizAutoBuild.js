@@ -1,14 +1,35 @@
 import * as React from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 
-import {SimpleButton, AnimatedButton, QuizDisplay } from '../components/Index.js';
+import {SimpleButton, AnimatedButton } from '../components/Index.js';
+import { MultipleChoiceQuiz } from '../components/quiz/Quizzes.js';
 //import {  } from './Index.js';
 
-function Template({ navigation }) {
+import Quiz from '../quizzes/multipleChoiceTest.json';
+
+function Template({ route, navigation }) {
+  quiz = JSON.parse(JSON.stringify(Quiz)); // create copy otherwise import is ruined
+  const { path } = route.params;
+  const Path = '../' + path
+  var quizType;
+
+  // Deal with import stuff later not priority 
+
+  // Select correct quiz and pass data
+  switch (quiz.format)
+  {
+    case 'multiple_choice':
+      quizType = (<MultipleChoiceQuiz name={quiz.name} maxTime={quiz.start_seconds} questionCount={quiz.number_of_questions} questions={quiz.questions}/>)
+      break;
+    default:
+      console.log('Error quiz type not recognised');
+      return (<View></View>);
+  }
+
   return (
     <View style={styles.screenViewStyle}>
       
-      <QuizDisplay/>
+      {quizType}
 
     </View>
   );
@@ -18,7 +39,7 @@ export default Template;
 
 const styles = StyleSheet.create({
   screenViewStyle: {
-    backgroundColor: '#056371',
+    backgroundColor: '#01778a', // lighter blue
     
     flex: 1,
     alignItems: 'center',
