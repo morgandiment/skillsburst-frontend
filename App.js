@@ -22,11 +22,11 @@ function App() {
             headerTitleStyle: { fontWeight: 'bold'},
           }}
         >
-                    
+             
           <Stack.Screen name="SignupPage" component={SignupPage} options={{headerShown: false}}/>
           <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}}/>
           
-          {/* Move to the top for testing*/}
+          {/* Move to the top to skip login*/}
           <Stack.Screen name="HomePage" component={HomePage} options={{title: 'Home Page', headerShown: false}}/>
 
           {/* Course Pages*/}

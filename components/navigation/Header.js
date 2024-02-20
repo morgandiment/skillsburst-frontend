@@ -104,7 +104,7 @@ const Header = ({style, navigation}) => {
       <TouchableOpacity onPress={openTab} style={HeaderStyles.headerButton}>
         <Image style={HeaderStyles.headerImage} source={Images.other.headerDropdown}></Image>
       </TouchableOpacity>
-      <Text style={HeaderStyles.headerText}>Skillburst</Text>
+      <Text style={HeaderStyles.headerText}>Skillsburst</Text>
       <SideTab/>
       
     </View>
@@ -116,7 +116,7 @@ export default Header;
 
 const HeaderStyles = StyleSheet.create({
   headerContainer: {
-    marginTop: Platform.OS === "android" ? Constants.statusBarHeight : 0,
+    marginTop: Platform.OS === "android" ? Constants.statusBarHeight : 0, // sets the position of the header to be below to front camera/status bar. issues on ios
     width: '100%',
     height: '7%',
     backgroundColor: '#0795ab',

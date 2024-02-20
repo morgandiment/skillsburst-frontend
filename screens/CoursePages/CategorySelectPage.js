@@ -5,18 +5,14 @@ import Images from '../../images/Index.js';
 
 const windowWidth = Dimensions.get('window').width;
 
-//      <View marginTop={w/1.3} height={w/2} width={windowWidth} borderBottomWidth={1} color={"black"} alignItems={"center"} borderRadius={5}>
-//<Text>HI USER</Text>      
-//</View>
-//
-//
+// Basically all of this pages content will be generated when input data format is decided on
 
 const CategorySelectPage = ({navigation}) => {
   var w = windowWidth / 7;
 
   return (
     <View style={{flex: 1}}>
-      <Header/>
+      <Header navigation={navigation}/>
       <View style={styles.container}>
 
         <View style={styles.container} width={"100%"}>

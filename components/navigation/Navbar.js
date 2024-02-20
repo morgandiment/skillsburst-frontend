@@ -3,7 +3,6 @@ import Images from '../../images/Index'
 
 // Temp navbar im was using for scaling
 
-
 const Navbar = ({ style }) => {
     return (
     <View style={[styles.bar, style]}>

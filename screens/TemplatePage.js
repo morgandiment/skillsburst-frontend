@@ -20,7 +20,6 @@ const TemplatePage = ({navigation}) => {
     );
 }
 
-
 export default TemplatePage;
 
 const styles = StyleSheet.create({

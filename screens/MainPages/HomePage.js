@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View, Dimensions, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, TouchableOpacity, ScrollView, Image, PixelRatio, Platform } from 'react-native';
 import {Header, Navbar, AnimatedPercentageCircle, AnimatedProgressBar} from '../../components/Index.js';
 
 import Images from '../../images/Index.js';
 
-const windowWidth = Dimensions.get('window').width * 0.9;
-const windowHeight = Dimensions.get('window').height * 0.85;
+// Potential fix for ios scaling?
+const windowWidth = Platform.OS === "android" ? Dimensions.get('window').width * 0.9 : Dimensions.get('window').width * 0.9 * PixelRatio.get();
+const windowHeight = Platform.OS === "android" ? Dimensions.get('window').height * 0.85 : Dimensions.get('window').height * 0.85 * PixelRatio.get();
 
 const HomePage = ({style, navigation}) => {
 
@@ -17,6 +18,7 @@ const HomePage = ({style, navigation}) => {
       return index < completedDays ? '#00fda2' : '#ffffff'; // Green for completed days, white for remaining days
     };
 
+    // Entries on the current courses box, each one links to a course page
     const CourseView = ({
         img =  Images.icons.dice_icon,
         name = 'No name', 
@@ -24,7 +26,8 @@ const HomePage = ({style, navigation}) => {
         onPress = () => {},
     }) => {
         return (
-            <TouchableOpacity onPress={onPress} style={[styles.course, styles.iosShadow, {height: windowHeight*.5*.15}]} >
+            // cant use percentage height because of variable scrollview height
+            <TouchableOpacity onPress={onPress} style={[styles.course, styles.iosShadow, {height: windowHeight*.5*.15}]}> 
                 <Image style={{ flex: 1, resizeMode: 'contain', height: '80%'}} source={img}/>
                 <Text style={[{flex: 1.2}]}>{name}</Text>
                 <View flex={3}>
@@ -49,6 +52,7 @@ const HomePage = ({style, navigation}) => {
                     {/*<Text style={{fontSize: 15}} marginTop={5}>Continue where you left off</Text>*/}
                     <View style={[styles.continueContainer, styles.iosShadow]} >
                         <View flex={1.5} alignItems={'center'} justifyContent={'center'}>
+                            {/* Needs a number instead of percentage for sizing due to svg*/}
                             <AnimatedPercentageCircle onPress={() => navigation.navigate('AnimatedCategoryPage')} active={true} imgARatio={0.5} percentage={0.75} w={windowWidth / 30} r={windowWidth / 7} img={Images.other.play} barEmptyColor={'#056b7a'} />
                         </View>
                         <View flex={2} justifyContent={'center'}>
