@@ -10,6 +10,7 @@ const ProfilePage = ({navigation}) => {
             <View style={styles.container}>
 
                 {/* Code goes here*/}
+                
 
             </View>
             
@@ -17,7 +18,6 @@ const ProfilePage = ({navigation}) => {
         </View>
     );
 }
-
 
 export default ProfilePage;
 

@@ -4,6 +4,7 @@ import Animated, { useAnimatedProps, useSharedValue, withTiming } from 'react-na
 
 import Timer from '../components/Countdown';
 import CountdownCricle from '../components/CountdownCricle';
+import QuestionProgressBar from '../components/QuestionProgressBar';
 
 const windowWidth = Platform.OS === "android" ? Dimensions.get('window').width * 0.9 : Dimensions.get('window').width * 0.9 * PixelRatio.get();
 const windowHeight = Platform.OS === "android" ? Dimensions.get('window').height * 0.85 : Dimensions.get('window').height * 0.85 * PixelRatio.get();
@@ -18,6 +19,7 @@ const MultipleChoiceQuiz = ({
   questions,
 }) => {
 
+  const currentIndex = useSharedValue(0);
   const [currentQuestion, setCurrentQuestion] = useState(() => {
     const initialState = questions.shift();
     return initialState;
@@ -37,6 +39,9 @@ const MultipleChoiceQuiz = ({
   function checkAnswer(selectedIndex, correctIndex) {
     if (selectedIndex == correctIndex){
       console.log(true);
+      currentIndex.value += 1;
+      console.log(currentIndex.value);
+      console.log("Start: " + currentIndex.value/questionCount + " End: " + currentIndex.value+1/questionCount); 
     } else{
       console.log(false);
     }
@@ -63,6 +68,7 @@ const MultipleChoiceQuiz = ({
       {/* Question */}
       <View style={styles.textTimerContainer}>
         <Text>{currentQuestion.question}</Text>
+        <QuestionProgressBar start={currentIndex.value/questionCount} end={currentIndex.value+1/questionCount} w={windowWidth*0.8}/>
         <CountdownCricle duration={maxTime * 1000} name={currentQuestion.correct_index} r={windowWidth/6} w={windowWidth/18}/>
       </View>
 
