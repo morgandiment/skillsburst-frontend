@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import {SimpleButton, AnimatedButton } from './components/Index.js';
-import { Template, QuizAutoBuild, LandingPage, LoginPage, AnimatedCategorySelectPage, SignupPage, HomePage, ProfileEditPage, SettingsPage, CoursePage, Feedback, HelpPage, ContactPage } from './screens/Index.js';
+import { Template, QuizAutoBuild, LandingPage, LoginPage, AnimatedCategorySelectPage, SignupPage, HomePage, ProfileEditPage, SettingsPage, CoursePage, Feedback, HelpPage, ContactPage, MultipleChoiceResultPage } from './screens/Index.js';
 import TemplatePage from './screens/TemplatePage.js';
 
 const Stack = createNativeStackNavigator();
@@ -28,7 +28,9 @@ function App() {
           <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}}/>
           
           {/* Move to the top to skip login*/}
-          <Stack.Screen name="QuizPage" component={QuizAutoBuild} options={{title: 'Quiz Page', headerShown: false}}/>
+          {/* Need to add some way of back swipe prevention - as going back to quiz you just took makes no sense and breaks everything - gestureEnabled stops it on ios?*/}
+          <Stack.Screen name="QuizPage" component={QuizAutoBuild} options={{title: 'Quiz Page', headerShown: false, gestureEnabled: false}}/>
+          <Stack.Screen name="QuizResultPage" component={MultipleChoiceResultPage} options={{title: 'Quiz Result Page', headerShown: false, gestureEnabled: false}}/>
 
           {/* Course Pages*/}
           <Stack.Screen name="CoursePage" component={CoursePage} options={{title: 'Course View Page', headerShown: false}}/>

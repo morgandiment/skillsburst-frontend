@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text, Platform, Dimensions} from 'react-native';
 import Animated, { useAnimatedProps, useSharedValue, withTiming } from 'react-native-reanimated'; 
 
@@ -11,19 +11,56 @@ const windowHeight = Platform.OS === "android" ? Dimensions.get('window').height
 
 //import thisQuiz from `../quizzes/${quizPath}`;
 
+// Values to store/pass to next page for recording
+// - questions complete
+// - time taken for each question
+// - total time?
+// - 
+
+var timer = () => {};
+
 const MultipleChoiceQuiz = ({
   style,
   name,
   maxTime,
   questionCount,
   questions,
+  navigation,
 }) => {
+  
 
-  const currentIndex = useSharedValue(0);
+  const currentIndex = useRef(0);
+  const currentTime = useRef(0);
+  const answers = useRef([]);
+  const times = useRef([]);
+
+  const [finished, setFinished] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(() => {
-    const initialState = questions.shift();
+    const initialState = questions[currentIndex.current];
     return initialState;
   });
+
+  const startTimer = () => {
+    timer = setTimeout(() => {
+        if(currentTime.current >= maxTime - 1){
+            clearTimeout(timer);
+            checkAnswer(-1, currentQuestion.correct_index);
+        }
+     currentTime.current = currentTime.current + 0.1;
+     startTimer();
+    }, 100)
+ }
+
+ useEffect(() => {
+     startTimer();
+     return () => clearTimeout(timer);
+ });    
+
+const start = () => {
+    currentTime.current = 0;
+    clearTimeout(timer);
+    startTimer();
+}
 
   const saveResult = () => {
 
@@ -33,25 +70,35 @@ const MultipleChoiceQuiz = ({
   // Have basic timer in here that does all the real calculations - e.g out of time/ record time taken for analytics - maybe not in useState?
   // timer object is purely for visuals 
 
-  //console.log(questions);
-  //console.log(currentQuestion);
 
   function checkAnswer(selectedIndex, correctIndex) {
-    if (selectedIndex == correctIndex){
-      console.log(true);
-      currentIndex.value += 1;
-      console.log(currentIndex.value);
-      console.log("Start: " + currentIndex.value/questionCount + " End: " + currentIndex.value+1/questionCount); 
-    } else{
-      console.log(false);
+    currentIndex.current = currentIndex.current + 1;
+    console.log(currentIndex.current);
+    if (selectedIndex === correctIndex){
+      // correct
+      answers.current.push(1);
+    }
+    else if (selectedIndex === -1){
+      // Timed out
+      answers.current.push(-1);
+    } 
+    else {
+      // incorrect
+      answers.current.push(0);
     }
 
-    if (questions.length >= 1){
-      setCurrentQuestion(questions.shift());
+    times.current.push(currentTime.current);
+
+    if (currentIndex.current < questionCount){
+      start();
+      setCurrentQuestion(questions[currentIndex.current]);
     }
     else
     {
-      console.log('lmao forehead hehehahaha');
+      // Finished with quiz
+      console.log('finished: ' + answers.current + " times: " + times.current);
+      clearTimeout(timer);
+      navigation.navigate('QuizResultPage');
     }
   }
 
@@ -67,9 +114,12 @@ const MultipleChoiceQuiz = ({
     <View style={[styles.bgColor, style]}>
       {/* Question */}
       <View style={styles.textTimerContainer}>
-        <Text>{currentQuestion.question}</Text>
-        <QuestionProgressBar start={currentIndex.value/questionCount} end={currentIndex.value+1/questionCount} w={windowWidth*0.8}/>
+
+        {/* Question prgoress bar - very broken may remove
+        <QuestionProgressBar start={currentIndex/questionCount} end={currentIndex/questionCount} w={windowWidth*0.8}/>*/}
+
         <CountdownCricle duration={maxTime * 1000} name={currentQuestion.correct_index} r={windowWidth/6} w={windowWidth/18}/>
+        <Text>{currentQuestion.question}</Text>
       </View>
 
 

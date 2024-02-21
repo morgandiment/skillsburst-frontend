@@ -1,11 +1,15 @@
 import { StyleSheet, View} from 'react-native';
-
-// Change path as needed
-import { Header, Navbar } from '../components/Index.js';
+import { Header, Navbar } from '../../components/Index.js';
 
 // Page template for pages that require both header and footer 
 
-const TemplatePage = ({navigation}) => {
+const MultipleChoiceResultPage = ({
+    navigation,
+    answers,
+    times,
+    questions,
+
+    }) => {
 
     return (
         <View style={{flex: 1}}>
@@ -22,7 +26,7 @@ const TemplatePage = ({navigation}) => {
     );
 }
 
-export default TemplatePage;
+export default MultipleChoiceResultPage;
 
 const styles = StyleSheet.create({
     container: {

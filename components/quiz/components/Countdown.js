@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text, Button } from 'react-native';
 
 let timer = () => {};
 
 const Timer = () => {
-    const [timeLeft, setTimeLeft] = useState(30);
-
+    const timeLeft = useRef(0);
+    console.log('beans');
     const startTimer = () => {
         timer = setTimeout(() => {
-            if(timeLeft <= 0){
+            if(timeLeft > 15){
                 clearTimeout(timer);
                 return false;
             }
-         setTimeLeft(timeLeft-1);
+            timeLeft.current = timeLeft.current + 1;
+            console.log(timeLeft.current);
+            startTimer();
         }, 1000)
      }
 
@@ -22,14 +24,14 @@ const Timer = () => {
      });    
 
     const start = () => {
-        setTimeLeft(30);
+        timeLeft.current = 0;
         clearTimeout(timer);
         startTimer();
     }
 
     return (
        <View style={styles.container}>
-          <Text style={styles.timer}>{timeLeft}</Text>
+          <Text style={styles.timer}>{timeLeft.current}</Text>
           <Button onPress={start} title="Press"/>
     </View>
 )}
