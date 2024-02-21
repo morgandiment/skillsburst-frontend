@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, Platform, Dimensions} from 'react-native';
 import Animated, { useAnimatedProps, useSharedValue, withTiming } from 'react-native-reanimated'; 
 
 import Timer from '../components/Countdown';
 import CountdownCricle from '../components/CountdownCricle';
+
+const windowWidth = Platform.OS === "android" ? Dimensions.get('window').width * 0.9 : Dimensions.get('window').width * 0.9 * PixelRatio.get();
+const windowHeight = Platform.OS === "android" ? Dimensions.get('window').height * 0.85 : Dimensions.get('window').height * 0.85 * PixelRatio.get();
 
 //import thisQuiz from `../quizzes/${quizPath}`;
 
@@ -32,9 +35,10 @@ const MultipleChoiceQuiz = ({
   //console.log(currentQuestion);
 
   function checkAnswer(selectedIndex, correctIndex) {
-    console.log(selectedIndex, correctIndex);
     if (selectedIndex == correctIndex){
       console.log(true);
+    } else{
+      console.log(false);
     }
 
     if (questions.length >= 1){
@@ -42,7 +46,7 @@ const MultipleChoiceQuiz = ({
     }
     else
     {
-      // End quiz
+      console.log('lmao forehead hehehahaha');
     }
   }
 
@@ -54,14 +58,12 @@ const MultipleChoiceQuiz = ({
     );
   }
 
-
   return (
     <View style={[styles.bgColor, style]}>
       {/* Question */}
       <View style={styles.textTimerContainer}>
         <Text>{currentQuestion.question}</Text>
-        <Timer/>
-        <CountdownCricle/>
+        <CountdownCricle duration={maxTime * 1000} name={currentQuestion.correct_index} r={windowWidth/6} w={windowWidth/18}/>
       </View>
 
 

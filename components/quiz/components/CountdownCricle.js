@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Svg, { Circle } from 'react-native-svg';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import Animated, { useAnimatedProps, useDerivedValue, useSharedValue, withTiming } from 'react-native-reanimated'; 
+import Animated, { useAnimatedProps, useDerivedValue, useSharedValue, withTiming, Easing } from 'react-native-reanimated'; 
+import { ReText } from 'react-native-redash';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
@@ -13,6 +14,8 @@ const CountdownCricle = ({
     barFillColor = "#0EF0A4",
     barEmptyColor = "#D9D9D9",
   }) => {
+    const durationInSeconds = duration / 1000;
+
     // Percentage bar circle
     var total = r*2 + w;
     var outerLength = r * (2 * Math.PI);
@@ -22,13 +25,11 @@ const CountdownCricle = ({
     var c = r+w/2;
 
     const progress = useSharedValue(0);
-
-    useEffect(() =>{
-        progress.value = withTiming(1, {duration: duration});
-    }, []);
+    progress.value = 0;
+    progress.value = withTiming(1, {duration: duration, easing: Easing.linear});
 
     const progressText = useDerivedValue(() => {
-        return `${progress.value * duration}`
+        return `${Math.floor((1 - progress.value) * durationInSeconds)}`
     })
 
     const animatedProps = useAnimatedProps(() => ({
@@ -66,7 +67,7 @@ const CountdownCricle = ({
 
            {/* Inner Button - size is automatically determined to fit within the percentage bar*/}
           <View style={{ flex:1, justifyContent: "center", alignItems: "center", position: "absolute", top: c-cWidth/2, width: cWidth, height: cWidth, backgroundColor: mainColor, borderRadius: cWidth}}>
-            <Animated.Text>{progressText.value}</Animated.Text>
+            <ReText text={progressText} style={styles.text}/>
           </View>
   
         </View>
@@ -81,6 +82,8 @@ const styles = StyleSheet.create({
     text: {
       color: '#525458',
       fontWeight: 'bold',
+      textAlign: 'center',
+      fontSize: 28,
     },
   
 });
