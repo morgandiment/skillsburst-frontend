@@ -81,17 +81,18 @@ const start = () => {
       // correct
       answers.current.push(1);
       score.current = score.current + 1;
+      times.current.push(Math.round(currentTime.current * 10) / 10);
     }
     else if (selectedIndex === -1){
-      // Timed out
+      // Timed out - set question result time as max time due to some floating point precision making time appear lower when rounded
       answers.current.push(-1);
+      times.current.push(maxTime);
     } 
     else {
       // incorrect
       answers.current.push(0);
+      times.current.push(Math.round(currentTime.current * 10) / 10);
     }
-
-    times.current.push(Math.round(currentTime.current * 10) / 10);
 
     if (currentIndex.current < questionCount){
       start();

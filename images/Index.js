@@ -9,6 +9,8 @@ const images = {
         plus_icon: require('./plus_icon.png'),
         settings_icon: require('./settings_icon.png'),
         trophy_icon_filled: require('./trophy_icon_filled.png'),
+        right_icon: require('./right.png'),
+        wrong_icon: require('./wrong.png'),
 
         
         eye_closed: require('./eye_closed_icon.svg'),

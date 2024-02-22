@@ -8,7 +8,7 @@ import { MultipleChoiceQuiz } from '../../components/quiz/Quizzes.js';
 import Quiz from '../../quizzes/multipleChoiceTest.json';
 
 function Template({ route, navigation }) {
-  quiz = JSON.parse(JSON.stringify(Quiz)); // create copy otherwise import is destroyed from references
+  quiz = JSON.parse(JSON.stringify(Quiz)); // create copy otherwise import is destroyed from references - may be able to remove due to switch to indexing
   const { path } = route.params;
   const Path = '../' + path
   var quizType;
