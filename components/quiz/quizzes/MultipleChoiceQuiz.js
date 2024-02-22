@@ -31,6 +31,7 @@ const MultipleChoiceQuiz = ({
 
   const currentIndex = useRef(0);
   const currentTime = useRef(0);
+  const score = useRef(0);
   const answers = useRef([]);
   const times = useRef([]);
 
@@ -41,24 +42,26 @@ const MultipleChoiceQuiz = ({
   });
 
   const startTimer = () => {
-    timer = setTimeout(() => {
-        if(currentTime.current >= maxTime - 1){
-            clearTimeout(timer);
-            checkAnswer(-1, currentQuestion.correct_index);
-        }
-     currentTime.current = currentTime.current + 0.1;
-     startTimer();
+    timer = setInterval(() => {
+      if(currentTime.current >= maxTime-0.1){
+          clearInterval(timer);
+          checkAnswer(-1, currentQuestion.correct_index);
+      }
+      else
+      {
+        currentTime.current = (currentTime.current + 0.1);
+      }
     }, 100)
  }
 
  useEffect(() => {
      startTimer();
-     return () => clearTimeout(timer);
+     return () => clearInterval(timer);
  });    
 
 const start = () => {
     currentTime.current = 0;
-    clearTimeout(timer);
+    clearInterval(timer);
     startTimer();
 }
 
@@ -73,10 +76,11 @@ const start = () => {
 
   function checkAnswer(selectedIndex, correctIndex) {
     currentIndex.current = currentIndex.current + 1;
-    console.log(currentIndex.current);
+    //console.log(currentIndex.current);
     if (selectedIndex === correctIndex){
       // correct
       answers.current.push(1);
+      score.current = score.current + 1;
     }
     else if (selectedIndex === -1){
       // Timed out
@@ -87,7 +91,7 @@ const start = () => {
       answers.current.push(0);
     }
 
-    times.current.push(currentTime.current);
+    times.current.push(Math.round(currentTime.current * 10) / 10);
 
     if (currentIndex.current < questionCount){
       start();
@@ -96,9 +100,9 @@ const start = () => {
     else
     {
       // Finished with quiz
-      console.log('finished: ' + answers.current + " times: " + times.current);
+      //console.log('finished: ' + answers.current + " times: " + times.current);
       clearTimeout(timer);
-      navigation.navigate('QuizResultPage');
+      navigation.navigate('QuizResultPage', {answers: answers.current, times: times.current, score: score.current, questions: questions, questionCount: questionCount});
     }
   }
 

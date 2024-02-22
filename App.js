@@ -36,7 +36,7 @@ function App() {
           <Stack.Screen name="CoursePage" component={CoursePage} options={{title: 'Course View Page', headerShown: false}}/>
           <Stack.Screen name="AnimatedCategoryPage" component={AnimatedCategorySelectPage} options={{title: 'Animated Category Page', headerShown: false}}/>
 
-          {/* Side tab Pages */}
+          {/* Side tab Pages - convert to screen navigator of header component?? */}
           <Stack.Screen name="Settings" component={SettingsPage} options={{title: 'Settings Page', headerShown: false}} />
           <Stack.Screen name="Help" component={HelpPage} options={{title: 'Help Page', headerShown: false}} />
           <Stack.Screen name="Contact" component={ContactPage} options={{title: 'Contact Page', headerShown: false}} />
