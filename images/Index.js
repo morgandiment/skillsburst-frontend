@@ -33,6 +33,8 @@ const images = {
         headerDropdown: require('./headerDropdown.png'),
         black_circle: require('./BlackCircle.png'),
         ribbon: require('./ribbon.png'),
+        dropdownArrow: require('./dropdownArrow.png'),
+        dropdownArrowGrey: require('./dropdownArrowGrey.png'),
     },
 
     skillsburst_banner_logo: require('./skillsburst_banner_logo.png'),

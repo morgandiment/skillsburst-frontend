@@ -3,12 +3,39 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import Animated, { Easing } from 'react-native-reanimated';
 
 import {SimpleButton, AnimatedButton } from './components/Index.js';
 import { Template, QuizAutoBuild, LandingPage, LoginPage, AnimatedCategorySelectPage, SignupPage, HomePage, ProfileEditPage, SettingsPage, CoursePage, Feedback, HelpPage, ContactPage, MultipleChoiceResultPage } from './screens/Index.js';
 import TemplatePage from './screens/TemplatePage.js';
 
 const Stack = createNativeStackNavigator();
+
+const transitionConfig = () => {
+  return {
+    transitionSpec: {
+      duration: 2000 ,
+      easing: Easing.out(Easing.poly(4)),
+      timing: Animated.timing,
+      useNativeDriver: true,
+    },
+    screenInterpolator: sceneProps => {      
+      const { layout, position, scene } = sceneProps
+
+      const thisSceneIndex = scene.index
+      const width = layout.initWidth
+
+      const translateX = position.interpolate({
+        inputRange: [thisSceneIndex - 1, thisSceneIndex],
+        outputRange: [width, 0],
+      })
+
+      return { transform: [ { translateX } ] }
+    },
+  }
+}
+
+
 
 function App() {
   return (
@@ -20,6 +47,7 @@ function App() {
             },
             headerTintColor: '#000000',
             headerTitleStyle: { fontWeight: 'bold'},
+            animation: 'fade',
           }}
         >
           <Stack.Screen name="HomePage" component={HomePage} options={{title: 'Home Page', headerShown: false}}/>
@@ -30,7 +58,7 @@ function App() {
           {/* Move to the top to skip login*/}
           {/* Need to add some way of back swipe prevention - as going back to quiz you just took makes no sense and breaks everything - gestureEnabled stops it on ios?*/}
           <Stack.Screen name="QuizPage" component={QuizAutoBuild} options={{title: 'Quiz Page', headerShown: false, gestureEnabled: false}}/>
-          <Stack.Screen name="QuizResultPage" component={MultipleChoiceResultPage} options={{title: 'Quiz Result Page', headerShown: false, gestureEnabled: false}}/>
+          <Stack.Screen name="QuizResultPage" component={MultipleChoiceResultPage} options={{title: 'Quiz Result Page', headerShown: false, gestureEnabled: false, animation: 'none'}}/>
 
           {/* Course Pages*/}
           <Stack.Screen name="CoursePage" component={CoursePage} options={{title: 'Course View Page', headerShown: false}}/>

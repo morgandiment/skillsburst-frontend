@@ -1,7 +1,10 @@
-import { StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity, ScrollView, Platform, Dimensions} from 'react-native';
+import { useState, useEffect } from 'react';
 import Images from '../../images/Index';
+import Animated, { ZoomIn, useSharedValue, withTiming, Easing } from 'react-native-reanimated'; 
 
-// Page template for pages that require both header and footer 
+const windowHeight = Platform.OS === "android" ? Dimensions.get('window').height * 0.85 : Dimensions.get('window').height * 0.85 * PixelRatio.get();
+const AnimatedButton = Animated.createAnimatedComponent(TouchableOpacity);
 
 const MultipleChoiceResultPage = ({
     navigation,
@@ -9,8 +12,11 @@ const MultipleChoiceResultPage = ({
     }) => {
     
     // Maybe generalise page?
-    const {answers, times, score, questions, questionCount} = route.params;
+    const {answers, times, score, questions, questionCount, maxStreak, selectedIndexes} = route.params;
     const scoreDecimal = score / questionCount;
+    const totalTime = times.reduce((partialSum, a) => partialSum + a, 0);
+    
+    // needs function to save permanenet quiz data
 
     var resultMessage = "";
     if (scoreDecimal === 1){
@@ -25,41 +31,106 @@ const MultipleChoiceResultPage = ({
     else{
         resultMessage = "Better luck next time!";
     }
-    
-    
+    //                    <Text style={[{flex: 2, textAlign: 'center'}]}>{times[i]}s</Text>
+    // top of question results - total time, fastest time, average time, highest answer streak
+
+    const ExpandedBlock = ({exists, h, i}) => {
+        var qs = [];
+        var count = 0;
+        questions[i].answers.forEach(answer => {
+            var colour = 'transparent';
+
+            if (count == selectedIndexes[i]){
+                if (count == questions[i].correct_index){
+                    var colour = '#00f0a4';
+                }
+                else{
+                    var colour = '#c14b4d';
+                }
+            } else if (count == questions[i].correct_index){
+                var colour = '#00f0a4';
+            }
+
+            count++;
+            qs.push(
+                <View key={count} style={[styles.answerEntry, {backgroundColor: colour}]}>
+                    <Text alignSelf={'center'}>{answer}</Text>
+                </View>
+            );
+        });
+
+        if (exists){
+            return (
+            <Animated.View style={[styles.expandedContainer, {flex: 1}]}>
+                {qs}
+            </Animated.View>
+            )
+        }
+        else{
+        return;
+        }
+    }
+
+    const QuestionBLock = (i) => {
+        const [expanded, expand] = useState(false);
+        i=i.i;
+        const h = useSharedValue(windowHeight/16);
+
+        const grow = () => {
+            if (expanded){
+                h.value = withTiming(windowHeight/16, {duration: 100, easing: Easing.linear});
+            } else{
+                h.value = withTiming(windowHeight/6, {duration: 100, easing: Easing.linear});
+            }
+            expand(!expanded);
+        }
+
+        const img = answers[i] == 1 ? Images.icons.right_icon : Images.icons.wrong_icon;
+        return (
+            <AnimatedButton style={[styles.questionResultContainer, {height: h}]} onPress={grow}>
+                <View style={{width: '100%', flexDirection: 'row', height: windowHeight/16, alignItems: 'center', justifyContent: 'center'}}>
+                    <Image style={{ flex: 1, resizeMode: 'contain', height: '50%', alignSelf: 'center'}} source={img}/>
+                    <Text style={[{flex: 4}]}>{questions[i].question}</Text>
+                    <Image style={{ flex: 1, resizeMode: 'contain', height: '30%', alignSelf: 'center'}} source={Images.other.dropdownArrowGrey}/>
+                </View>
+                <ExpandedBlock exists={expanded} h={h} i={i}/>
+            </AnimatedButton>
+        )
+    } 
 
     const QuestionDisplay = () => {
         var blocks = [];
         for (i = 0; i < questionCount; i++){
-            const img = answers[i] == 1 ? Images.icons.right_icon : Images.icons.wrong_icon;
+            
             blocks.push(
-                <View key={i} style={[styles.questionResultContainer]}>
-                    <Image style={{ flex: 1, resizeMode: 'contain', height: '130%', alignSelf: 'center'}} source={img}/>
-                    <Text style={[{flex: 2}]}>{questions[i].question}</Text>
-                    <Text style={[{flex: 2, textAlign: 'center'}]}>{times[i]}s</Text>
-                </View>
+                <QuestionBLock key={i} i={i}/>
             );
         }
         return (<View>{blocks}</View>)
     }
 
     return (
-        <View style={{flex: 1}}>
-    
-            <View style={styles.container}>
+        <View style={{flex: 1, backgroundColor: '#0095ab'}}>
+            <Animated.View entering={ZoomIn} style={styles.container}>
+                <View height={'3%'}/>
                 <View style={styles.container}>
-                  <Text>{score}/{questionCount}</Text>
-                  <Text>{resultMessage}</Text>
-                  <TouchableOpacity style={styles.continueButton} onPress={() => {navigation.pop(2)}}>
-                    <Text>Continue</Text>
-                  </TouchableOpacity>
+                    <View style={styles.scoreAndContinue}> 
+                        <Text>{score}/{questionCount}</Text>
+                    </View>
+                    <View flex={0.5} alignItems={'center'} justifyContent={'center'}>
+                        <Text style={styles.endText}>{resultMessage}</Text>
+                    </View>
+
                 </View>
 
                 <View style={[styles.resultsContainer]}>
                     <QuestionDisplay/>
                 </View>
+                <TouchableOpacity style={styles.continue} onPress={() => {navigation.pop(2)}}>
+                    <Text style={styles.continueText}>Continue</Text>
+                </TouchableOpacity>
 
-            </View>
+            </Animated.View>
             
         </View>
     );
@@ -75,13 +146,31 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    continueButton: {
+    scoreAndContinue: {
+        height: '40%',
         width: '30%',
-        height: '30%',
-        backgroundColor: '#0EF0A4',
-        borderRadius: 25,
+        borderRadius: 100,
+        backgroundColor: '#00f0a4',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    continue: {
+        width: '90%',
+        height: '8%',
+        backgroundColor: '#0095ab',
+        borderRadius: 10,
+        elevation: 3,
+        marginBottom: '1%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    endText: {
+        fontSize: 25,
+    },
+    continueText: {
+        fontSize: 25,
+        color: 'white',
+        fontWeight: 'bold',
     },
     resultsContainer: {
         flex: 2,
@@ -89,11 +178,21 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     questionResultContainer: {
-        borderRadius: 25,
+        borderRadius: 10,
+        backgroundColor: 'white',
         margin: '2%',
-        padding: '3%',
-        flexDirection: 'row',
-        borderWidth: 2,
         width: '90%',
+        elevation: 5,
+    },
+    expandedContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+    },
+    answerEntry: {
+        flex: 1,
+        margin: '2%',
+        padding: '2%',
+        borderRadius: 10,
     },
 });

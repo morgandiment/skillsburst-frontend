@@ -33,6 +33,7 @@ const MultipleChoiceQuiz = ({
   const currentTime = useRef(0);
   const score = useRef(0);
   const answers = useRef([]);
+  const selected = useRef([]);
   const times = useRef([]);
 
   const [finished, setFinished] = useState(false);
@@ -65,15 +66,6 @@ const start = () => {
     startTimer();
 }
 
-  const saveResult = () => {
-
-  }
-
-
-  // Have basic timer in here that does all the real calculations - e.g out of time/ record time taken for analytics - maybe not in useState?
-  // timer object is purely for visuals 
-
-
   function checkAnswer(selectedIndex, correctIndex) {
     currentIndex.current = currentIndex.current + 1;
     //console.log(currentIndex.current);
@@ -82,16 +74,19 @@ const start = () => {
       answers.current.push(1);
       score.current = score.current + 1;
       times.current.push(Math.round(currentTime.current * 10) / 10);
+      selected.current.push(selectedIndex);
     }
     else if (selectedIndex === -1){
       // Timed out - set question result time as max time due to some floating point precision making time appear lower when rounded
       answers.current.push(-1);
       times.current.push(maxTime);
+      selected.current.push(-1);
     } 
     else {
       // incorrect
       answers.current.push(0);
       times.current.push(Math.round(currentTime.current * 10) / 10);
+      selected.current.push(selectedIndex);
     }
 
     if (currentIndex.current < questionCount){
@@ -103,7 +98,7 @@ const start = () => {
       // Finished with quiz
       //console.log('finished: ' + answers.current + " times: " + times.current);
       clearTimeout(timer);
-      navigation.navigate('QuizResultPage', {answers: answers.current, times: times.current, score: score.current, questions: questions, questionCount: questionCount});
+      navigation.navigate('QuizResultPage', {answers: answers.current, times: times.current, score: score.current,  selectedIndexes: selected.current, questions: questions, questionCount: questionCount});
     }
   }
 
@@ -148,7 +143,7 @@ export default MultipleChoiceQuiz;
 
 const styles = StyleSheet.create({
   bgColor: {
-    backgroundColor: 'white',
+    backgroundColor: '#0095ab',
     flex: 1,
     width: '100%',
   },
