@@ -10,10 +10,15 @@ const CountdownCricle = ({
     w = 10, // Width of the pecentage bar
     r = 100, // Radius of the percentage bar
     duration = 15000, // in miliseconds
+    type = null,
     mainColor = "#0EF0A4",
     barFillColor = "#0EF0A4",
     barEmptyColor = "#D9D9D9",
   }) => {
+    if ( type=='untimed' ) {
+      return;
+    }
+
     const durationInSeconds = duration / 1000;
 
     // Percentage bar circle
@@ -25,8 +30,16 @@ const CountdownCricle = ({
     var c = r+w/2;
 
     const progress = useSharedValue(0);
-    progress.value = 0;
-    progress.value = withTiming(1, {duration: duration, easing: Easing.linear});
+
+    useEffect(() =>{
+      progress.value = withTiming(1, {duration: duration, easing: Easing.linear});
+    }, []);
+
+    if (type == 'question_time') {
+      progress.value = 0;
+      progress.value = withTiming(1, {duration: duration, easing: Easing.linear});
+    }
+
 
     const progressText = useDerivedValue(() => {
         return `${Math.floor((1 - progress.value) * durationInSeconds)}`

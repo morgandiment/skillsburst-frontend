@@ -13,6 +13,8 @@ const CoursePage = ({style, route, navigation}) => {
     const gameSelection = [];
     const chapters = [];
 
+    // Add how to play screen here or on category select page
+
     return (
         <View style={{flex: 1}}>
             <Header navigation={navigation}/>

@@ -12,7 +12,7 @@ const MultipleChoiceResultPage = ({
     }) => {
     
     // Maybe generalise page?
-    const {answers, times, score, questions, questionCount, maxStreak, selectedIndexes} = route.params;
+    const { times, score, questions, questionCount, maxStreak, selectedIndexes} = route.params;
     const scoreDecimal = score / questionCount;
     const totalTime = times.reduce((partialSum, a) => partialSum + a, 0);
     
@@ -31,7 +31,7 @@ const MultipleChoiceResultPage = ({
     else{
         resultMessage = "Better luck next time!";
     }
-    //                    <Text style={[{flex: 2, textAlign: 'center'}]}>{times[i]}s</Text>
+
     // top of question results - total time, fastest time, average time, highest answer streak
 
     const ExpandedBlock = ({exists, h, i}) => {
@@ -78,19 +78,21 @@ const MultipleChoiceResultPage = ({
 
         const grow = () => {
             if (expanded){
+                // default height
                 h.value = withTiming(windowHeight/16, {duration: 100, easing: Easing.linear});
             } else{
+                // Expanded height
                 h.value = withTiming(windowHeight/6, {duration: 100, easing: Easing.linear});
             }
             expand(!expanded);
         }
 
-        const img = answers[i] == 1 ? Images.icons.right_icon : Images.icons.wrong_icon;
+        const img = selectedIndexes[i] == questions[i].correct_index ? Images.icons.right_icon : Images.icons.wrong_icon;
         return (
             <AnimatedButton style={[styles.questionResultContainer, {height: h}]} onPress={grow}>
                 <View style={{width: '100%', flexDirection: 'row', height: windowHeight/16, alignItems: 'center', justifyContent: 'center'}}>
                     <Image style={{ flex: 1, resizeMode: 'contain', height: '50%', alignSelf: 'center'}} source={img}/>
-                    <Text style={[{flex: 4}]}>{questions[i].question}</Text>
+                    <Text style={[{flex: 4}]}>Q{i+1}: {questions[i].question}</Text>
                     <Image style={{ flex: 1, resizeMode: 'contain', height: '30%', alignSelf: 'center'}} source={Images.other.dropdownArrowGrey}/>
                 </View>
                 <ExpandedBlock exists={expanded} h={h} i={i}/>
@@ -120,12 +122,16 @@ const MultipleChoiceResultPage = ({
                     <View flex={0.5} alignItems={'center'} justifyContent={'center'}>
                         <Text style={styles.endText}>{resultMessage}</Text>
                     </View>
-
                 </View>
 
-                <View style={[styles.resultsContainer]}>
-                    <QuestionDisplay/>
+                <View style={styles.resultsOuter}>
+                    <ScrollView style={styles.resultsScroll}>
+                        <View style={styles.resultsInner}>
+                        <QuestionDisplay/>
+                        </View>
+                    </ScrollView>
                 </View>
+
                 <TouchableOpacity style={styles.continue} onPress={() => {navigation.pop(2)}}>
                     <Text style={styles.continueText}>Continue</Text>
                 </TouchableOpacity>
@@ -160,7 +166,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#0095ab',
         borderRadius: 10,
         elevation: 3,
-        marginBottom: '1%',
+        marginVertical: '2%',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -172,9 +178,18 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
     },
-    resultsContainer: {
-        flex: 2,
+    resultsOuter: {
+        flex: 1.5,
         width: '100%',
+        borderTopWidth: 0.5,
+        borderBottomWidth: 0.5,
+        borderRadius: 14,
+    },
+    resultsScroll: {
+        width: '100%',
+    },
+    resultsInner: {
+        flex: 1,
         alignItems: 'center',
     },
     questionResultContainer: {

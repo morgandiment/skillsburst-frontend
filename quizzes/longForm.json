@@ -1,12 +1,15 @@
 {
     "name" : "Maths 1",
     "format": "multiple_choice",
-    "start_seconds" : 15,
+    "time": 15,
     "number_of_questions" : 4,
     "difficulty" : "Beginner",
+    "type": "total_time",
     "questions" : [
         {
             "question" : "What is 4 + 6?",
+            "answer_count": 4,
+            "long_form": true,
             "answers" : [
                 "10",
                 "12",
@@ -18,6 +21,8 @@
 
         {
             "question" : "what is 6 ÷ 3?",
+            "answer_count": 4,
+            "long_form": true,
             "answers" : [
                 "1",
                 "3",
@@ -29,6 +34,8 @@
 
         {
             "question" : "what is 8 x 5?",
+            "answer_count": 4,
+            "long_form": true,
             "answers" : [
                 "35",
                 "45",
@@ -40,6 +47,8 @@
 
         {
             "question" : "what is 6 - 10?",
+            "answer_count": 4,
+            "long_form": false,
             "answers" : [
                 "-6",
                 "-4",

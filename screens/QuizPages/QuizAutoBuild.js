@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button, StyleSheet, Text, View, Platform, Dimensions } from 'react-native';
-import Animated, { ZoomOut, ZoomIn } from 'react-native-reanimated'; 
+import Animated, { ZoomOut, ZoomIn, useSharedValue, withTiming, Easing } from 'react-native-reanimated'; 
 
 import {SimpleButton, AnimatedButton } from '../../components/Index.js';
 import { MultipleChoiceQuiz } from '../../components/quiz/Quizzes.js';
@@ -9,7 +9,7 @@ import { MultipleChoiceQuiz } from '../../components/quiz/Quizzes.js';
 const windowWidth = Platform.OS === "android" ? Dimensions.get('window').width : Dimensions.get('window').width * PixelRatio.get();
 const windowHeight = Platform.OS === "android" ? Dimensions.get('window').height : Dimensions.get('window').height * PixelRatio.get();
 
-import Quiz from '../../quizzes/multipleChoiceTest.json';
+import Quiz from '../../quizzes/sizesTest.json';
 let timer = () => {};
 
 function Template({ route, navigation }) {
@@ -19,14 +19,15 @@ function Template({ route, navigation }) {
   var quizType;
 
   const [timeLeft, setTimeLeft] = useState(3);
+  const wh = useSharedValue(windowHeight)
 
   // Deal with import stuff later not priority 
 
-  // Select correct quiz and pass data
+  // Select correct quiz and pass data accordingly
   switch (quiz.format)
   {
     case 'multiple_choice':
-      quizType = (<MultipleChoiceQuiz name={quiz.name} maxTime={quiz.start_seconds} questionCount={quiz.number_of_questions} questions={quiz.questions} navigation={navigation}/>)
+      quizType = (<MultipleChoiceQuiz type={quiz.type} name={quiz.name} maxTime={quiz.time} questionCount={quiz.number_of_questions} questions={quiz.questions} navigation={navigation}/>)
       break;
     default:
       console.log('Error quiz type not recognised');
@@ -40,7 +41,7 @@ function Template({ route, navigation }) {
             return;
         }
      setTimeLeft(timeLeft-1);
-    }, 700)
+    }, 600)
  }
 
  useEffect(() => {
@@ -49,11 +50,15 @@ function Template({ route, navigation }) {
  });    
 
  if (timeLeft <= 0){
+  // Close intro animation
+  wh.value = withTiming(0, {duration: 300, easing: Easing.linear});
   return (
     <View style={styles.screenViewStyle}>
 
       {quizType}
-      <Animated.View style={styles.screenViewNoFlex} entering={ZoomOut} exiting={ZoomIn}>
+      
+      {/* Quiz countdown animation */}
+      <Animated.View style={[styles.screenViewNoFlex, {width: wh, height: wh}]}>
         <Text style={styles.countdownText}>{timeLeft}</Text>
       </Animated.View>
 
