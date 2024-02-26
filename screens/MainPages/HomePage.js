@@ -36,9 +36,8 @@ const HomePage = ({style, navigation}) => {
 
     return (
             <View style={{flex: 1}}>
-
-                <Header navigation={navigation}/>
-
+                <Header navigation={navigation} style={{}}/>
+                
                 <View style={[styles.container, style]}>
 
                     <View>
@@ -112,9 +111,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         width: '100%',
-        backgroundColor: 'white',
         alignItems: 'center',
         paddingTop: '3%',
+        zIndex: 1,
     },
     iosShadow: {
         shadowColor: '#171717', 

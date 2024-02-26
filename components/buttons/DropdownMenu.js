@@ -6,18 +6,12 @@ import Animated, {
     withSpring,
   } from 'react-native-reanimated';
 
-import { CirclePictureButton } from '../Index.js';
 import Images from '../../images/Index.js';
 
 const DropdownMenu = ({ children, style }) => {
   
   return (
     <View style={[styles.wrapperStyle, style]}>
-        <CirclePictureButton
-            imagePath={Images.icons.person_icon}
-            onPress={() => navigation.navigate('Template')}
-        />
-
         <View style={style}>
             {children}
         </View>

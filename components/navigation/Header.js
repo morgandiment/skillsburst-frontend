@@ -19,9 +19,20 @@ const Header = ({style, navigation}) => {
   // position of tab: 0 -> fully on screen, -tabWidth -> fully off screen
   const x = useSharedValue(-tabWidth);
 
+  //z index needs to be increased when opened so that the buttons are clickable 
+  const z = useSharedValue(1);
+
   const openTab = () => {
-    x.value = withTiming(0, {duration: 100} );
-  }
+    if (x.value == 0){
+      x.value = withTiming(-tabWidth, {duration: 750} );
+      z.value = 10;
+    } else{
+      x.value = withTiming(0, {duration: 750} );
+      z.value = 1;
+    }; 
+
+    console.log(z.value)
+  };
 
   // Set the value of x to the current pan position instantly
   const panUpdate = Gesture.Pan().onUpdate((event) => {
@@ -60,7 +71,7 @@ const Header = ({style, navigation}) => {
   {/* Requires GestureHandlerRootView of whole screen in order to correctly detect pan inputs*/}
   const SideTab = () => {
     return (
-      <View style={{height: windowHeight, width: windowWidth, position: 'absolute', top: 0}}>
+      <View style={{height: windowHeight, width: windowWidth}}>
         <GestureDetector gesture={composed}>
           <Animated.View style={[TabStyles.tab, {height: windowHeight, left: x}]}>
 
@@ -99,14 +110,16 @@ const Header = ({style, navigation}) => {
   
   // Main header return
   return (
-    <View style={HeaderStyles.headerContainer}>
-      <StatusBar backgroundColor='#01778a' style={'auto'}/>
-      <TouchableOpacity onPress={openTab} style={HeaderStyles.headerButton}>
-        <Image style={HeaderStyles.headerImage} source={Images.other.headerDropdown}></Image>
-      </TouchableOpacity>
-      <Text style={HeaderStyles.headerText}>Skillburst</Text>
+    <View style={[style, HeaderStyles.headerAndTabContainer]} zIndex={z.value}>
+      <View style={HeaderStyles.headerContainer}>
+        <StatusBar backgroundColor='#01778a' style="auto"/>
+        <TouchableOpacity onPress={openTab} style={HeaderStyles.headerButton}>
+          <Image style={HeaderStyles.headerImage} source={Images.other.headerDropdown}/>
+        </TouchableOpacity>
+        <Text style={HeaderStyles.headerText}>Skillburst</Text>
+      </View>
+
       <SideTab/>
-      
     </View>
 
   );
@@ -115,39 +128,46 @@ const Header = ({style, navigation}) => {
 export default Header;
 
 const HeaderStyles = StyleSheet.create({
-  headerContainer: {
-    marginTop: Platform.OS === "android" ? Constants.statusBarHeight : 0,
+  headerAndTabContainer: {
+    //marginTop: Platform.OS === "android" ? Constants.statusBarHeight : 0,
     width: '100%',
-    height: '7%',
+    height: '12%',
+  },
+
+  headerContainer: {
+    paddingTop: "8%",
+    height: "100%",
     backgroundColor: '#0795ab',
     flexDirection: 'row',
     elevation: 5,
-    alignItems: 'center',
-    zIndex: 1,
+    alignItems: 'center'
   },
+
   headerText: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 20,
   },
+
   headerButton: {
     marginHorizontal: '5%',
   },
+
   headerImage: {
-    aspectRatio: 0.5, 
+    aspectRatio: 1, 
     resizeMode: 'contain',
-    flex: 1,
+    height: "65%",
   },
+
 });
 
 const TabStyles = StyleSheet.create({
   tab: {
     width: tabWidth,
-    position: 'absolute',
-    top: 0,
     elevation: 2,
     borderRightWidth: 0.5,
   },
+
   tabEntry: {
     width: '80%',
     height: '6%',
@@ -155,18 +175,21 @@ const TabStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+
   textSeperator: {
     width:'80%', 
     borderBottomWidth: 0.8,
     marginHorizontal:'5%',
     marginVertical: '2%',
   },
+
   tabImage: {
     flex: 1, 
     resizeMode: 'contain',
     height: '80%', 
     marginHorizontal: '3%'
   },
+  
   tabText: {
     fontSize: 17,
     flex: 2.5,
