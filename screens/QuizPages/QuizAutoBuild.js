@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Button, StyleSheet, Text, View, Platform, Dimensions } from 'react-native';
-import Animated, { ZoomOut, ZoomIn, useSharedValue, withTiming, Easing } from 'react-native-reanimated'; 
+import { StyleSheet, Text, View, Platform, Dimensions } from 'react-native';
+import Animated, { ZoomOut, ZoomIn, useSharedValue, withTiming } from 'react-native-reanimated'; 
 
 import {SimpleButton, AnimatedButton } from '../../components/Index.js';
 import { MultipleChoiceQuiz } from '../../components/quiz/Quizzes.js';
@@ -9,17 +9,22 @@ import { MultipleChoiceQuiz } from '../../components/quiz/Quizzes.js';
 const windowWidth = Platform.OS === "android" ? Dimensions.get('window').width : Dimensions.get('window').width * PixelRatio.get();
 const windowHeight = Platform.OS === "android" ? Dimensions.get('window').height : Dimensions.get('window').height * PixelRatio.get();
 
-import Quiz from '../../quizzes/sizesTest.json';
+// Testing quizzes
+import Quiz from '../../quizzes/shortForm.json';
+//import Quiz from '../../quizzes/longForm.json';
+//import Quiz from '../../quizzes/noTimer.json';
+//import Quiz from '../../quizzes/sizesTest.json';
+
 let timer = () => {};
 
 function Template({ route, navigation }) {
   quiz = JSON.parse(JSON.stringify(Quiz)); // create copy otherwise import is destroyed from references - may be able to remove due to switch to indexing
   const { path } = route.params;
-  const Path = '../' + path
+  const Path = '../' + path;
   var quizType;
 
   const [timeLeft, setTimeLeft] = useState(3);
-  const wh = useSharedValue(windowHeight)
+  const wh = useSharedValue(windowHeight);
 
   // Deal with import stuff later not priority 
 
@@ -51,16 +56,16 @@ function Template({ route, navigation }) {
 
  if (timeLeft <= 0){
   // Close intro animation
-  wh.value = withTiming(0, {duration: 300, easing: Easing.linear});
+  wh.value = withTiming(0, { duration: 300 });
   return (
     <View style={styles.screenViewStyle}>
 
-      {quizType}
-      
       {/* Quiz countdown animation */}
-      <Animated.View style={[styles.screenViewNoFlex, {width: wh, height: wh}]}>
+      <Animated.View style={[styles.screenViewNoFlex, {width: wh, height: wh, zIndex: 1}]}>
         <Text style={styles.countdownText}>{timeLeft}</Text>
       </Animated.View>
+
+      {quizType}
 
     </View>
   );

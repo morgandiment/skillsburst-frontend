@@ -2,8 +2,11 @@ import { StyleSheet, View, Text, Image, TouchableOpacity, ScrollView, Platform, 
 import { useState, useEffect } from 'react';
 import Images from '../../images/Index';
 import Animated, { ZoomIn, useSharedValue, withTiming, Easing } from 'react-native-reanimated'; 
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const windowHeight = Platform.OS === "android" ? Dimensions.get('window').height * 0.85 : Dimensions.get('window').height * 0.85 * PixelRatio.get();
+const windowWidth = Platform.OS === "android" ? Dimensions.get('window').width : Dimensions.get('window').width * PixelRatio.get();
+
 const AnimatedButton = Animated.createAnimatedComponent(TouchableOpacity);
 
 const MultipleChoiceResultPage = ({
@@ -112,33 +115,60 @@ const MultipleChoiceResultPage = ({
     }
 
     return (
-        <View style={{flex: 1, backgroundColor: '#0095ab'}}>
+        <SafeAreaView style={{flex: 1, backgroundColor: '#0095ab', zIndex: 1}}>
             <Animated.View entering={ZoomIn} style={styles.container}>
-                <View height={'3%'}/>
+
+                {/* Score and result message*/}
                 <View style={styles.container}>
                     <View style={styles.scoreAndContinue}> 
-                        <Text>{score}/{questionCount}</Text>
+                        <Text style={styles.endText}>{score}/{questionCount}</Text>
                     </View>
+
                     <View flex={0.5} alignItems={'center'} justifyContent={'center'}>
                         <Text style={styles.endText}>{resultMessage}</Text>
                     </View>
                 </View>
 
+                {/* Mini stats overview*/}
+                <View style={styles.infoContainer}>
+                    <View style={styles.infoView}>
+                        <Text style={styles.infoText}>Total:</Text>
+                        <Text style={styles.infoText}>{Math.round(times.reduce((partialSum, a) => partialSum + a, 0) * 10) / 10}s</Text>
+                    </View>
+
+                    <View style={styles.infoView}>
+                        <Text style={styles.infoText}>Average:</Text>
+                        <Text style={styles.infoText}>{Math.round(times.reduce((partialSum, a) => partialSum + a, 0) / times.length * 10) / 10}s</Text>
+                    </View>
+
+                    <View style={styles.infoView}>
+                        <Text style={styles.infoText}>Fastest:</Text>
+                        <Text style={styles.infoText}>{times.reduce((a, b) => Math.min(a, b))}s</Text>
+                    </View>
+
+                    <View style={styles.infoView}>
+                        <Text style={styles.infoText}>Streak:</Text>
+                        <Text style={styles.infoText}>{maxStreak}</Text>
+                    </View>
+
+                </View>
+
+                {/* Question score breakdown*/}
                 <View style={styles.resultsOuter}>
                     <ScrollView style={styles.resultsScroll}>
                         <View style={styles.resultsInner}>
-                        <QuestionDisplay/>
+                            <QuestionDisplay/>
                         </View>
                     </ScrollView>
                 </View>
 
+                {/* Continue Button */}
                 <TouchableOpacity style={styles.continue} onPress={() => {navigation.pop(2)}}>
                     <Text style={styles.continueText}>Continue</Text>
                 </TouchableOpacity>
 
             </Animated.View>
-            
-        </View>
+        </SafeAreaView>
     );
 }
 
@@ -153,9 +183,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     scoreAndContinue: {
-        height: '40%',
-        width: '30%',
-        borderRadius: 100,
+        height: windowWidth/3,
+        width:windowWidth/3,
+        borderRadius: windowWidth,
         backgroundColor: '#00f0a4',
         alignItems: 'center',
         justifyContent: 'center',
@@ -175,6 +205,24 @@ const styles = StyleSheet.create({
     },
     continueText: {
         fontSize: 25,
+        color: 'white',
+        fontWeight: 'bold',
+    },
+    infoContainer: {
+        height: windowHeight/12,
+        width: '95%',
+        flexDirection: 'row',
+        marginVertical: '2%',
+    },
+    infoView: {
+        flex: 1,
+        marginHorizontal: '1%',
+        backgroundColor: '#0095ab',
+        borderRadius: 15,
+        alignItems: 'center',
+    },
+    infoText: {
+        margin: '3%',
         color: 'white',
         fontWeight: 'bold',
     },

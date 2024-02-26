@@ -4,10 +4,12 @@ import Animated, { useAnimatedProps, useSharedValue, withTiming } from 'react-na
 
 import CountdownCricle from '../components/CountdownCricle';
 import QuestionProgressBar from '../components/QuestionProgressBar'; // broken :,
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-const windowWidth = Platform.OS === "android" ? Dimensions.get('window').width * 0.9 : Dimensions.get('window').width * 0.9 * PixelRatio.get();
+const windowWidth = Platform.OS === "android" ? Dimensions.get('window').width : Dimensions.get('window').width * PixelRatio.get();
 const windowHeight = Platform.OS === "android" ? Dimensions.get('window').height * 0.85 : Dimensions.get('window').height * 0.85 * PixelRatio.get();
 
+// Colours of answer buttons
 const c1 = '#df163c';
 const c2 = '#24f2f9';
 const c3 = 'orange';
@@ -29,10 +31,12 @@ const MultipleChoiceQuiz = ({
   questions,
   navigation,
 }) => {
-  
+  //const transition = useSharedValue(0); // Width and height of the transition animated view - displays x or tick
+
   const currentIndex = useRef(0); // Index of the current question within questions array
   const currentTime = useRef(0); // Current time on countdown clock per question
   const score = useRef(0); // Total correct answers
+  const streak = useRef([0, 0]); // [Current Streak, max Streak]
   const totalTime = useRef(0); // Total time for all questions
   const selected = useRef([]); // Index of the selected answer
   const times = useRef([]); // Time taken per answer selection
@@ -82,17 +86,24 @@ const MultipleChoiceQuiz = ({
 
     if (selectedIndex === correctIndex){
       // correct
+      streak.current[0] += 1;
+      if (streak.current[0] > streak.current[1]){
+        streak.current[1] = streak.current[0];
+      }
+
       score.current = score.current + 1;
       times.current.push(Math.round(currentTime.current * 10) / 10);
       selected.current.push(selectedIndex);
     }
     else if (selectedIndex === -1){
       // Timed out - set question result time as max time due to some floating point precision making time appear lower when rounded
+      streak.current[0] = 0;
       times.current.push(maxTime);
       selected.current.push(-1);
     } 
     else {
       // incorrect
+      streak.current[0] = 0;
       times.current.push(Math.round(currentTime.current * 10) / 10);
       selected.current.push(selectedIndex);
     }
@@ -107,7 +118,7 @@ const MultipleChoiceQuiz = ({
     {
       // Finished with quiz
       clearTimeout(timer);
-      navigation.navigate('QuizResultPage', { type: type, times: times.current, score: score.current,  selectedIndexes: selected.current, questions: questions, questionCount: questionCount});
+      navigation.navigate('QuizResultPage', { type: type, maxStreak: streak.current[1], times: times.current, score: score.current,  selectedIndexes: selected.current, questions: questions, questionCount: questionCount});
     }
   }
 
@@ -200,21 +211,28 @@ const MultipleChoiceQuiz = ({
     }
   }
   
+  // The quiz page
   return (
-    <View style={[styles.bgColor, style]}>
+    <SafeAreaView style={[styles.bgColor, style]}>
       {/* Question */}
-      <View style={styles.textTimerContainer}>
+      <View style={styles.top}>
 
-        {/* Question prgoress bar - very broken may remove
-        <QuestionProgressBar start={currentIndex/questionCount} end={currentIndex/questionCount} w={windowWidth*0.8}/>*/}
-
-        <CountdownCricle duration={maxTime * 1000} type={type} r={windowWidth/6} w={windowWidth/18}/>
-        <Text>{currentQuestion.question}</Text>
+        {/* Question prgoress bar */}
+        <QuestionProgressBar style={styles.progressBar} current={currentIndex.current} total={questionCount} w={windowWidth*0.9}/>
+        <View flex={1} width={'100%'} justifyContent={'space-evenly'} flexDirection={'row'}>
+          <CountdownCricle duration={maxTime * 1000} type={type} r={windowWidth/7} w={windowWidth/19} barEmptyColor='#056b7a'/>
+          {/*<View width={windowWidth/3} height={windowWidth/3} borderRadius={windowWidth} backgroundColor={'red'}>
+              <Text>{streak.current[0]}</Text>
+          </View>*/}
+        </View>
+        <View flex={1}>
+          <Text style={styles.questionText}>{currentQuestion.question}</Text>
+        </View>
       </View>
 
       {/* Answer area - auto sizes beased on longform/answer_count*/}
       <QuestionLayout long={currentQuestion.long_form} count={currentQuestion.answer_count}/>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -226,10 +244,15 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
   },
-  textTimerContainer: {
+  top: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+  },
+  progressBar: {
+    marginVertical: '3%',
+  },
+  questionText: {
+    fontSize: 30,
   },
   outerButtonContainer: {
     flex: 0.6, // Scale of buttons
