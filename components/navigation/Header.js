@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { StyleSheet, TouchableOpacity, View, Text, Image, Dimensions, Platform } from 'react-native';
 
 import Animated, { useSharedValue, withTiming } from 'react-native-reanimated';
@@ -20,18 +21,19 @@ const Header = ({style, navigation}) => {
   const x = useSharedValue(-tabWidth);
 
   //z index needs to be increased when opened so that the buttons are clickable 
-  const z = useSharedValue(1);
+  const [zIndex, setZIndex] = useState(1);
 
   const openTab = () => {
     if (x.value == 0){
       x.value = withTiming(-tabWidth, {duration: 750} );
-      z.value = 10;
+      setTimeout(function(){
+        setZIndex(1);
+      }, 500); 
+      
     } else{
       x.value = withTiming(0, {duration: 750} );
-      z.value = 1;
+      setZIndex(10);
     }; 
-
-    console.log(z.value)
   };
 
   // Set the value of x to the current pan position instantly
@@ -83,6 +85,7 @@ const Header = ({style, navigation}) => {
             {/* Text area */}
             <View height={'80%'} backgroundColor={'white'}> 
 
+              <TabEntry text={'Home'} onPress={() => navigation.navigate('HomePage')}/>
               <TabEntry text={'Planning Board'}/>
               <TabEntry text={'Invite Friends'}/>
               <TabEntry text={'Rate App'}/>
@@ -110,7 +113,7 @@ const Header = ({style, navigation}) => {
   
   // Main header return
   return (
-    <View style={[style, HeaderStyles.headerAndTabContainer]} zIndex={z.value}>
+    <View style={[style, HeaderStyles.headerAndTabContainer, {zIndex: zIndex}]}>
       <View style={HeaderStyles.headerContainer}>
         <StatusBar backgroundColor='#01778a' style="auto"/>
         <TouchableOpacity onPress={openTab} style={HeaderStyles.headerButton}>
