@@ -1,4 +1,5 @@
-import { StyleSheet, Image, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import {Image} from "expo-image";
 import Images from '../../images/Index'
 
 // Temp navbar im was using for scaling
@@ -9,19 +10,19 @@ const Navbar = ({ style }) => {
     <View style={[styles.bar, style]}>
 
         <TouchableOpacity style={styles.navButton}> 
-            <Image style={styles.imgSty} source={Images.icons.dice_icon}/>
+            <Image style={styles.imgSty} source={Images.icons.default}/>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.navButton}> 
-            <Image style={styles.imgSty} source={Images.icons.dice_icon}/>
+            <Image style={styles.imgSty} source={Images.icons.default}/>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.navButton}> 
-            <Image style={styles.imgSty} source={Images.icons.dice_icon}/>
+            <Image style={styles.imgSty} source={Images.icons.default}/>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.navButton}> 
-            <Image style={styles.imgSty} source={Images.icons.dice_icon}/>
+            <Image style={styles.imgSty} source={Images.icons.default}/>
         </TouchableOpacity>
 
     </View>

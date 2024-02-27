@@ -1,5 +1,6 @@
 import React , {useState} from 'react';
-import { Button, StyleSheet, Text, View, Image, Keyboard, TouchableWithoutFeedback} from 'react-native';
+import { Button, StyleSheet, Text, View, Keyboard, TouchableWithoutFeedback} from 'react-native';
+import {Image} from "expo-image";
 
 import { SimpleButton, TextInputWithIcon } from '../components/Index.js';
 //import {  } from './Index.js';

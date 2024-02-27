@@ -11,6 +11,7 @@ import TemplatePage from './screens/TemplatePage.js';
 const Stack = createNativeStackNavigator();
 
 function App() {
+
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <NavigationContainer>

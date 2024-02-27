@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { StyleSheet, TouchableOpacity, View, Text, Image, Dimensions, Platform } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Text, Dimensions, Platform } from 'react-native';
+import {Image} from "expo-image";
 
 import Animated, { useSharedValue, withTiming } from 'react-native-reanimated';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
@@ -21,18 +22,21 @@ const Header = ({style, navigation}) => {
   const x = useSharedValue(-tabWidth);
 
   //z index needs to be increased when opened so that the buttons are clickable 
-  const [zIndex, setZIndex] = useState(1);
+  const [zIndex, setZIndex] = useState(0);
 
-  const openTab = () => {
+  const toggleTab = () => {
+    var duration = 750
     if (x.value == 0){
-      x.value = withTiming(-tabWidth, {duration: 750} );
+      x.value = withTiming(-tabWidth, {duration: duration} );
+
+      //wait until tab is completely off screen before changing z
       setTimeout(function(){
-        setZIndex(1);
-      }, 500); 
+        setZIndex(0);
+      }, duration); 
       
     } else{
-      x.value = withTiming(0, {duration: 750} );
-      setZIndex(10);
+      x.value = withTiming(0, {duration: duration} );
+      setZIndex(100);
     }; 
   };
 
@@ -54,11 +58,12 @@ const Header = ({style, navigation}) => {
   const composed = Gesture.Simultaneous(panUpdate, panEnd);
 
   // Text Image pair for the tab menu
-  const TabEntry = ({ style, onPress = () => {}, text="default", img=(Images.icons.dice_icon)}) => {
+  const TabEntry = ({ style, onPress = () => {}, text="default", img=(Images.icons.default)}) => {
 
     {/* Closes the side when switching page, otherwise when returning the side tab remains out*/}
     switchPage = () => {
-      x.value = withTiming(-tabWidth, {duration: 100});
+      x.value = withTiming(-tabWidth, {duration: 1});
+      setZIndex(0);
       onPress();
     }
     
@@ -78,14 +83,14 @@ const Header = ({style, navigation}) => {
           <Animated.View style={[TabStyles.tab, {height: windowHeight, left: x}]}>
 
             {/* Mini Profile Display area */}
-            <View height={'20%'} backgroundColor={'#0795ab'}> 
+            <View style={ProfileDisplayStyles.profileDisplayContainer}> 
               <Text style={{flex: 1}}>Hello User</Text>
             </View>
 
             {/* Text area */}
             <View height={'80%'} backgroundColor={'white'}> 
 
-              <TabEntry text={'Home'} onPress={() => navigation.navigate('HomePage')}/>
+              <TabEntry text={'Home'} img={Images.icons.home} onPress={() => navigation.navigate('HomePage')}/>
               <TabEntry text={'Planning Board'}/>
               <TabEntry text={'Invite Friends'}/>
               <TabEntry text={'Rate App'}/>
@@ -93,9 +98,9 @@ const Header = ({style, navigation}) => {
 
               <View style={TabStyles.textSeperator}/>
 
-              <TabEntry text={'Contact us'} onPress={() => navigation.navigate('Contact')} img={Images.icons.contact_icon}/>
-              <TabEntry text={'Help'} onPress={() => navigation.navigate('Help')} img={Images.other.questionMark}/>
-              <TabEntry text={'Settings'} onPress={() => navigation.navigate('Settings')} img={Images.icons.settings_icon}/>
+              <TabEntry text={'Contact us'} onPress={() => navigation.navigate('Contact')} img={Images.icons.phone}/>
+              <TabEntry text={'Help'} onPress={() => navigation.navigate('Help')} img={Images.icons.question_mark_circled}/>
+              <TabEntry text={'Settings'} onPress={() => navigation.navigate('Settings')} img={Images.icons.gear}/>
 
             </View>
           </Animated.View>
@@ -116,7 +121,7 @@ const Header = ({style, navigation}) => {
     <View style={[style, HeaderStyles.headerAndTabContainer, {zIndex: zIndex}]}>
       <View style={HeaderStyles.headerContainer}>
         <StatusBar backgroundColor='#01778a' style="auto"/>
-        <TouchableOpacity onPress={openTab} style={HeaderStyles.headerButton}>
+        <TouchableOpacity onPress={toggleTab} style={HeaderStyles.headerButton}>
           <Image style={HeaderStyles.headerImage} source={Images.other.headerDropdown}/>
         </TouchableOpacity>
         <Text style={HeaderStyles.headerText}>Skillburst</Text>
@@ -164,6 +169,15 @@ const HeaderStyles = StyleSheet.create({
 
 });
 
+const ProfileDisplayStyles = StyleSheet.create({
+  profileDisplayContainer: {
+    height: '20%', 
+    backgroundColor: '#0795ab',
+
+    borderWidth: 5,
+  },
+});
+
 const TabStyles = StyleSheet.create({
   tab: {
     width: tabWidth,
@@ -182,8 +196,10 @@ const TabStyles = StyleSheet.create({
   textSeperator: {
     width:'80%', 
     borderBottomWidth: 0.8,
+    borderColor: "#1C274C",
     marginHorizontal:'5%',
     marginVertical: '2%',
+    
   },
 
   tabImage: {

@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View, Dimensions, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 import {Header, Navbar, AnimatedPercentageCircle, AnimatedProgressBar} from '../../components/Index.js';
+import {Image} from "expo-image";
 
 import Images from '../../images/Index.js';
 
@@ -63,10 +64,10 @@ const HomePage = ({style, navigation}) => {
                         <Text style={[styles.courseHeaderText, styles.whiteText]} >Current Courses:</Text>
                         <ScrollView width={'100%'}>
                             <View alignItems={'center'}>
-                                <CourseView name={'Arithmetic'} percentage={0.75} img={Images.icons.dice_icon} onPress={() => {navigation.navigate('CoursePage', {name: 'Arithmetic'})}} />
-                                <CourseView name={'Literacy'} percentage={0.6} img={Images.icons.literacy_icon} onPress={() => {navigation.navigate('CoursePage', {name: 'Literacy'})}} />
-                                <CourseView name={'Digital'} percentage={0.2} img={Images.icons.digital_icon}  onPress={() => {navigation.navigate('CoursePage', {name: 'Digital'})}} />
-                                <CourseView name={'Interview Skills'} percentage={0} img={Images.icons.plus_icon}  onPress={() => {navigation.navigate('CoursePage', {name: 'Interview Skills'})}} />
+                                <CourseView name={'Arithmetic'} percentage={0.75} img={Images.icons.green.maths_symbols} onPress={() => {navigation.navigate('CoursePage', {name: 'Arithmetic'})}} />
+                                <CourseView name={'Literacy'} percentage={0.6} img={Images.icons.green.literacy_book} onPress={() => {navigation.navigate('CoursePage', {name: 'Literacy'})}} />
+                                <CourseView name={'Digital'} percentage={0.2} img={Images.icons.green.gears}  onPress={() => {navigation.navigate('CoursePage', {name: 'Digital'})}} />
+                                <CourseView name={'Interview Skills'} percentage={0} img={Images.icons.green.chat}  onPress={() => {navigation.navigate('CoursePage', {name: 'Interview Skills'})}} />
                                 <CourseView/>
                                 <CourseView/>
                             </View>
@@ -113,7 +114,6 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         paddingTop: '3%',
-        zIndex: 1,
     },
     iosShadow: {
         shadowColor: '#171717', 
