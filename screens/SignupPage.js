@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from "react";
 import { Button, StyleSheet, Text, View, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import {Image} from "expo-image";
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -8,6 +9,12 @@ import { SimpleButton, TextInputWithIcon } from '../components/Index.js';
 import Images from '.././images/Index.js';
 
 function SignupPage({ navigation }) {
+
+  const [showFullNameInput, setShowFullNameInput] = useState(true);
+  const [showEmailInput, setShowEmailInput] = useState(true);
+  const [showDateInput, setShowDateInput] = useState(true);
+  const [showPasswordInput, setShowPasswordInput] = useState(true);
+  const [showPasswordConfirmInput, setShowPasswordConfirmInput] = useState(true);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>

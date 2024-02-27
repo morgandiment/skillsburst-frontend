@@ -8,6 +8,9 @@ import Images from '.././images/Index.js';
 
 function SignupPage({ navigation }) {
 
+  const [showUsernameInput, setShowUsernameInput] = useState(true);
+  const [showPasswordInput, setShowPasswordInput] = useState(true);
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.screenViewStyle}>
@@ -16,34 +19,39 @@ function SignupPage({ navigation }) {
           source={require('../images/skillsburst_banner_logo.png')}
         />
 
-        <TextInputWithIcon
-          style={styles.textInputStyle}
-          textStyle={{fontSize: 20}}
-          placeholder={"Email or Username"}
-          imagePath={Images.icons.username}
-        />
-        
-        <TextInputWithIcon
-          style={styles.textInputStyle}
-          textStyle={{fontSize: 20}}
-          placeholder={"Password"}
-          isPassword={true}
-          imagePath={Images.icons.key}
-        />
+        { showUsernameInput && 
+          <TextInputWithIcon
+            style={styles.textInputStyle}
+            textStyle={{fontSize: 20}}
+            placeholder={"Email or Username"}
+            imagePath={Images.icons.username}
+          />
+        }
 
-        <SimpleButton
-          style={styles.loginButtonStyle}
-          textStyle={{fontSize: 18}}
-          title="Login"
-          onPress={() => navigation.navigate('HomePage')}
-        />
-  
+        { showPasswordInput && 
+          <TextInputWithIcon
+            style={styles.textInputStyle}
+            textStyle={{fontSize: 20}}
+            placeholder={"Password"}
+            isPassword={true}
+            imagePath={Images.icons.key}
+          />
+        }
+
+          <SimpleButton
+            style={styles.loginButtonStyle}
+            textStyle={{fontSize: 18}}
+            title="Login"
+            onPress={() => navigation.navigate('HomePage')}
+          />
+
         <SimpleButton
           style={{marginTop: -20}}
           textStyle={styles.createAccountText}
           title={"Don't have an account?"}
           onPress={() => navigation.navigate('SignupPage')}
         />
+
       </View>
     </TouchableWithoutFeedback>
   );
