@@ -15,7 +15,7 @@ const TemplatePage = ({navigation}) => {
 
             </View>
             
-            <Navbar/>
+            <Navbar navigation={navigation}/>
         </View>
     );
 }

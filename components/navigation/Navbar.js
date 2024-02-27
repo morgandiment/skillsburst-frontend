@@ -5,12 +5,12 @@ import Images from '../../images/Index'
 // Temp navbar im was using for scaling
 
 
-const Navbar = ({ style }) => {
+const Navbar = ({ style, navigation }) => {
     return (
     <View style={[styles.bar, style]}>
 
-        <TouchableOpacity style={styles.navButton}> 
-            <Image style={styles.imgSty} source={Images.icons.default}/>
+        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('HomePage')}> 
+            <Image style={styles.imgSty} source={Images.icons.home}/>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.navButton}> 

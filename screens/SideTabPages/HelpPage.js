@@ -13,7 +13,7 @@ const HelpPage = ({navigation}) => {
 
             </View>
             
-            <Navbar/>
+            <Navbar navigation={navigation}/>
         </View>
     );
 }

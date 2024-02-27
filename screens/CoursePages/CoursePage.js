@@ -47,7 +47,7 @@ const CoursePage = ({style, route, navigation}) => {
 
                 </View>
             </ScrollView>
-            <Navbar/>
+            <Navbar navigation={navigation}/>
         </View>
     );
 }

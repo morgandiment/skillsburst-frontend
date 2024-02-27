@@ -40,6 +40,10 @@ const images = {
             
         },
 
+        white: {
+            hamburger_menu: require("./hamburger_menu_icon_white.svg"),
+        },
+
     },
 
     // idk what to call these

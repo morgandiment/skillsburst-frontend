@@ -79,7 +79,7 @@ const AnimatedCategorySelectPage = ({navigation}) => {
       </View>
 
     </View>
-    <Navbar/>
+    <Navbar navigation={navigation}/>
     </View>
     
   );

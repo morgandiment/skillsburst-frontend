@@ -23,6 +23,8 @@ const Header = ({style, navigation}) => {
 
   //z index needs to be increased when opened so that the buttons are clickable 
   const [zIndex, setZIndex] = useState(0);
+  //make tab invisible when off screen so that it isnt shown when navigating between screens
+  const [tabVisible, setTabVisible] = useState(false);
 
   const toggleTab = () => {
     var duration = 750
@@ -32,11 +34,13 @@ const Header = ({style, navigation}) => {
       //wait until tab is completely off screen before changing z
       setTimeout(function(){
         setZIndex(0);
+        setTabVisible(false);
       }, duration); 
       
     } else{
       x.value = withTiming(0, {duration: duration} );
       setZIndex(100);
+      setTabVisible(true);
     }; 
   };
 
@@ -84,13 +88,19 @@ const Header = ({style, navigation}) => {
 
             {/* Mini Profile Display area */}
             <View style={ProfileDisplayStyles.profileDisplayContainer}> 
-              <Text style={{flex: 1}}>Hello User</Text>
+              <Text style={ProfileDisplayStyles.profileDisplayText}>Username</Text>
+
+              <Image style={ProfileDisplayStyles.profilePicture} source={Images.icons.username}/>
+              
+              <TouchableOpacity style={ProfileDisplayStyles.editProfileButton} onPress={() => { switchPage; navigation.navigate('EditProfile') } }>
+                <Text style={{color: "#1C274C", fontWeight: 'bold',}}>Edit Profile</Text>
+              </TouchableOpacity>
+
             </View>
 
             {/* Text area */}
             <View height={'80%'} backgroundColor={'white'}> 
 
-              <TabEntry text={'Home'} img={Images.icons.home} onPress={() => navigation.navigate('HomePage')}/>
               <TabEntry text={'Planning Board'}/>
               <TabEntry text={'Invite Friends'}/>
               <TabEntry text={'Rate App'}/>
@@ -122,12 +132,15 @@ const Header = ({style, navigation}) => {
       <View style={HeaderStyles.headerContainer}>
         <StatusBar backgroundColor='#01778a' style="auto"/>
         <TouchableOpacity onPress={toggleTab} style={HeaderStyles.headerButton}>
-          <Image style={HeaderStyles.headerImage} source={Images.other.headerDropdown}/>
+          <Image style={HeaderStyles.headerImage} source={Images.icons.white.hamburger_menu}/>
         </TouchableOpacity>
         <Text style={HeaderStyles.headerText}>Skillburst</Text>
       </View>
 
-      <SideTab/>
+      { tabVisible && 
+        <SideTab/>
+      }
+      
     </View>
 
   );
@@ -162,20 +175,48 @@ const HeaderStyles = StyleSheet.create({
   },
 
   headerImage: {
-    aspectRatio: 1, 
+    aspectRatio: 1,
     resizeMode: 'contain',
-    height: "65%",
+    height: "90%",
   },
 
 });
 
 const ProfileDisplayStyles = StyleSheet.create({
-  profileDisplayContainer: {
-    height: '20%', 
+  profileDisplayContainer: { 
     backgroundColor: '#0795ab',
 
-    borderWidth: 5,
+    flex: 1,
+    justifyContent: "space-between",
+    alignItems: "center",
+
+    minHeight: "28%",
+    paddingVertical: "5%",
+
+    borderColor: "#1C274C",
+    borderTopWidth: 1,
+    borderBottomWidth: 2,
   },
+
+  profilePicture: {
+    aspectRatio: 1,
+    height: "70%",
+    borderRadius: "100%",
+  },
+
+  profileDisplayText: {
+    color: "#1C274C",
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+
+  editProfileButton: {
+    backgroundColor: "white",
+    borderWidth: 2, 
+    borderColor: "#01778a",
+    borderRadius: "10%", 
+    padding: 5
+  }
 });
 
 const TabStyles = StyleSheet.create({

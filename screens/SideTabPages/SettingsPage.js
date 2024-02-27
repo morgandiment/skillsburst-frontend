@@ -63,7 +63,7 @@ const SettingsPage = ({style, navigation}) => {
                 {/* Breathing room, only noticed when options extend past screen size*/}
                 <View style={{margin: '3%'}}/>
             </ScrollView>
-            <Navbar/>
+            <Navbar navigation={navigation}/>
         </View>
     );
 }
