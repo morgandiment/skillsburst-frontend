@@ -5,13 +5,21 @@ const windowHeight = Dimensions.get('window').height * 0.85;
 const windowWidth = Dimensions.get('window').width;
 
 const CoursePage = ({style, route, navigation}) => {
-    // Contains the relevant course, will be used to fetch other course details
-    const {name} = route.params;
+    const {course} = route.params;
 
-    // Data to be fetched
-    const description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nec dui nunc mattis enim ut tellus elementum sagittis vitae. Risus pretium quam";
+    const name = course.name;
+    const description = course.description;
     const gameSelection = [];
-    const chapters = [];
+    const chapters = course.chapters;
+
+    var chapterViews = []
+    var i = 0;
+    chapters.forEach(chapter => {
+        chapterViews.push(
+            <ChapterBox key={i} name={chapter.name} units={chapter.units} onPressStart={() => navigation.navigate('CategoryPage', {units: chapter.path})} style={{marginBottom: '6%'}}/>
+        );
+        i++;
+    });
 
     // Add how to play screen here or on category select page
 
@@ -40,11 +48,8 @@ const CoursePage = ({style, route, navigation}) => {
                     {/* Display chapters */}
                     <View style={CourseStyle.chapterContainer}>
                         <Text style={CourseStyle.subHeading}>Chapters</Text>
-                        <Text>Fully complete a chapter for a special acheivement!</Text>
-                        <ChapterBox style={{marginBottom: '6%', marginTop: '6%'}}/>
-                        <ChapterBox style={{marginBottom: '6%'}}/>
-                        <ChapterBox style={{marginBottom: '6%'}}/>
-
+                        <Text marginBottom={'6%'}>Fully complete a chapter for a special acheivement!</Text>
+                        {chapterViews}
                     </View>
 
                 </View>

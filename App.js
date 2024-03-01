@@ -6,36 +6,11 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, { Easing } from 'react-native-reanimated';
 
 import {SimpleButton, AnimatedButton } from './components/Index.js';
-import { Template, QuizAutoBuild, LandingPage, LoginPage, AnimatedCategorySelectPage, SignupPage, HomePage, ProfileEditPage, SettingsPage, CoursePage, Feedback, HelpPage, ContactPage, MultipleChoiceResultPage } from './screens/Index.js';
+import { Template, QuizAutoBuild, LandingPage, CourseSelectPage, LoginPage, AnimatedCategorySelectPage, SignupPage, HomePage, ProfileEditPage, SettingsPage, CoursePage, Feedback, HelpPage, ContactPage, MultipleChoiceResultPage } from './screens/Index.js';
 import TemplatePage from './screens/TemplatePage.js';
+import AcTest from './screens/CoursePages/acTest.js';
 
 const Stack = createNativeStackNavigator();
-
-const transitionConfig = () => {
-  return {
-    transitionSpec: {
-      duration: 2000 ,
-      easing: Easing.out(Easing.poly(4)),
-      timing: Animated.timing,
-      useNativeDriver: true,
-    },
-    screenInterpolator: sceneProps => {      
-      const { layout, position, scene } = sceneProps
-
-      const thisSceneIndex = scene.index
-      const width = layout.initWidth
-
-      const translateX = position.interpolate({
-        inputRange: [thisSceneIndex - 1, thisSceneIndex],
-        outputRange: [width, 0],
-      })
-
-      return { transform: [ { translateX } ] }
-    },
-  }
-}
-
-
 
 function App() {
   return (
@@ -49,8 +24,10 @@ function App() {
             headerTitleStyle: { fontWeight: 'bold'},
             animation: 'fade',
           }}
-        >
+        > 
           <Stack.Screen name="HomePage" component={HomePage} options={{title: 'Home Page', headerShown: false}}/>
+          <Stack.Screen name="CategoryPage" component={AcTest} options={{title: 'Category Page', headerShown: false}}/>
+          <Stack.Screen name="CourseSelectPage" component={CourseSelectPage} options={{title: 'Course Select Page', headerShown: false}}/>
 
           <Stack.Screen name="SignupPage" component={SignupPage} options={{headerShown: false}}/>
           <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}}/>

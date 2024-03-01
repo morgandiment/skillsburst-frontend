@@ -1,0 +1,46 @@
+{
+    "name": null,
+    "settings": {
+        "theme": "light"
+    },
+
+    "courses": 
+    [
+        {
+            "name": "Arithmetic",
+            "currently_taking": true,
+            "completed_Units": 0,
+            "chapter_data": 
+            [
+                {
+                    "name": "Chapter 1",
+                    "completed_Units": 0,
+                    "unit_data": 
+                    [
+                        [0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0]
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Digital",
+            "currently_taking": true,
+            "completed_Units": 0,
+            "chapter_data": 
+            [
+                {
+                    "name": "Chapter 1",
+                    "completed_Units": 0,
+                    "unit_data": 
+                    [
+                        [0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0]
+                    ]
+                }
+            ]
+        }
+    ]
+}

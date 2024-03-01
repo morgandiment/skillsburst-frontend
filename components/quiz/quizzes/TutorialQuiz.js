@@ -19,7 +19,7 @@ const c4 = 'yellow'
 // - Overall Time requirement
 // - Untimed (timing still recorded but no fail state)
 
-var timer = () => {};
+var TutotialQuiz = () => {};
 
 const MultipleChoiceQuiz = ({
   style,
@@ -235,7 +235,7 @@ const MultipleChoiceQuiz = ({
   );
 };
 
-export default MultipleChoiceQuiz;
+export default TutotialQuiz;
 
 const styles = StyleSheet.create({
   bgColor: {

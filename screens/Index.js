@@ -12,6 +12,7 @@ import HelpPage from './SideTabPages/HelpPage.js';
 import ProfilePage from './MainPages/ProfilePage.js';
 import ContactPage from './SideTabPages/ContactPage.js';
 import MultipleChoiceResultPage from './QuizPages/MultipleChoiceResultPage.js';
+import CourseSelectPage from './MainPages/CourseSelectPage.js';
 
 export {
     Template,
@@ -28,4 +29,5 @@ export {
     ProfilePage,
     ContactPage,
     MultipleChoiceResultPage,
+    CourseSelectPage,
 }
