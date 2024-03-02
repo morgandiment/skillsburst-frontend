@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 
 import Animated, { useSharedValue, withTiming } from 'react-native-reanimated';
 
+// Can be improved to not require a width integer
 const AnimatedProgressBar = (
     {
       w = 100, // Length of the bar

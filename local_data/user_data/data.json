@@ -1,0 +1,46 @@
+{
+    "name": "bob",
+    "settings": {
+        "theme": "light"
+    },
+    "last_activity": ["Arithmetic", "Chapter 1", "Unit 1"],
+    "courses": 
+    [
+        {
+            "name": "Arithmetic",
+            "currently_taking": true,
+            "completed_Units": 0,
+            "chapter_data": 
+            [
+                {
+                    "name": "Chapter 1",
+                    "completed_Units": 0,
+                    "unit_data": 
+                    [
+                        [0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0]
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Digital",
+            "currently_taking": true,
+            "completed_Units": 0,
+            "chapter_data": 
+            [
+                {
+                    "name": "Chapter 1",
+                    "completed_Units": 0,
+                    "unit_data": 
+                    [
+                        [0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0]
+                    ]
+                }
+            ]
+        }
+    ]
+}

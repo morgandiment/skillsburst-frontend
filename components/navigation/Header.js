@@ -4,8 +4,6 @@ import {Image} from "expo-image";
 
 import Animated, { useSharedValue, withTiming } from 'react-native-reanimated';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
-
-import Constants from 'expo-constants';
 import { StatusBar } from 'expo-status-bar';
 
 import Images from '../../images/Index'

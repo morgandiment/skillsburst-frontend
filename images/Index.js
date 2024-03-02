@@ -10,6 +10,8 @@ const images = {
         plus_icon: require('./plus_icon.png'),
         settings_icon: require('./settings_icon.png'),
         trophy_icon_filled: require('./trophy_icon_filled.png'),
+        right_icon: require('./right.png'),
+        wrong_icon: require('./wrong.png'),
 
         default: require("./default_icon.svg"),
 
@@ -27,6 +29,7 @@ const images = {
         question_mark: require("./question_mark_icon.svg"),
         question_mark_circled: require("./question_mark_circled_icon.svg"),
         home: require("./home_icon.svg"),
+        back_arrow: require("./back_arrow_icon.svg"),
 
         green: {
             literacy_book: require("./literacy_book_icon_green.svg"),
@@ -56,6 +59,8 @@ const images = {
         headerDropdown: require('./headerDropdown.png'),
         black_circle: require('./BlackCircle.png'),
         ribbon: require('./ribbon.png'),
+        dropdownArrow: require('./dropdownArrow.png'),
+        dropdownArrowGrey: require('./dropdownArrowGrey.png'),
     },
 
     skillsburst_banner_logo: require('./skillsburst_banner_logo.png'),

@@ -1,29 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Svg, { Circle } from 'react-native-svg';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import Animated, { useAnimatedProps, useSharedValue, withTiming } from 'react-native-reanimated'; 
-
-import Images from '../../images/Index';
+import Animated, { useAnimatedProps, useDerivedValue, useSharedValue, withTiming, Easing } from 'react-native-reanimated'; 
+import { ReText } from 'react-native-redash';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-const AnimatedPercentageCircle = ({
+const CountdownCricle = ({
     w = 10, // Width of the pecentage bar
     r = 100, // Radius of the percentage bar
-    percentage = 0, // 0 - 1
-    active = false, // Whether the button is currently useable
-    text = null,
+    duration = 15000, // in miliseconds
+    type = null,
     mainColor = "#0EF0A4",
     barFillColor = "#0EF0A4",
     barEmptyColor = "#D9D9D9",
-    offColor = "#D9D9D9",
-    imgARatio = 0.5,
-    onPress = () => {},
-  
-    // Default image
-    img = Images.default_Image,
   }) => {
+    if ( type=='untimed' ) {
+      return;
+    }
 
+    const durationInSeconds = duration / 1000;
 
     // Percentage bar circle
     var total = r*2 + w;
@@ -32,31 +28,25 @@ const AnimatedPercentageCircle = ({
     // Center
     var cWidth = (r*2 - w/2) - (r*2 - (w/2)) / 5;
     var c = r+w/2;
-  
-    if (active == false)
-    {
-      var mainColor = offColor;
-      var barFillColor = offColor;
-      var barEmptyColor = offColor; 
-    }
-
-    const VariableText = () => {
-      if (text == null){
-        return <View/>;
-      }
-      return (
-        <Text style={styles.text}>{text}</Text>
-      );
-    };
 
     const progress = useSharedValue(0);
 
     useEffect(() =>{
-        progress.value = withTiming(percentage, {duration: 1000});
+      progress.value = withTiming(1, {duration: duration, easing: Easing.linear});
     }, []);
 
+    if (type == 'question_time') {
+      progress.value = 0;
+      progress.value = withTiming(1, {duration: duration, easing: Easing.linear});
+    }
+
+
+    const progressText = useDerivedValue(() => {
+        return `${Math.floor((1 - progress.value) * durationInSeconds)}`
+    })
+
     const animatedProps = useAnimatedProps(() => ({
-        strokeDashoffset: outerLength*(1-progress.value)
+        strokeDashoffset: outerLength*(progress.value)
     }));
   
     return (
@@ -64,7 +54,6 @@ const AnimatedPercentageCircle = ({
         <View style={{width: total, height: total, alignItems: "center"}}>
 
           <Svg transform={[{rotate: "-85deg"}]}>
-            
             {/* Base circle */}
             <Circle 
             fill={"none"}
@@ -90,23 +79,24 @@ const AnimatedPercentageCircle = ({
           </Svg>
 
            {/* Inner Button - size is automatically determined to fit within the percentage bar*/}
-          <TouchableOpacity onPress={onPress} disabled={!active} style={{ flex:1, justifyContent: "center", alignItems: "center", position: "absolute", top: c-cWidth/2, width: cWidth, height: cWidth, backgroundColor: mainColor, borderRadius: cWidth}}>
-            <Image style={{flex: 1, aspectRatio: imgARatio, resizeMode: 'contain'}} source={img}/>
-          </TouchableOpacity>
+          <View style={{ flex:1, justifyContent: "center", alignItems: "center", position: "absolute", top: c-cWidth/2, width: cWidth, height: cWidth, backgroundColor: mainColor, borderRadius: cWidth}}>
+            <ReText text={progressText} style={styles.text}/>
+          </View>
   
         </View>
-        <VariableText/>
       </View>
       
     );
 };
 
-export default AnimatedPercentageCircle;
+export default CountdownCricle;
 
 const styles = StyleSheet.create({
     text: {
       color: '#525458',
       fontWeight: 'bold',
+      textAlign: 'center',
+      fontSize: 28,
     },
   
 });

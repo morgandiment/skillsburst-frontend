@@ -1,4 +1,6 @@
 import { StyleSheet, View} from 'react-native';
+
+// Change path as needed
 import { Header, Navbar } from '../components/Index.js';
 
 // Page template for pages that require both header and footer 
@@ -19,7 +21,6 @@ const TemplatePage = ({navigation}) => {
         </View>
     );
 }
-
 
 export default TemplatePage;
 

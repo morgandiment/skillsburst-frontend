@@ -1,0 +1,32 @@
+{
+    "name" : "Insert Name",
+    "format": "multiple_choice", 
+    "time": 15,
+    "number_of_questions" : 2,
+    "difficulty" : "Beginner",
+    "type": "question_time or total_time or untimed",
+    "questions" : [
+        {
+            "question" : "first question",
+            "answer_count": 4,
+            "long_form": false, 
+            "answers" : [
+                "Answer 1",
+                "Answer 2",
+                "Answer 2",
+                "Answer 2"
+            ],
+            "correct_index" : 0
+        },
+        {
+            "question" : "second question",
+            "answer_count": 2,
+            "long_form": true, 
+            "answers" : [
+                "Very Long Answer",
+                "Even longer answer"
+            ],
+            "correct_index" : 0
+        }
+    ]
+}

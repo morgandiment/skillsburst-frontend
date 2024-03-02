@@ -1,13 +1,60 @@
-import { StyleSheet, Text, View, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, TouchableOpacity, ScrollView, Platform } from 'react-native';
 import {Header, Navbar, AnimatedPercentageCircle, AnimatedProgressBar} from '../../components/Index.js';
 import {Image} from "expo-image";
 
 import Images from '../../images/Index.js';
+import Courses from '../../courses/Courses.js';
 
+// Potential fix for ios scaling? - apparently doesnt work on ios .-.
 const windowWidth = Dimensions.get('window').width * 0.9;
 const windowHeight = Dimensions.get('window').height * 0.85;
 
 const HomePage = ({style, navigation}) => {
+        // Entries on the current courses box, each one links to a course page
+        const CourseView = ({
+            img =  Images.icons.dice_icon,
+            name = 'No name', 
+            percentage = 0,
+            onPress = () => {},
+        }) => {
+            return (
+                // cant use percentage height because of variable scrollview height
+                <TouchableOpacity onPress={onPress} style={[styles.course, styles.iosShadow, {height: windowHeight*.5*.15}]}> 
+                    <Image style={{ flex: 1, resizeMode: 'contain', height: '80%'}} source={img}/>
+                    <Text style={[{flex: 1.2}]}>{name}</Text>
+                    <View flex={3}>
+                        <AnimatedProgressBar w={windowWidth*0.8*(3/5)} percentage={percentage}/>
+                    </View>
+                </TouchableOpacity>
+            );
+        }
+
+    /*
+
+    // Get all current course json files
+    var currentCourses = [];
+    var i = 0;
+    getCourses().forEach(courseName => {
+        var i = 0;
+        Courses.forEach(course => {
+            i++;
+            if (course.name == courseName) {
+                currentCourses.push(
+                    <CourseView key={i} name={course.name} percentage={0} img={course.icon} onPress={() => {navigation.navigate('CoursePage', {course: course})}} />
+                );
+            }
+        });
+    }); */
+
+    var currentCourses = [];
+    var i = 0;
+    Courses.forEach(course => {
+        i++;
+        currentCourses.push(
+            <CourseView key={i} name={course.name} percentage={0} img={course.icon} onPress={() => {navigation.navigate('CoursePage', {course: course})}} />
+        );
+        
+    });
 
     const streak = [1, 2, 3, 4, 5, 6, 7];
 
@@ -17,23 +64,6 @@ const HomePage = ({style, navigation}) => {
       const completedDays = 3; // Number of completed days (for example)
       return index < completedDays ? '#00fda2' : '#ffffff'; // Green for completed days, white for remaining days
     };
-
-    const CourseView = ({
-        img =  Images.icons.dice_icon,
-        name = 'No name', 
-        percentage = 0,
-        onPress = () => {},
-    }) => {
-        return (
-            <TouchableOpacity onPress={onPress} style={[styles.course, styles.iosShadow, {height: windowHeight*.5*.15}]} >
-                <Image style={{ flex: 1, resizeMode: 'contain', height: '80%'}} source={img}/>
-                <Text style={[{flex: 1.2}]}>{name}</Text>
-                <View flex={3}>
-                    <AnimatedProgressBar w={windowWidth*0.8*(3/5)} percentage={percentage}/>
-                </View>
-            </TouchableOpacity>
-        );
-    }
 
     return (
             <View style={{flex: 1}}>
@@ -49,7 +79,8 @@ const HomePage = ({style, navigation}) => {
                     {/*<Text style={{fontSize: 15}} marginTop={5}>Continue where you left off</Text>*/}
                     <View style={[styles.continueContainer, styles.iosShadow]} >
                         <View flex={1.5} alignItems={'center'} justifyContent={'center'}>
-                            <AnimatedPercentageCircle onPress={() => navigation.navigate('AnimatedCategoryPage')} active={true} imgARatio={0.5} percentage={0.75} w={windowWidth / 30} r={windowWidth / 7} img={Images.other.play} barEmptyColor={'#056b7a'} />
+                            {/* Needs a number instead of percentage for sizing due to svg*/}
+                            <AnimatedPercentageCircle onPress={() => {navigation.navigate('QuizPage', {quiz: '/quizzes/multipleChoiceTest.json'})}} active={true} imgARatio={0.5} percentage={0.75} w={windowWidth / 30} r={windowWidth / 7} img={Images.other.play} barEmptyColor={'#056b7a'} />
                         </View>
                         <View flex={2} justifyContent={'center'}>
                             <View height={'70%'} width={'90%'} alignItems={'center'}  borderRadius={20} backgroundColor={'#01778a'}>
@@ -62,16 +93,14 @@ const HomePage = ({style, navigation}) => {
                     {/* View Current Courses*/}
                     <View style={[styles.courseSelectionContainer, styles.iosShadow]}>
                         <Text style={[styles.courseHeaderText, styles.whiteText]} >Current Courses:</Text>
+                        
                         <ScrollView width={'100%'}>
                             <View alignItems={'center'}>
-                                <CourseView name={'Arithmetic'} percentage={0.75} img={Images.icons.green.maths_symbols} onPress={() => {navigation.navigate('CoursePage', {name: 'Arithmetic'})}} />
-                                <CourseView name={'Literacy'} percentage={0.6} img={Images.icons.green.literacy_book} onPress={() => {navigation.navigate('CoursePage', {name: 'Literacy'})}} />
-                                <CourseView name={'Digital'} percentage={0.2} img={Images.icons.green.gears}  onPress={() => {navigation.navigate('CoursePage', {name: 'Digital'})}} />
-                                <CourseView name={'Interview Skills'} percentage={0} img={Images.icons.green.chat}  onPress={() => {navigation.navigate('CoursePage', {name: 'Interview Skills'})}} />
+                                {currentCourses}
                             </View>
                         </ScrollView>
 
-                        <TouchableOpacity style={styles.courseButton}>
+                        <TouchableOpacity style={styles.courseButton} onPress={() => {navigation.navigate('CourseSelectPage')}}>
                             <Text style={[styles.courseHeaderText, {padding: '2%'}]}> Add/Remove Courses</Text>
                         </TouchableOpacity>
                     </View>
@@ -142,7 +171,7 @@ const styles = StyleSheet.create({
         width: '95%',
         height: '10%',
         backgroundColor: 'white',
-        borderRadius: 10,
+        borderRadius: 7,
         marginBottom: '2%',
         flexDirection: 'row',
         alignItems: 'center',
