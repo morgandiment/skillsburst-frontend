@@ -73,7 +73,7 @@ const Padlock = ({
         <TouchableOpacity onPress={toggleMenu} style={{ flex:1, justifyContent: "center", alignItems: "center", position: "absolute", top: h/2 - (pW/2), width: pW, height: pW, backgroundColor: "#525458", borderRadius: w/3}}>
             <Image style={{flex: 1, aspectRatio: 0.6, resizeMode: 'contain'}} source={img}/>
         </TouchableOpacity>
-        <PadLockDrop position={"absolute"}/>
+        <PadLockDrop/>
     </View>
     );
 };

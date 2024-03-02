@@ -68,8 +68,6 @@ const HomePage = ({style, navigation}) => {
                                 <CourseView name={'Literacy'} percentage={0.6} img={Images.icons.green.literacy_book} onPress={() => {navigation.navigate('CoursePage', {name: 'Literacy'})}} />
                                 <CourseView name={'Digital'} percentage={0.2} img={Images.icons.green.gears}  onPress={() => {navigation.navigate('CoursePage', {name: 'Digital'})}} />
                                 <CourseView name={'Interview Skills'} percentage={0} img={Images.icons.green.chat}  onPress={() => {navigation.navigate('CoursePage', {name: 'Interview Skills'})}} />
-                                <CourseView/>
-                                <CourseView/>
                             </View>
                         </ScrollView>
 

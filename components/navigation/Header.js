@@ -93,7 +93,7 @@ const Header = ({style, navigation}) => {
               <Image style={ProfileDisplayStyles.profilePicture} source={Images.icons.username}/>
               
               <TouchableOpacity style={ProfileDisplayStyles.editProfileButton} onPress={() => { switchPage; navigation.navigate('EditProfile') } }>
-                <Text style={{color: "#1C274C", fontWeight: 'bold',}}>Edit Profile</Text>
+                <Text style={{fontWeight: 'bold',}}>Edit Profile</Text>
               </TouchableOpacity>
 
             </View>
@@ -205,7 +205,7 @@ const ProfileDisplayStyles = StyleSheet.create({
   },
 
   profileDisplayText: {
-    color: "#1C274C",
+    //color: "#1C274C",
     fontSize: 18,
     fontWeight: 'bold',
   },
