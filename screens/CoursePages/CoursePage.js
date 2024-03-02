@@ -16,7 +16,7 @@ const CoursePage = ({style, route, navigation}) => {
     var i = 0;
     chapters.forEach(chapter => {
         chapterViews.push(
-            <ChapterBox key={i} name={chapter.name} units={chapter.units} onPressStart={() => navigation.navigate('CategoryPage', {units: chapter.path})} style={{marginBottom: '6%'}}/>
+            <ChapterBox key={i} name={chapter.name} units={chapter.units} onPressStart={() => navigation.navigate('LevelSelectPage', {units: chapter.path})} style={{marginBottom: '6%'}}/>
         );
         i++;
     });

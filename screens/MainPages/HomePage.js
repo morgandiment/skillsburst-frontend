@@ -1,9 +1,7 @@
 import { StyleSheet, Text, View, Dimensions, TouchableOpacity, ScrollView, Image, PixelRatio, Platform } from 'react-native';
 import {Header, Navbar, AnimatedPercentageCircle, AnimatedProgressBar} from '../../components/Index.js';
 
-
 import Images from '../../images/Index.js';
-import { getCourses, getCourseProgress } from '../../local_data/fetchLocal.js';
 import Courses from '../../courses/Courses.js';
 
 // Potential fix for ios scaling? - apparently doesnt work on ios .-.
@@ -29,22 +27,32 @@ const HomePage = ({style, navigation}) => {
                 </TouchableOpacity>
             );
         }
-    var currentCourses = [];
-    // data setup
-    // Get continue location
 
+    /*
 
     // Get all current course json files
+    var currentCourses = [];
+    var i = 0;
     getCourses().forEach(courseName => {
         var i = 0;
         Courses.forEach(course => {
             i++;
             if (course.name == courseName) {
                 currentCourses.push(
-                    <CourseView key={i} name={course.name} percentage={0} img={course.icon}  onPress={() => {navigation.navigate('CoursePage', {course: course})}} />
+                    <CourseView key={i} name={course.name} percentage={0} img={course.icon} onPress={() => {navigation.navigate('CoursePage', {course: course})}} />
                 );
             }
         });
+    }); */
+
+    var currentCourses = [];
+    var i = 0;
+    Courses.forEach(course => {
+        i++;
+        currentCourses.push(
+            <CourseView key={i} name={course.name} percentage={0} img={course.icon} onPress={() => {navigation.navigate('CoursePage', {course: course})}} />
+        );
+        
     });
 
     const streak = [1, 2, 3, 4, 5, 6, 7];

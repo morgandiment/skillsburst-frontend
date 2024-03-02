@@ -6,18 +6,23 @@ const course = {
     "chapters": [
         {
             "name": "Basic Symbols",
-            "units": 3,
+            "units": 2,
             "path": require('./1/units.js')
         },
         {
             "name": "BODMAS",
-            "units": 5,
+            "units": 3,
             "path": require('./2/units.js')
         },
         {
             "name": "Very Cool",
-            "units": 6,
-            "path": "arithmetic/3/units.json"
+            "units": 4,
+            "path": require('./3/units.js')
+        },
+        {
+            "name": "Test chapter",
+            "units": 1,
+            "path": require('./4/units.js')
         }
     ]
 }

@@ -6,9 +6,8 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, { Easing } from 'react-native-reanimated';
 
 import {SimpleButton, AnimatedButton } from './components/Index.js';
-import { Template, QuizAutoBuild, LandingPage, CourseSelectPage, LoginPage, AnimatedCategorySelectPage, SignupPage, HomePage, ProfileEditPage, SettingsPage, CoursePage, Feedback, HelpPage, ContactPage, MultipleChoiceResultPage } from './screens/Index.js';
+import { Template, QuizAutoBuild, LevelSelectPage, LandingPage, CourseSelectPage, LoginPage, SignupPage, HomePage, ProfileEditPage, SettingsPage, CoursePage, Feedback, HelpPage, ContactPage, MultipleChoiceResultPage } from './screens/Index.js';
 import TemplatePage from './screens/TemplatePage.js';
-import AcTest from './screens/CoursePages/acTest.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,20 +25,18 @@ function App() {
           }}
         > 
           <Stack.Screen name="HomePage" component={HomePage} options={{title: 'Home Page', headerShown: false}}/>
-          <Stack.Screen name="CategoryPage" component={AcTest} options={{title: 'Category Page', headerShown: false}}/>
+          <Stack.Screen name="LevelSelectPage" component={LevelSelectPage} options={{title: 'Level Select Page', headerShown: false}}/>
           <Stack.Screen name="CourseSelectPage" component={CourseSelectPage} options={{title: 'Course Select Page', headerShown: false}}/>
 
           <Stack.Screen name="SignupPage" component={SignupPage} options={{headerShown: false}}/>
           <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}}/>
           
-          {/* Move to the top to skip login*/}
           {/* Need to add some way of back swipe prevention - as going back to quiz you just took makes no sense and breaks everything - gestureEnabled stops it on ios?*/}
           <Stack.Screen name="QuizPage" component={QuizAutoBuild} options={{title: 'Quiz Page', headerShown: false, gestureEnabled: false}}/>
           <Stack.Screen name="QuizResultPage" component={MultipleChoiceResultPage} options={{title: 'Quiz Result Page', headerShown: false, gestureEnabled: false, animation: 'none'}}/>
 
           {/* Course Pages*/}
           <Stack.Screen name="CoursePage" component={CoursePage} options={{title: 'Course View Page', headerShown: false}}/>
-          <Stack.Screen name="AnimatedCategoryPage" component={AnimatedCategorySelectPage} options={{title: 'Animated Category Page', headerShown: false}}/>
 
           {/* Side tab Pages - convert to screen navigator of header component?? */}
           <Stack.Screen name="Settings" component={SettingsPage} options={{title: 'Settings Page', headerShown: false}} />
@@ -47,7 +44,6 @@ function App() {
           <Stack.Screen name="Contact" component={ContactPage} options={{title: 'Contact Page', headerShown: false}} />
           <Stack.Screen name="Feedback" component={Feedback} options={{title: 'Feedback Page', headerShown: false}} />
           <Stack.Screen name="EditProfile" component={ProfileEditPage} options={{title: 'Edit Profile Page', headerShown: false}}/>
-
 
         </Stack.Navigator>
       </NavigationContainer>

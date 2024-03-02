@@ -1,8 +1,6 @@
 import { StyleSheet, TouchableOpacity, View, Text, Image, Dimensions, Platform } from 'react-native';
-
 import Animated, { useSharedValue, withTiming } from 'react-native-reanimated';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
-
 import Constants from 'expo-constants';
 import { StatusBar } from 'expo-status-bar';
 

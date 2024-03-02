@@ -2,27 +2,29 @@ import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View, Platform, Dimensions } from 'react-native';
 import Animated, { useSharedValue, withTiming, Easing } from 'react-native-reanimated'; 
 
-import { MultipleChoiceQuiz } from '../../components/quiz/Quizzes.js';
+import { MultipleChoiceQuiz, LessonQuiz, Lesson } from '../../components/quiz/Quizzes.js';
 
 const windowWidth = Platform.OS === "android" ? Dimensions.get('window').width : Dimensions.get('window').width * PixelRatio.get();
 const windowHeight = Platform.OS === "android" ? Dimensions.get('window').height : Dimensions.get('window').height * PixelRatio.get();
 
 // Testing quizzes
-import Quiz from '../../quizzes/shortForm.json';
-//import Quiz from '../../quizzes/longForm.json';
-//import Quiz from '../../quizzes/noTimer.json';
-//import Quiz from '../../quizzes/sizesTest.json';
+//import quiz from '../../quizzes/longForm.json';
+//import quiz from '../../quizzes/noTimer.json';
+//import quiz from '../../quizzes/sizesTest.json';
 
 var timer = () => {};
 
 function QuizAutoBuild({ route, navigation }) {
-  quiz = Quiz // create copy otherwise import is destroyed from references - may be able to remove due to switch to indexing
+  const { quiz } = route.params;
+  if (quiz === undefined) {
+    return (<View><Text>Error</Text></View>);
+  }
 
   const [timeLeft, setTimeLeft] = useState(3);
   const initialised = useRef(false);
   const currentQuiz = useRef(getQuiz());
 
-  // Get current quiz based on format
+  // Get current quiz based on format, only once
   function getQuiz() {
     if (!initialised.current) {
       initialised.current = true;
@@ -30,9 +32,12 @@ function QuizAutoBuild({ route, navigation }) {
       switch (quiz.format) {
         case 'multiple_choice':
           return (<MultipleChoiceQuiz type={quiz.type} name={quiz.name} maxTime={quiz.time} questionCount={quiz.number_of_questions} questions={quiz.questions} navigation={navigation}/>)
+        case 'lesson_quiz':
+          return (<LessonQuiz partCount={quiz.number_of_parts} parts={quiz.parts} navigation={navigation}/>)
+        case 'lesson':
+          return (<Lesson partCount={quiz.number_of_parts} parts={quiz.parts} navigation={navigation}/>)
         default:
-          console.log('Error quiz type not recognised');
-          return (<View><Text>Error</Text></View>);
+          return (<View><Text>Error quiz not found, please return.</Text></View>);
       }  
     } 
   }
@@ -44,6 +49,7 @@ function QuizAutoBuild({ route, navigation }) {
   const startTimer = () => {
     timer = setTimeout(() => {
         if(timeLeft <= 0){
+            wh.value = withTiming(0, { duration: 300, easing: Easing.linear });
             clearTimeout(timer);
             return;
         }
@@ -51,15 +57,11 @@ function QuizAutoBuild({ route, navigation }) {
     }, 600)
  }
 
+  // - add option to play or dont play intro animation - and display mini explain page for relevent quiz - option to not see explain page again
  useEffect(() => {
      startTimer();
      return () => clearTimeout(timer);
  });    
-
- // If timer is out, play the intro animation
- if (timeLeft <= 0){
-  wh.value = withTiming(0, { duration: 300, easing: Easing.linear });
- }
 
  // Fix current quiz rendering every time
   return (

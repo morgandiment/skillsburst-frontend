@@ -1,0 +1,48 @@
+{
+    "name" : "Addition Lesson 1",
+    "format": "lesson",
+    "number_of_parts" : 5,
+    "parts" : [
+        {
+            "type": "l",
+            "page_title": "Intro to Addition",
+            "page_content": [
+                "words really cool words that area being used for tesing, addition is cool, you can add two things together like this djaksfhjosidughfdoigu hfdo8guhndfiugh",
+                "3 + 2 = 5",
+                "This addition works by adding 3 and 2 together wow\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.!!!"
+            ],
+            "img": ""
+        },
+
+        {      
+            "type": "l",
+            "page_title": "Intro to Addition",
+            "page_content": ["This is test content\n1"],
+            "img": ""
+        },
+
+        {
+            "type": "l",
+            "page_title": "Intro to Addition",
+            "page_content": [
+                "This is test content\n2",
+                "This is test content\n1"
+            ],
+            "img": ""
+        },
+
+        {
+            "type": "l",
+            "page_title": "Intro to Addition",
+            "page_content": ["This is test content\n3"],
+            "img": ""
+        },
+
+        {
+            "type": "l",
+            "page_title": "Intro to Addition",
+            "page_content": ["This is test content\n4"],
+            "img": ""
+        }
+    ]
+}

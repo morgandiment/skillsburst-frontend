@@ -1,13 +1,11 @@
-import { StyleSheet, View, Dimensions, ScrollView, Text } from 'react-native';
-import { useState, useEffect } from 'react';
+import { StyleSheet, View, Dimensions, ScrollView } from 'react-native';
 import {Header, Navbar, Ribbon, Padlock, AnimatedPercentageCircle} from '../../components/Index.js';
 
-import Images from '../../images/Index.js';
 const windowWidth = Dimensions.get('window').width;
 
 // A generative version on the animated category select page
 
-const CategoryPage = ({route, navigation}) => {
+const LevelSelectPage = ({route, navigation}) => {
 
   var { units } = route.params;
   if (units === null) {
@@ -17,30 +15,48 @@ const CategoryPage = ({route, navigation}) => {
 
   var w = windowWidth / 7;
 
+  // Component that returns an array of all questions as precentage circles for a given unit
   const Quizzes = ({qs}) => {
     const n = qs.length;
     const qArr = [];
+
+    qs.map((level, index) => {
+      qArr.push(
+        <AnimatedPercentageCircle 
+        key={index} 
+         w={w/5}
+        r={w/1.2} 
+        text={level.name} 
+        percentage={0} 
+        active={true}
+        img={level.image}
+        onPress={() => navigation.navigate('QuizPage', {quiz: level.questions[0] })}
+        />
+      )
+    });
+
+    const formated = [];
     var i = 0;
     if (n % 2 !== 0) {
-      qArr.push(
-        <AnimatedPercentageCircle key={i} onPress={() => navigation.navigate('HomePage')} w={w/5} r={w/1.2} text={qs[i].name} percentage={1} active={true} img={Images.icons.plus_icon}/>
-      )
+      formated.push(qArr[i])
       i++;
     }
 
     for (i; i < n; i += 2) {
-      qArr.push(
+      formated.push(
         <View key={i} style={{flexDirection: "row", marginTop: w/5}}>
-            <AnimatedPercentageCircle w={w/5} r={w/1.2} text={qs[i].name} percentage={1} active={true} img={Images.icons.plus_icon}/>
+            {qArr[i]}
             <View width={w/1.5}></View>
-            <AnimatedPercentageCircle w={w/5} r={w/1.2} text={qs[i+1].name} active={true} percentage={1} img={Images.icons.minus_icon}/>
+            {qArr[i+1]}
         </View>
       )
     }
 
-    return (<View>{qArr}</View>)
+    return (<View>{formated}</View>)
   }
 
+  // Component that iterates through every unit within the current chapter and returns them as an array
+  // Need to fix the padlock styling
   const Units = () => {
     var us = [];
     units.map((unit, index) => {
@@ -51,6 +67,7 @@ const CategoryPage = ({route, navigation}) => {
             <Quizzes qs={unit.quizzes}/>
 
             <Padlock w={w*3.5} locked={false} t={"Checkpoint " + (index + 1)}/>
+            <View style={{marginBottom: '4%'}}/>
         </View>)
     });
 
@@ -65,8 +82,8 @@ const CategoryPage = ({route, navigation}) => {
         <ScrollView width={"100%"} showsVerticalScrollIndicator={false}>
           <View style={[styles.container, {marginVertical: w/8}]}>
             <Units/>
-
           </View>
+          <View marginVertical={'30%'}/>
         </ScrollView>
 
       </View>
@@ -76,7 +93,7 @@ const CategoryPage = ({route, navigation}) => {
   );
 }
 
-export default CategoryPage;
+export default LevelSelectPage;
 
 const styles = StyleSheet.create({
   container: {

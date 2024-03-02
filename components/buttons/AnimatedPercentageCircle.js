@@ -64,6 +64,7 @@ const AnimatedPercentageCircle = ({
         <View style={{width: total, height: total, alignItems: "center"}}>
 
           <Svg transform={[{rotate: "-85deg"}]}>
+            
             {/* Base circle */}
             <Circle 
             fill={"none"}

@@ -7,7 +7,7 @@ const ChapterBox = ({
     style, 
     navigation,
     name = 'Default Name',
-    completion = 3,
+    completion = 0,
     units = 10,
     locked = true,
     onPressStart = () => {},
