@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View, Platform, Dimensions } from 'react-native';
 import Animated, { useSharedValue, withTiming, Easing } from 'react-native-reanimated'; 
+import * as Haptics from 'expo-haptics';
 
 import { MultipleChoiceQuiz, LessonQuiz, Lesson } from '../../components/quiz/Quizzes.js';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -22,6 +23,7 @@ function QuizAutoBuild({ route, navigation }) {
   }
 
   const [timeLeft, setTimeLeft] = useState(3);
+  const [timeLeftLabel, setTimeLeftLabel] = useState(3);
   const initialised = useRef(false);
   const currentQuiz = useRef(getQuiz());
 
@@ -49,18 +51,29 @@ function QuizAutoBuild({ route, navigation }) {
   // Quiz start countdown timer
   const startTimer = () => {
     timer = setTimeout(() => {
-        if(timeLeft <= 0){
-            wh.value = withTiming(0, { duration: 300, easing: Easing.linear });
-            clearTimeout(timer);
-            return;
-        }
-     setTimeLeft(timeLeft-1);
-    }, 600)
+      if(timeLeft <= 0){
+        wh.value = withTiming(0, { duration: 300, easing: Easing.linear });
+        clearTimeout(timer);
+        return;
+      }
+
+      Haptics.selectionAsync()
+
+      setTimeLeft(timeLeft - 1);
+
+      if (timeLeft == 1){
+        setTimeLeftLabel("Go!");
+      } else {
+        setTimeLeftLabel(timeLeft - 1);
+      }
+      
+    }, 600);
  }
 
   // - add option to play or dont play intro animation - and display mini explain page for relevent quiz - option to not see explain page again
  useEffect(() => {
      startTimer();
+
      return () => clearTimeout(timer);
  });    
 
@@ -73,7 +86,7 @@ function QuizAutoBuild({ route, navigation }) {
       {/* Quiz countdown animation */}
       <Animated.View style={[styles.screenViewNoFlex, {width: wh, height: wh}]}>
         <View style={styles.countdownContainer}>
-          <Text style={styles.countdownText}>{timeLeft}</Text>
+          <Text style={styles.countdownText}>{timeLeftLabel}</Text>
         </View>
       </Animated.View>
 

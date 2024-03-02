@@ -72,7 +72,7 @@ const HomePage = ({style, navigation}) => {
                 <View style={[styles.container, style]}>
 
                     <View>
-                        <Text style={styles.welcomeText}>Welcome User</Text>
+                        <Text style={styles.welcomeText}>Welcome [User]</Text>
                     </View>
 
                     {/* Continue Current Course*/}

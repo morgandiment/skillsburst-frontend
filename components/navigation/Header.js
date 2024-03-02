@@ -86,7 +86,7 @@ const Header = ({style, navigation}) => {
 
             {/* Mini Profile Display area */}
             <View style={ProfileDisplayStyles.profileDisplayContainer}> 
-              <Text style={ProfileDisplayStyles.profileDisplayText}>Username</Text>
+              <Text style={ProfileDisplayStyles.profileDisplayText}>[Username]</Text>
 
               <Image style={ProfileDisplayStyles.profilePicture} source={Images.icons.username}/>
               
