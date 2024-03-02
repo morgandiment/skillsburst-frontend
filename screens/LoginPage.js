@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     
     flex: 1,
     flexDirection: 'column',
-    rowGap: "30%",
+    rowGap: 20,//"30%",
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
 
   loginButtonStyle: {
     backgroundColor: "white",
-    borderRadius: "10%",
+    borderRadius: 10,//"10%",
     width: "40%",
     paddingVertical: 10,
   },

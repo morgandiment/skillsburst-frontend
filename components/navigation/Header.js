@@ -193,15 +193,15 @@ const ProfileDisplayStyles = StyleSheet.create({
     minHeight: "28%",
     paddingVertical: "5%",
 
-    borderColor: "#1C274C",
+    //borderColor: "#1C274C",
     borderTopWidth: 1,
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
   },
 
   profilePicture: {
     aspectRatio: 1,
     height: "70%",
-    borderRadius: "100%",
+    borderRadius: 100,//"100%",
   },
 
   profileDisplayText: {
@@ -214,7 +214,7 @@ const ProfileDisplayStyles = StyleSheet.create({
     backgroundColor: "white",
     borderWidth: 2, 
     borderColor: "#01778a",
-    borderRadius: "10%", 
+    borderRadius: 10,//"10%", 
     padding: 5
   }
 });
