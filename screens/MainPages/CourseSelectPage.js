@@ -125,7 +125,7 @@ const CourseSelectPage = ({navigation}) => {
                 </View>
             </ScrollView>
             <View style={styles.buttonBar}>
-                <TouchableOpacity onPress={() => {navigation.pop(2)}} style={[styles.button, {backgroundColor: '#c14b4d'}]}>
+                <TouchableOpacity onPress={() => {navigation.goBack()}} style={[styles.button, {backgroundColor: '#c14b4d'}]}>
                     <Text>Cancel</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={saveData} style={[styles.button, {backgroundColor: '#0EF0A4'}]}>

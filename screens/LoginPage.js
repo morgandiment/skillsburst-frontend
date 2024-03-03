@@ -7,15 +7,8 @@ import { SimpleButton, TextInputWithIcon } from '../components/Index.js';
 import Images from '.././images/Index.js';
 
 function SignupPage({ navigation }) {
-
-  const [showUsernameInput, setShowUsernameInput] = useState(true);
-  const [showPasswordInput, setShowPasswordInput] = useState(true);
-
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{flex: 1}}
-    >
+    
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.screenViewStyle}>
           <Image
@@ -23,6 +16,10 @@ function SignupPage({ navigation }) {
             source={require('../images/skillsburst_banner_logo.png')}
           />
 
+          <ScrollView
+            style={{width: "80%", maxHeight: "18%"}}
+            contentContainerStyle={{flex: 1,  rowGap: 20}}
+          >
             <TextInputWithIcon
               style={styles.textInputStyle}
               textStyle={{fontSize: 20}}
@@ -38,12 +35,14 @@ function SignupPage({ navigation }) {
               imagePath={Images.icons.key}
             />
 
-            <SimpleButton
-              style={styles.loginButtonStyle}
-              textStyle={{fontSize: 18}}
-              title="Login"
-              onPress={() => navigation.navigate('HomePage')}
-            />
+          </ScrollView>
+
+          <SimpleButton
+            style={styles.loginButtonStyle}
+            textStyle={{fontSize: 18}}
+            title="Login"
+            onPress={() => navigation.navigate('HomePage')}
+          />
 
           <SimpleButton
             style={{marginTop: -20}}
@@ -51,10 +50,8 @@ function SignupPage({ navigation }) {
             title={"Don't have an account?"}
             onPress={() => navigation.navigate('SignupPage')}
           />
-
         </View>
       </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
   );
 }
 
@@ -80,8 +77,9 @@ const styles = StyleSheet.create({
   },
 
   textInputStyle: {
-    width: "80%",
-    maxHeight: "7%",
+    width: "100%",
+    minHeight: 60,
+    maxHeight: 60,
     borderRadius: 10,
   },
 

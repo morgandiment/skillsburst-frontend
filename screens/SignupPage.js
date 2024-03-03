@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from "react";
-import { Button, StyleSheet, Text, View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Platform} from 'react-native';
+import { Button, StyleSheet, Text, View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Platform, KeyboardAvoidingView, ScrollView} from 'react-native';
 import {Image} from "expo-image";
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -34,58 +34,69 @@ function SignupPage({ navigation }) {
           source={require('../images/skillsburst_banner_logo.png')}
         />
 
-        <TextInputWithIcon
-          style={styles.textInputStyle}
-          textStyle={{fontSize: 20}}
-          placeholder={"Full Name"}
-          imagePath={Images.icons.username}
-        />
-
-        <TextInputWithIcon
-          style={styles.textInputStyle}
-          textStyle={{fontSize: 20}}
-          placeholder={"Email Address"}
-          imagePath={Images.icons.letter}
-        />
-
-        <TouchableOpacity 
-          style={styles.dateInputStyle}
-          onPress={showDatePicker}
+        <ScrollView
+          style={{width: "80%", maxHeight: "30%"}}
+          //contentContainerStyle={{flex: 1,  rowGap: 20}}
         >
-          <Image
-            style={styles.iconStyle}
-            source={Images.icons.calander_search}
-          />
-          {show &&
-          <DateTimePicker
-            value = {date}
-            maximumDate={date}
-            mode='date'
-            display="default"
-            onChange={onChange}
-          />
-          }
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={{flex: 1, rowGap: 20}}
+          >
 
-          {Platform.OS === "android" &&
-          <Text style={{alignSelf: "center", paddingLeft: 10}}>{date.toDateString()}</Text>
-          }
-        </TouchableOpacity>
-        
-        <TextInputWithIcon
-          style={styles.textInputStyle}
-          textStyle={{fontSize: 20}}
-          placeholder={"Password"}
-          isPassword={true}
-          imagePath={Images.icons.key}
-        />
+          <TextInputWithIcon
+            style={styles.textInputStyle}
+            textStyle={{fontSize: 20}}
+            placeholder={"Full Name"}
+            imagePath={Images.icons.username}
+          />
 
-        <TextInputWithIcon
-          style={styles.textInputStyle}
-          textStyle={{fontSize: 20}}
-          placeholder={"Confirm Password"}
-          isPassword={true}
-          imagePath={Images.icons.key}
-        />
+          <TextInputWithIcon
+            style={styles.textInputStyle}
+            textStyle={{fontSize: 20}}
+            placeholder={"Email Address"}
+            imagePath={Images.icons.letter}
+          />
+
+          <TouchableOpacity 
+            style={styles.dateInputStyle}
+            onPress={showDatePicker}
+          >
+            <Image
+              style={styles.iconStyle}
+              source={Images.icons.calander_search}
+            />
+            {show &&
+            <DateTimePicker
+              value = {date}
+              maximumDate={date}
+              mode='date'
+              display="default"
+              onChange={onChange}
+            />
+            }
+
+            {Platform.OS === "android" &&
+            <Text style={{alignSelf: "center", paddingLeft: 10}}>{date.toDateString()}</Text>
+            }
+          </TouchableOpacity>
+          
+          <TextInputWithIcon
+            style={styles.textInputStyle}
+            textStyle={{fontSize: 20}}
+            placeholder={"Password"}
+            isPassword={true}
+            imagePath={Images.icons.key}
+          />
+
+          <TextInputWithIcon
+            style={styles.textInputStyle}
+            textStyle={{fontSize: 20}}
+            placeholder={"Confirm Password"}
+            isPassword={true}
+            imagePath={Images.icons.key}
+          />
+          </KeyboardAvoidingView>
+        </ScrollView>
 
         <SimpleButton
           style={styles.signupButtonStyle}
@@ -128,8 +139,8 @@ const styles = StyleSheet.create({
   },
 
   textInputStyle: {
-    width: "80%",
-    maxHeight: "7%",
+    width: "100%",
+    minHeight: 60,
     borderRadius: 10,
   },
 
@@ -138,8 +149,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 10,
     backgroundColor: "white",
-    width: "80%",
-    maxHeight: "6%",
+    width: "100%",
+    minHeight: 50,
     borderRadius: 10,
   },
 
