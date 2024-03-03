@@ -1,5 +1,5 @@
 import React , {useState} from 'react';
-import { Button, StyleSheet, Text, View, Keyboard, TouchableWithoutFeedback} from 'react-native';
+import { Button, StyleSheet, Text, View, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
 import {Image} from "expo-image";
 
 import { SimpleButton, TextInputWithIcon } from '../components/Index.js';
@@ -12,48 +12,49 @@ function SignupPage({ navigation }) {
   const [showPasswordInput, setShowPasswordInput] = useState(true);
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <View style={styles.screenViewStyle}>
-        <Image
-          style={styles.bannerLogoStyle}
-          source={require('../images/skillsburst_banner_logo.png')}
-        />
-
-        { showUsernameInput && 
-          <TextInputWithIcon
-            style={styles.textInputStyle}
-            textStyle={{fontSize: 20}}
-            placeholder={"Email or Username"}
-            imagePath={Images.icons.username}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{flex: 1}}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={styles.screenViewStyle}>
+          <Image
+            style={styles.bannerLogoStyle}
+            source={require('../images/skillsburst_banner_logo.png')}
           />
-        }
 
-        { showPasswordInput && 
-          <TextInputWithIcon
-            style={styles.textInputStyle}
-            textStyle={{fontSize: 20}}
-            placeholder={"Password"}
-            isPassword={true}
-            imagePath={Images.icons.key}
-          />
-        }
+            <TextInputWithIcon
+              style={styles.textInputStyle}
+              textStyle={{fontSize: 20}}
+              placeholder={"Email or Username"}
+              imagePath={Images.icons.username}
+            />
+
+            <TextInputWithIcon
+              style={styles.textInputStyle}
+              textStyle={{fontSize: 20}}
+              placeholder={"Password"}
+              isPassword={true}
+              imagePath={Images.icons.key}
+            />
+
+            <SimpleButton
+              style={styles.loginButtonStyle}
+              textStyle={{fontSize: 18}}
+              title="Login"
+              onPress={() => navigation.navigate('HomePage')}
+            />
 
           <SimpleButton
-            style={styles.loginButtonStyle}
-            textStyle={{fontSize: 18}}
-            title="Login"
-            onPress={() => navigation.navigate('HomePage')}
+            style={{marginTop: -20}}
+            textStyle={styles.createAccountText}
+            title={"Don't have an account?"}
+            onPress={() => navigation.navigate('SignupPage')}
           />
 
-        <SimpleButton
-          style={{marginTop: -20}}
-          textStyle={styles.createAccountText}
-          title={"Don't have an account?"}
-          onPress={() => navigation.navigate('SignupPage')}
-        />
-
-      </View>
-    </TouchableWithoutFeedback>
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -80,7 +81,8 @@ const styles = StyleSheet.create({
 
   textInputStyle: {
     width: "80%",
-    maxHeight: "6%",
+    maxHeight: "7%",
+    borderRadius: 10,
   },
 
   loginButtonStyle: {

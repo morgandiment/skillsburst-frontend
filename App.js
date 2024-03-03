@@ -23,14 +23,18 @@ function App() {
             headerTintColor: '#000000',
             headerTitleStyle: { fontWeight: 'bold'},
             animation: 'fade',
+            //gestureEnabled: false,
           }}
         > 
+
+          <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}}/>
+          <Stack.Screen name="SignupPage" component={SignupPage} options={{headerShown: false}}/>
+
+
           <Stack.Screen name="HomePage" component={HomePage} options={{title: 'Home Page', headerShown: false}}/>
           <Stack.Screen name="LevelSelectPage" component={LevelSelectPage} options={{title: 'Level Select Page', headerShown: false}}/>
           <Stack.Screen name="CourseSelectPage" component={CourseSelectPage} options={{title: 'Course Select Page', headerShown: false}}/>
-
-          <Stack.Screen name="SignupPage" component={SignupPage} options={{headerShown: false}}/>
-          <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}}/>
+          
           
           {/* Need to add some way of back swipe prevention - as going back to quiz you just took makes no sense and breaks everything - gestureEnabled stops it on ios?*/}
           <Stack.Screen name="QuizPage" component={QuizAutoBuild} options={{title: 'Quiz Page', headerShown: false, gestureEnabled: false}}/>

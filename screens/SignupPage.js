@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from "react";
-import { Button, StyleSheet, Text, View, Keyboard, TouchableWithoutFeedback} from 'react-native';
+import { Button, StyleSheet, Text, View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Platform} from 'react-native';
 import {Image} from "expo-image";
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -10,11 +10,21 @@ import Images from '.././images/Index.js';
 
 function SignupPage({ navigation }) {
 
-  const [showFullNameInput, setShowFullNameInput] = useState(true);
-  const [showEmailInput, setShowEmailInput] = useState(true);
-  const [showDateInput, setShowDateInput] = useState(true);
-  const [showPasswordInput, setShowPasswordInput] = useState(true);
-  const [showPasswordConfirmInput, setShowPasswordConfirmInput] = useState(true);
+  const [date, setDate] = useState(new Date());
+  const [show, setShow] = useState(Platform.OS === "ios");
+  
+
+  const showDatePicker = () => {
+    setShow(true);
+  };
+
+  const onChange = (event, selectedDate) => {
+    if (Platform.OS === "android"){
+      const currentDate = selectedDate;
+      setShow(false);
+      setDate(currentDate);
+    }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -38,19 +48,28 @@ function SignupPage({ navigation }) {
           imagePath={Images.icons.letter}
         />
 
-        <View style={styles.dateInputStyle}>
+        <TouchableOpacity 
+          style={styles.dateInputStyle}
+          onPress={showDatePicker}
+        >
           <Image
             style={styles.iconStyle}
             source={Images.icons.calander_search}
           />
-
+          {show &&
           <DateTimePicker
-            value = {new Date()}
-            maximumDate={new Date()}
+            value = {date}
+            maximumDate={date}
             mode='date'
             display="default"
+            onChange={onChange}
           />
-        </View>
+          }
+
+          {Platform.OS === "android" &&
+          <Text style={{alignSelf: "center", paddingLeft: 10}}>{date.toDateString()}</Text>
+          }
+        </TouchableOpacity>
         
         <TextInputWithIcon
           style={styles.textInputStyle}
@@ -110,7 +129,8 @@ const styles = StyleSheet.create({
 
   textInputStyle: {
     width: "80%",
-    maxHeight: "6%",
+    maxHeight: "7%",
+    borderRadius: 10,
   },
 
   dateInputStyle: {
@@ -120,6 +140,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     width: "80%",
     maxHeight: "6%",
+    borderRadius: 10,
   },
 
   signupButtonStyle: {

@@ -3,6 +3,7 @@ import { StyleSheet, View, TextInput } from 'react-native';
 import {Image} from "expo-image";
 
 const TextInputWithIcon = ({ style, textStyle, placeholder, imagePath, isPassword=false}) => {
+
   return(
     <View style={[styles.viewStyle, style]}>
 
