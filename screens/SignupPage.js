@@ -10,21 +10,55 @@ import Images from '.././images/Index.js';
 
 function SignupPage({ navigation }) {
 
+  const [fullName, setFullName] = useState("");
+  const [fullNameMessageVisible, setFullNameMessageVisible] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [emailMessageVisible, setEmailMessageVisible] = useState(false);
+
   const [date, setDate] = useState(new Date());
-  const [show, setShow] = useState(Platform.OS === "ios");
+  //const [dateMessageVisible, setFullNameMessageVisible] = useState(false);
+
+  const [password, setPassword] = useState("");
+  const [passwordMessageVisible, setPasswordMessageVisible] = useState(false);
+
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPasswordMessageVisible, setConfirmPasswordMessageVisible] = useState(false);
+
+  const [show, setShowDatePicker] = useState(Platform.OS === "ios");
   
-
   const showDatePicker = () => {
-    setShow(true);
+    setShowDatePicker(true);
   };
 
-  const onChange = (event, selectedDate) => {
+  const onDateChange = (event, selectedDate) => {
     if (Platform.OS === "android"){
-      const currentDate = selectedDate;
-      setShow(false);
-      setDate(currentDate);
+      setShowDatePicker(false);
     }
+    setDate(selectedDate);
   };
+
+  const attemptSignup = () => {
+    const fullNamePattern = /^[a-z ,.'-]+$/i;
+    setFullNameMessageVisible(!fullNamePattern.test(fullName));
+
+    const emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    setEmailMessageVisible(!emailPattern.test(email.toLowerCase()));
+
+    //must be at least: 8 chars - one uppercase letter - one lowercase letter - one number - one special character
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    setPasswordMessageVisible(!passwordPattern.test(password));
+
+    setConfirmPasswordMessageVisible(password != confirmPassword);
+
+    //put backend function here
+    console.log(fullName);
+    console.log(email);
+    console.log(date);
+    console.log(password);
+    console.log(confirmPassword);
+    //navigation.navigate('HomePage')
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -34,75 +68,84 @@ function SignupPage({ navigation }) {
           source={require('../images/skillsburst_banner_logo.png')}
         />
 
-        <ScrollView
-          style={{width: "80%", maxHeight: "30%"}}
-          //contentContainerStyle={{flex: 1,  rowGap: 20}}
-        >
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{flex: 1, rowGap: 20}}
-          >
+        <ScrollView style={{width: "80%", maxHeight: "30%"}}>
+          <View style={{flex: 1, rowGap: 20}}>
+            <TextInputWithIcon
+              style={styles.textInputStyle}
+              textStyle={{fontSize: 20}}
+              placeholder={"Full Name"}
+              imagePath={Images.icons.username}
+              onChangeText={setFullName}
 
-          <TextInputWithIcon
-            style={styles.textInputStyle}
-            textStyle={{fontSize: 20}}
-            placeholder={"Full Name"}
-            imagePath={Images.icons.username}
-          />
-
-          <TextInputWithIcon
-            style={styles.textInputStyle}
-            textStyle={{fontSize: 20}}
-            placeholder={"Email Address"}
-            imagePath={Images.icons.letter}
-          />
-
-          <TouchableOpacity 
-            style={styles.dateInputStyle}
-            onPress={showDatePicker}
-          >
-            <Image
-              style={styles.iconStyle}
-              source={Images.icons.calander_search}
+              failMessage="*Must Give Both First and Last Name"
+              showFailMessage={fullNameMessageVisible}
             />
-            {show &&
-            <DateTimePicker
-              value = {date}
-              maximumDate={date}
-              mode='date'
-              display="default"
-              onChange={onChange}
+
+            <TextInputWithIcon
+              style={styles.textInputStyle}
+              textStyle={{fontSize: 20}}
+              placeholder={"Email Address"}
+              imagePath={Images.icons.letter}
+              onChangeText={setEmail}
+
+              failMessage="Must Enter a Valid Email Address" 
+              showFailMessage={emailMessageVisible}
             />
-            }
 
-            {Platform.OS === "android" &&
-            <Text style={{alignSelf: "center", paddingLeft: 10}}>{date.toDateString()}</Text>
-            }
-          </TouchableOpacity>
-          
-          <TextInputWithIcon
-            style={styles.textInputStyle}
-            textStyle={{fontSize: 20}}
-            placeholder={"Password"}
-            isPassword={true}
-            imagePath={Images.icons.key}
-          />
+            <TouchableOpacity 
+              style={styles.dateInputStyle}
+              onPress={showDatePicker}
+            >
+              <Image
+                style={styles.iconStyle}
+                source={Images.icons.calander_search}
+              />
+              {show &&
+              <DateTimePicker
+                value = {date}
+                maximumDate={date}
+                mode='date'
+                display="default"
+                onChange={onDateChange}
+              />
+              }
 
-          <TextInputWithIcon
-            style={styles.textInputStyle}
-            textStyle={{fontSize: 20}}
-            placeholder={"Confirm Password"}
-            isPassword={true}
-            imagePath={Images.icons.key}
-          />
-          </KeyboardAvoidingView>
+              {Platform.OS === "android" &&
+              <Text style={{alignSelf: "center", paddingLeft: 10}}>{date.toDateString()}</Text>
+              }
+            </TouchableOpacity>
+            
+            <TextInputWithIcon
+              style={styles.textInputStyle}
+              textStyle={{fontSize: 20}}
+              placeholder={"Password"}
+              isPassword={true}
+              imagePath={Images.icons.key}
+              onChangeText={setPassword}
+
+              failMessage={"Must Contain at Least:\n8 Characters,\n1 Upper Case Character,\n1 Lower Case Character,\n1 Number,\n1 Special Character"}
+              showFailMessage={passwordMessageVisible}
+            />
+
+            <TextInputWithIcon
+              style={styles.textInputStyle}
+              textStyle={{fontSize: 20}}
+              placeholder={"Confirm Password"}
+              isPassword={true}
+              imagePath={Images.icons.key}
+              onChangeText={setConfirmPassword}
+
+              failMessage="Passwords Do Not Match"
+              showFailMessage={confirmPasswordMessageVisible}
+            />
+          </View>
         </ScrollView>
 
         <SimpleButton
           style={styles.signupButtonStyle}
           textStyle={{fontSize: 18}}
           title="Sign Up"
-          onPress={() => navigation.navigate('HomePage')}
+          onPress={attemptSignup}
         />
   
         <SimpleButton
@@ -141,6 +184,7 @@ const styles = StyleSheet.create({
   textInputStyle: {
     width: "100%",
     minHeight: 60,
+    maxHeight: 60,
     borderRadius: 10,
   },
 
@@ -151,6 +195,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     width: "100%",
     minHeight: 50,
+    maxHeight: 50,
     borderRadius: 10,
   },
 

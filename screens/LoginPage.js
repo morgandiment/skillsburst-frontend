@@ -7,6 +7,19 @@ import { SimpleButton, TextInputWithIcon } from '../components/Index.js';
 import Images from '.././images/Index.js';
 
 function SignupPage({ navigation }) {
+  const [username, onChangeUsername] = useState('');
+  const [usernameMessageVisible, setUsernameMessageVisible] = useState(false);
+
+  const [password, onChangePassword] = useState('');
+  const [passwordMessageVisible, setPasswordMessageVisible] = useState(false);
+
+  const attemptLogin = () => {
+    //put backend function here
+    console.log(username);
+    console.log(password);
+    navigation.navigate('HomePage')
+  }
+
   return (
     
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -25,6 +38,10 @@ function SignupPage({ navigation }) {
               textStyle={{fontSize: 20}}
               placeholder={"Email or Username"}
               imagePath={Images.icons.username}
+              onChangeText={onChangeUsername}
+
+              failMessage='No Account with this Email or Username Found'
+              showFailMessage={usernameMessageVisible}
             />
 
             <TextInputWithIcon
@@ -33,6 +50,10 @@ function SignupPage({ navigation }) {
               placeholder={"Password"}
               isPassword={true}
               imagePath={Images.icons.key}
+              onChangeText={onChangePassword}
+
+              failMessage='Incorrect Password'
+              showFailMessage={passwordMessageVisible}
             />
 
           </ScrollView>
@@ -41,7 +62,7 @@ function SignupPage({ navigation }) {
             style={styles.loginButtonStyle}
             textStyle={{fontSize: 18}}
             title="Login"
-            onPress={() => navigation.navigate('HomePage')}
+            onPress={attemptLogin}
           />
 
           <SimpleButton
