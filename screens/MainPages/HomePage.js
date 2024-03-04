@@ -5,7 +5,6 @@ import {Image} from "expo-image";
 import Images from '../../images/Index.js';
 import Courses from '../../courses/Courses.js';
 
-// Potential fix for ios scaling? - apparently doesnt work on ios .-.
 const windowWidth = Dimensions.get('window').width * 0.9;
 const windowHeight = Dimensions.get('window').height * 0.85;
 
@@ -51,7 +50,7 @@ const HomePage = ({style, navigation}) => {
     Courses.forEach(course => {
         i++;
         currentCourses.push(
-            <CourseView key={i} name={course.name} percentage={0} img={course.icon} onPress={() => {navigation.navigate('CoursePage', {course: course})}} />
+            <CourseView key={i} name={course.name} percentage={0} img={course.icon} onPress={() => {navigation.navigate('ChapterSelectPage', {course: course})}} />
         );
         
     });

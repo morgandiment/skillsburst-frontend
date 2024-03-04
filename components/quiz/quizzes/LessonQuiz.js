@@ -15,6 +15,7 @@ const LessonQuiz = ({
   type,
   partCount,
   parts,
+  format,
 }) => {
   //const transition = useSharedValue(0); // Width and height of the transition animated view - displays x or tick
 
@@ -70,12 +71,8 @@ const LessonQuiz = ({
     }
     else
     {
-      // finish quiz
+      navigation.navigate('QuizEndPage', { format: format, pass: true, results: null });
     }
-  }
-
-  function setCurrent() {
-
   }
 
   const LongAnswerButton = ({ text, thisIndex, currentSelectedIndex, onPress}) => {

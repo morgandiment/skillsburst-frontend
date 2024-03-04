@@ -61,13 +61,13 @@ const CourseSelectPage = ({navigation}) => {
         }
 
         return (
-            <View style={[styles.course]}>
+            <TouchableOpacity style={[styles.course]} onPress={() => {navigation.navigate('CoursePreviewPage', {course: course})}}>
                 <Image style={{ flex: 1, resizeMode: 'contain', height: '80%'}} source={course.icon}/>
                 <Text style={[{flex: 1.2}]}>{course.name}</Text>
                 <View flex={3} alignItems={'flex-end'}>
                     {button}
                 </View>
-            </View>
+            </TouchableOpacity>
         )
     }
 
@@ -101,7 +101,8 @@ const CourseSelectPage = ({navigation}) => {
             <Header navigation={navigation}/>
             <ScrollView flex={1} width={'100%'} backgroundColor={'white'}>
                 <View style={styles.container}>
-                    
+                    <Text style={[styles.titleText]}>Tap a course to see details</Text>
+
                     <View style={styles.courseBox}>
                         <View style={styles.headerContainer}>
                             <Text style={[styles.headerText]}>Currently Taking:</Text>
@@ -162,6 +163,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: '2%',
+    },
+    titleText: {
+        marginTop: '3%',
+        fontSize: 25,
     },
     headerText: {
         color: 'white',

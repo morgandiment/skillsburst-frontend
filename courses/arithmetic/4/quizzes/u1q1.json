@@ -3,6 +3,7 @@
     "format": "multiple_choice",
     "time": 15,
     "number_of_questions" : 4,
+    "required_correct": 2,
     "difficulty" : "Beginner",
     "type": "question_time",
     "questions" : [

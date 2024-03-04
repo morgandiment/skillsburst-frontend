@@ -5,14 +5,15 @@ import LoginPage from './LoginPage.js';
 import HomePage from './MainPages/HomePage.js';
 import SettingsPage from './SideTabPages/SettingsPage.js';
 import ProfileEditPage from './SideTabPages/ProfileEditPage.js';
-import CoursePage from './CoursePages/CoursePage.js';
+import ChapterSelectPage from './CoursePages/ChapterSelectPage.js';
 import Feedback from './SideTabPages/Feedback.js';
 import HelpPage from './SideTabPages/HelpPage.js';
 import ProfilePage from './MainPages/ProfilePage.js';
 import ContactPage from './SideTabPages/ContactPage.js';
-import MultipleChoiceResultPage from './QuizPages/MultipleChoiceResultPage.js';
 import CourseSelectPage from './MainPages/CourseSelectPage.js';
 import LevelSelectPage from './CoursePages/LevelSelectPage.js';
+import CoursePreviewPage from './MainPages/CoursePreviewPage.js';
+import QuizEndPage from './QuizPages/QuizEndPage.js';
 
 export {
     Template,
@@ -22,12 +23,13 @@ export {
     HomePage,
     SettingsPage,
     ProfileEditPage,
-    CoursePage,
+    ChapterSelectPage,
     Feedback,
     HelpPage,
     ProfilePage,
     ContactPage,
-    MultipleChoiceResultPage,
     CourseSelectPage,
     LevelSelectPage,
+    CoursePreviewPage,
+    QuizEndPage,
 }

@@ -1,43 +1,29 @@
 import { StyleSheet, View, Text, Image, TouchableOpacity, ScrollView, Platform, Dimensions } from 'react-native';
-import { useState, useEffect } from 'react';
-import Images from '../../images/Index';
-import Animated, { ZoomIn, useSharedValue, withTiming, Easing } from 'react-native-reanimated'; 
-import { SafeAreaView } from 'react-native-safe-area-context';
+import Animated, { useSharedValue, withTiming, Easing } from 'react-native-reanimated'; 
+import { useState } from 'react';
+import Images from '../../../images/Index';
+
 
 const windowHeight = Platform.OS === "android" ? Dimensions.get('window').height * 0.85 : Dimensions.get('window').height * 0.85;
 const windowWidth = Platform.OS === "android" ? Dimensions.get('window').width : Dimensions.get('window').width;
 
 const AnimatedButton = Animated.createAnimatedComponent(TouchableOpacity);
 
-const MultipleChoiceResultPage = ({
-    navigation,
-    route,
+const MultipleChoiceResults = ({
+    results,
     }) => {
     
     // Maybe generalise page?
-    const { times, score, questions, questionCount, maxStreak, selectedIndexes} = route.params;
+    const times = results.times;
+    const score = results.score;
+    const questions = results.questions;
+    const questionCount = results.questionCount;
+    const maxStreak = results.maxStreak;
+    const selectedIndexes = results.selectedIndexes;
     const scoreDecimal = score / questionCount;
     const totalTime = times.reduce((partialSum, a) => partialSum + a, 0);
-    
-    // needs function to save permanenet quiz data
 
-    var resultMessage = "";
-    if (scoreDecimal === 1){
-        resultMessage = "Well done!!!";
-    } 
-    else if (scoreDecimal >= 0.6){
-        resultMessage = "Great try!";
-    }
-    else if (scoreDecimal >= 0.3){
-        resultMessage = "Good attempt!";
-    }
-    else{
-        resultMessage = "Better luck next time!";
-    }
-
-    // top of question results - total time, fastest time, average time, highest answer streak
-
-    const ExpandedBlock = ({exists, h, i}) => {
+    const ExpandedBlock = ({exists, i}) => {
         var qs = [];
         var count = 0;
         questions[i].answers.forEach(answer => {
@@ -115,64 +101,47 @@ const MultipleChoiceResultPage = ({
     }
 
     return (
-        <SafeAreaView style={{flex: 1, backgroundColor: '#0095ab', zIndex: 1}}>
-            <Animated.View entering={ZoomIn} style={styles.container}>
+        <View  style={styles.container}>
 
-                {/* Score and result message*/}
-                <View style={styles.container}>
-                    <View style={styles.scoreAndContinue}> 
-                        <Text style={styles.endText}>{score}/{questionCount}</Text>
-                    </View>
-
-                    <View flex={0.5} alignItems={'center'} justifyContent={'center'}>
-                        <Text style={styles.endText}>{resultMessage}</Text>
-                    </View>
+            {/* Score and result message*/}
+            {/* Mini stats overview*/}
+            <View style={styles.infoContainer}>
+                <View style={styles.infoView}>
+                    <Text style={styles.infoText}>Total:</Text>
+                    <Text style={styles.infoText}>{Math.round(times.reduce((partialSum, a) => partialSum + a, 0) * 10) / 10}s</Text>
                 </View>
 
-                {/* Mini stats overview*/}
-                <View style={styles.infoContainer}>
-                    <View style={styles.infoView}>
-                        <Text style={styles.infoText}>Total:</Text>
-                        <Text style={styles.infoText}>{Math.round(times.reduce((partialSum, a) => partialSum + a, 0) * 10) / 10}s</Text>
-                    </View>
-
-                    <View style={styles.infoView}>
-                        <Text style={styles.infoText}>Average:</Text>
-                        <Text style={styles.infoText}>{Math.round(times.reduce((partialSum, a) => partialSum + a, 0) / times.length * 10) / 10}s</Text>
-                    </View>
-
-                    <View style={styles.infoView}>
-                        <Text style={styles.infoText}>Fastest:</Text>
-                        <Text style={styles.infoText}>{times.reduce((a, b) => Math.min(a, b))}s</Text>
-                    </View>
-
-                    <View style={styles.infoView}>
-                        <Text style={styles.infoText}>Streak:</Text>
-                        <Text style={styles.infoText}>{maxStreak}</Text>
-                    </View>
-
+                <View style={styles.infoView}>
+                    <Text style={styles.infoText}>Average:</Text>
+                    <Text style={styles.infoText}>{Math.round(times.reduce((partialSum, a) => partialSum + a, 0) / times.length * 10) / 10}s</Text>
                 </View>
 
-                {/* Question score breakdown*/}
-                <View style={styles.resultsOuter}>
-                    <ScrollView style={styles.resultsScroll}>
-                        <View style={styles.resultsInner}>
-                            <QuestionDisplay/>
-                        </View>
-                    </ScrollView>
+                <View style={styles.infoView}>
+                    <Text style={styles.infoText}>Fastest:</Text>
+                    <Text style={styles.infoText}>{times.reduce((a, b) => Math.min(a, b))}s</Text>
                 </View>
 
-                {/* Continue Button */}
-                <TouchableOpacity style={styles.continue} onPress={() => {navigation.pop(2)}}>
-                    <Text style={styles.continueText}>Continue</Text>
-                </TouchableOpacity>
+                <View style={styles.infoView}>
+                    <Text style={styles.infoText}>Streak:</Text>
+                    <Text style={styles.infoText}>{maxStreak}</Text>
+                </View>
 
-            </Animated.View>
-        </SafeAreaView>
+            </View>
+
+            {/* Question score breakdown*/}
+            <View style={styles.resultsOuter}>
+                <ScrollView style={styles.resultsScroll}>
+                    <View style={styles.resultsInner}>
+                        <QuestionDisplay/>
+                    </View>
+                </ScrollView>
+            </View>
+
+        </View>
     );
 }
 
-export default MultipleChoiceResultPage;
+export default MultipleChoiceResults;
 
 const styles = StyleSheet.create({
     container: {
@@ -181,32 +150,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    scoreAndContinue: {
-        height: windowWidth/3,
-        width:windowWidth/3,
-        borderRadius: windowWidth,
-        backgroundColor: '#00f0a4',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    continue: {
-        width: '90%',
-        height: '8%',
-        backgroundColor: '#0095ab',
-        borderRadius: 10,
-        elevation: 3,
-        marginVertical: '2%',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    endText: {
-        fontSize: 25,
-    },
-    continueText: {
-        fontSize: 25,
-        color: 'white',
-        fontWeight: 'bold',
     },
     infoContainer: {
         height: windowHeight/12,
