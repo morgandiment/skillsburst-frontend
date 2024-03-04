@@ -24,10 +24,11 @@ var timer = () => {};
 const MultipleChoiceQuiz = ({
   style,
   type,
-  name,
   maxTime = 999999,
+  required,
   questionCount,
   questions,
+  format,
   navigation,
 }) => {
   //const transition = useSharedValue(0); // Width and height of the transition animated view - displays x or tick
@@ -117,7 +118,9 @@ const MultipleChoiceQuiz = ({
     {
       // Finished with quiz
       clearTimeout(timer);
-      navigation.navigate('QuizResultPage', { type: type, maxStreak: streak.current[1], times: times.current, score: score.current,  selectedIndexes: selected.current, questions: questions, questionCount: questionCount});
+      var pass = score.current >= required ? true : false;
+      const results = { type: type, times: times.current, score: score.current, selectedIndexes: selected.current, questions: questions, questionCount: questionCount, maxStreak: streak.current[1] }
+      navigation.navigate('QuizEndPage', { format: format, pass: pass, results: results });
     }
   }
 
@@ -127,7 +130,8 @@ const MultipleChoiceQuiz = ({
       selected.current.push(-1);
     }
     clearTimeout(timer);
-    navigation.navigate('QuizResultPage', {type: type, times: times.current, score: score.current,  selectedIndexes: selected.current, questions: questions, questionCount: questionCount});
+    const results = { type: type, times: times.current, score: score.current,  selectedIndexes: selected.current, questions: questions, questionCount: questionCount,  maxStreak: streak.current[1] }
+    navigation.navigate('QuizEndPage', { format: format, pass: false, results: results });
     
   }
 
@@ -137,7 +141,7 @@ const MultipleChoiceQuiz = ({
           <Text style={styles.buttonText}>{text}</Text>
       </TouchableOpacity>
     );
-  }
+  } 
 
   const LongAnswerButton = ({style, text='Default', onPress=() => {}}) => {
     return (

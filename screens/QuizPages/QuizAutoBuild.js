@@ -9,11 +9,6 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 const windowWidth = Platform.OS === "android" ? Dimensions.get('window').width : Dimensions.get('window').width;
 const windowHeight = Platform.OS === "android" ? Dimensions.get('window').height : Dimensions.get('window').height;
 
-// Testing quizzes
-//import quiz from '../../quizzes/longForm.json';
-//import quiz from '../../quizzes/noTimer.json';
-//import quiz from '../../quizzes/sizesTest.json';
-
 var timer = () => {};
 
 function QuizAutoBuild({ route, navigation }) {
@@ -31,16 +26,20 @@ function QuizAutoBuild({ route, navigation }) {
   function getQuiz() {
     if (!initialised.current) {
       initialised.current = true;
-      // Find relevant quiz based on quiz format given in json
+      // Find relevant quiz based on quiz format given in json - prolly should've just passed quizzes as paramets - may change
       switch (quiz.format) {
         case 'multiple_choice':
-          return (<MultipleChoiceQuiz type={quiz.type} name={quiz.name} maxTime={quiz.time} questionCount={quiz.number_of_questions} questions={quiz.questions} navigation={navigation}/>)
+          return (<MultipleChoiceQuiz format={quiz.format} required={quiz.required_correct}  type={quiz.type} maxTime={quiz.time} questionCount={quiz.number_of_questions} questions={quiz.questions} navigation={navigation}/>)
         case 'lesson_quiz':
-          return (<LessonQuiz partCount={quiz.number_of_parts} parts={quiz.parts} navigation={navigation}/>)
+          return (<LessonQuiz format={quiz.format} partCount={quiz.number_of_parts} parts={quiz.parts} navigation={navigation}/>)
         case 'lesson':
-          return (<Lesson partCount={quiz.number_of_parts} parts={quiz.parts} navigation={navigation}/>)
+          return (<Lesson format={quiz.format} partCount={quiz.number_of_parts} parts={quiz.parts} navigation={navigation}/>)
         default:
-          return (<View style={styles.noQuizStyle}><Text>Error quiz not found, please return.</Text><TouchableOpacity style={{padding: 10, borderWidth: 1, borderRadius: 10, backgroundColor: "white"}} onPress={() => navigation.navigate("HomePage")}><Text>Home</Text></TouchableOpacity></View>);
+          return (
+          <View style={styles.noQuizStyle}>
+            <Text>Error quiz not found, please return.</Text>
+            <TouchableOpacity style={{padding: 10, borderWidth: 1, borderRadius: 10, backgroundColor: "white"}} onPress={() => navigation.navigate("HomePage")}><Text>Home</Text></TouchableOpacity>
+          </View>);
       }  
     } 
   }

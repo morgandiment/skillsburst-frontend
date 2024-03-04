@@ -5,16 +5,27 @@ const windowHeight = Dimensions.get('window').height * 0.85;
 
 const ChapterBox = ({
     style, 
-    navigation,
     name = 'Default Name',
     completion = 0,
     units = 10,
-    locked = true,
+    active = false,
     onPressStart = () => {},
     onPressAchieve = () => {},
 }) => {
 
     const percentage = completion / units * 100;
+
+    const VariableStartButton = () => {
+        if (active === true) {
+            return (
+                <TouchableOpacity style={ChapterStyle.startButton} onPress={onPressStart}>
+                    <Image style={{flex: 1, aspectRatio: 0.7, resizeMode: 'contain'}} source={Images.other.play}/>
+                </TouchableOpacity>
+            )
+        } else {
+            return (<View/>);
+        }
+    }
 
     return (
         <View style={[ChapterStyle.chapterContainer, iosSupport.iosElavation, style]}>
@@ -44,12 +55,10 @@ const ChapterBox = ({
                     <Text style={{fontSize: 10}}>Unlocked</Text>
                 </TouchableOpacity>
 
-                <View flex={2}>
+                <View flex={2}/>
 
-                </View>
-                <TouchableOpacity style={ChapterStyle.startButton} onPress={onPressStart}>
-                    <Image style={{flex: 1, aspectRatio: 0.7, resizeMode: 'contain'}} source={Images.other.play}/>
-                </TouchableOpacity>
+                <VariableStartButton/>
+
             </View>
         </View>
     );

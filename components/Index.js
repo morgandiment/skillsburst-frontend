@@ -12,6 +12,7 @@ import Header from './navigation/Header.js';
 import Navbar from './navigation/Navbar.js';
 import AnimatedPercentageCircle from './buttons/AnimatedPercentageCircle.js';
 import PercentageCircle from './buttons/PercentageCircle.js';
+import AnimatedPercentageCircleText from './buttons/AnimatedPercentageCircleText.js';
 
 
 export {
@@ -28,4 +29,5 @@ export {
     AnimatedPercentageCircle,
     PercentageCircle,
     TextInputWithIcon,
+    AnimatedPercentageCircleText,
 }

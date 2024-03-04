@@ -1,22 +1,25 @@
 import { StyleSheet, Text,  View, ScrollView, Dimensions} from 'react-native';
-import {Header, Navbar, ChapterBox} from '../../components/Index.js';
+import {Header, Navbar, ChapterBox, AnimatedPercentageCircleText} from '../../components/Index.js';
 
-const windowHeight = Dimensions.get('window').height * 0.85;
 const windowWidth = Dimensions.get('window').width;
 
-const CoursePage = ({style, route, navigation}) => {
+const ChapterSelectPage = ({style, route, navigation}) => {
     const {course} = route.params;
-
     const name = course.name;
-    const description = course.description;
-    const gameSelection = [];
     const chapters = course.chapters;
 
+    // Switch to embedded map
     var chapterViews = []
     var i = 0;
     chapters.forEach(chapter => {
         chapterViews.push(
-            <ChapterBox key={i} name={chapter.name} units={chapter.units} onPressStart={() => navigation.navigate('LevelSelectPage', {units: chapter.path})} style={{marginBottom: '6%'}}/>
+            <ChapterBox 
+            key={i} 
+            name={chapter.name}
+            units={chapter.units} 
+            active={true}
+            onPressStart={() => navigation.navigate('LevelSelectPage', {units: chapter.path, name: chapter.name})} 
+            style={{marginBottom: '6%'}}/>
         );
         i++;
     });
@@ -28,22 +31,9 @@ const CoursePage = ({style, route, navigation}) => {
             <Header navigation={navigation}/>
             <ScrollView style={CourseStyle.container}>
                 <View style={CourseStyle.scrollContent}>
-                    {/* Course Overview */}
-                    <View>
-                        <Text style={CourseStyle.heading}>{name}</Text>
-                        <Text style={CourseStyle.description}>{description}</Text>
-                    </View>
 
-                    {/* Display avaliable games*/}
-                    <View style={{height: windowHeight/4, width: windowWidth, alignSelf: 'center', marginVertical: '1%'}}>
-                        <ScrollView horizontal={true}>
-                            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}> 
-                                <View style={{height: '90%', width: windowWidth*.6, backgroundColor: 'blue', marginHorizontal: windowWidth/20, borderRadius: 25,}}></View>
-                                <View style={{height: '90%', width: windowWidth*.6, backgroundColor: 'blue',  marginHorizontal: windowWidth/20, borderRadius: 25,}}></View>
-                                <View style={{height: '90%', width: windowWidth*.6, backgroundColor: 'blue',  marginHorizontal: windowWidth/20, borderRadius: 25,}}></View>
-                            </View>
-                        </ScrollView>
-                    </View>
+                    <Text style={CourseStyle.heading}>{name}</Text>
+                    <AnimatedPercentageCircleText onPress={() => {navigation.navigate('CoursePreviewPage', {course: course})}} active={true} percentage={0.75} w={windowWidth / 30} r={windowWidth / 7} />
 
                     {/* Display chapters */}
                     <View style={CourseStyle.chapterContainer}>
@@ -59,8 +49,7 @@ const CoursePage = ({style, route, navigation}) => {
     );
 }
 
-
-export default CoursePage;
+export default ChapterSelectPage;
 
 const CourseStyle = StyleSheet.create({
     container: {
@@ -77,7 +66,8 @@ const CourseStyle = StyleSheet.create({
     heading: {
         fontSize: 30,
         fontWeight: 'bold',
-        marginVertical: '3%'
+        marginVertical: '3%',
+        alignSelf: 'center',
     },
     subHeading: {
         fontSize: 25,

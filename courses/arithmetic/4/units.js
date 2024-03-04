@@ -2,7 +2,7 @@ import images from '../../../images/Index';
 
 const units = [
     {
-        "name": "Unit 1",
+        "name": "Test Unit",
         "quizzes": [
             {"name": "Addition 1", "image": images.icons.plus_icon, "questions": [require('./quizzes/u1q1.json')]},
             {"name": "Addition 2", "image": images.icons.plus_icon, "questions": [require('./quizzes/u1q2.json')]},

@@ -1,16 +1,16 @@
 import { StyleSheet, View, Dimensions, ScrollView, TouchableOpacity, Text } from 'react-native';
+import {Header, Navbar, Ribbon, Padlock, AnimatedPercentageCircle, ChapterBox} from '../../components/Index.js';
 import {Image} from "expo-image";
-import {Header, Navbar, Ribbon, Padlock, AnimatedPercentageCircle} from '../../components/Index.js';
 
 import Images from '../../images/Index.js';
 
 const windowWidth = Dimensions.get('window').width;
 
-// A generative version on the animated category select page
+// A generative version of the animated category select page
 
 const LevelSelectPage = ({route, navigation}) => {
 
-  var { units } = route.params;
+  var { units, name} = route.params;
   if (units === null) {
     return;
   }
@@ -27,7 +27,7 @@ const LevelSelectPage = ({route, navigation}) => {
       qArr.push(
         <AnimatedPercentageCircle 
         key={index} 
-         w={w/5}
+        w={w/5}
         r={w/1.2} 
         text={level.name} 
         percentage={0} 
@@ -86,6 +86,7 @@ const LevelSelectPage = ({route, navigation}) => {
         <TouchableOpacity style= {{alignSelf: "flex-start", position: "absolute", top: 0, zIndex: 2}} onPress={() => navigation.goBack()}>
           <Image style={{aspectRatio: 1, width: 50}} source={Images.icons.back_arrow}/>
         </TouchableOpacity>
+
           
         <ScrollView width={"100%"} showsVerticalScrollIndicator={false}>
           <View style={[styles.container, {marginVertical: w/8}]}>
@@ -115,6 +116,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   }
-
-
 });

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { StyleSheet, TouchableOpacity, View, Text, Dimensions, Platform } from 'react-native';
+import { SafeAreaView } from "react-native-safe-area-context";
 import {Image} from "expo-image";
 
 import Animated, { useSharedValue, withTiming } from 'react-native-reanimated';
@@ -25,7 +26,7 @@ const Header = ({style, navigation}) => {
   const [tabVisible, setTabVisible] = useState(false);
 
   const toggleTab = () => {
-    var duration = 750
+    var duration = 150
     if (x.value == 0){
       x.value = withTiming(-tabWidth, {duration: duration} );
 
@@ -118,7 +119,7 @@ const Header = ({style, navigation}) => {
   }
 
   // Testing - ignore
-  const DarkenTab = () => {
+  const DarkenPage = () => {
     <Animated.View backgroundColor={'rgb(255, 0, 255)'} opacity={1 - (x.value/-tabWidth) / 2} width={windowWidth} height={windowHeight} position={'absolute'} top={0} borderWidth={3}>
       <Text>my g</Text>
     </Animated.View>
@@ -126,9 +127,9 @@ const Header = ({style, navigation}) => {
   
   // Main header return
   return (
-    <View style={[style, HeaderStyles.headerAndTabContainer, {zIndex: zIndex}]}>
+    <SafeAreaView style={[style, HeaderStyles.headerAndTabContainer, {zIndex: zIndex}]}>
+      <StatusBar backgroundColor='#01778a' style="auto"/>
       <View style={HeaderStyles.headerContainer}>
-        <StatusBar backgroundColor='#01778a' style="auto"/>
         <TouchableOpacity onPress={toggleTab} style={HeaderStyles.headerButton}>
           <Image style={HeaderStyles.headerImage} source={Images.icons.white.hamburger_menu}/>
         </TouchableOpacity>
@@ -139,7 +140,7 @@ const Header = ({style, navigation}) => {
         <SideTab/>
       }
       
-    </View>
+    </SafeAreaView>
 
   );
 }
@@ -154,7 +155,6 @@ const HeaderStyles = StyleSheet.create({
   },
 
   headerContainer: {
-    paddingTop: "8%",
     height: "100%",
     backgroundColor: '#0795ab',
     flexDirection: 'row',

@@ -48,7 +48,7 @@ const PercentageCircle = ({
       <View alignItems = "center">
         <View style={{width: total, height: total, alignItems: "center"}}>
 
-          <Svg transform={[{rotate: "-85deg"}]}>
+          <Svg transform={[{rotate: "-90deg"}]}>
             {/* Base circle */}
             <Circle 
             fill={"none"}
