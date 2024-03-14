@@ -109,6 +109,7 @@ function SignupPage({ navigation }) {
               placeholder={"Username"}
               imagePath={Images.icons.username}
               onChangeText={setUserName}
+              value={Username}
               failMessage={"*Must Enter a Valid username \n*Please make sure there are no spaces in the username"}
 
               showFailMessage={userNameMessageVisible}
@@ -155,7 +156,7 @@ function SignupPage({ navigation }) {
               isPassword={true}
               imagePath={Images.icons.key}
               onChangeText={setPassword}
-
+              value={Password}
               failMessage={"*Must Contain at Least:\n8 Characters,\n1 Upper Case Character,\n1 Lower Case Character,\n1 Number,\n1 Special Character"}
               showFailMessage={passwordMessageVisible}
             />
@@ -167,7 +168,7 @@ function SignupPage({ navigation }) {
               isPassword={true}
               imagePath={Images.icons.key}
               onChangeText={setConfirmPassword}
-
+              value={ConfirmPassword}
               failMessage="*Passwords Do Not Match"
               showFailMessage={confirmPasswordMessageVisible}
             />
