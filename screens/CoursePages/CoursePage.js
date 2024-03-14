@@ -1,22 +1,23 @@
 import { StyleSheet, Text,  View, ScrollView, Dimensions} from 'react-native';
 import {Header, Navbar, ChapterBox} from '../../components/Index.js';
-
+import UserContext from '../../local_data/user-context.js';
+import { useContext } from "react";
 const windowHeight = Dimensions.get('window').height * 0.85;
 const windowWidth = Dimensions.get('window').width;
 
 const CoursePage = ({style, route, navigation}) => {
-    const {course} = route.params;
+    const {course,userData } = route.params;
 
     const name = course.name;
     const description = course.description;
     const gameSelection = [];
-    const chapters = course.chapters;
+    const chapters = course.chapters;   
 
     var chapterViews = []
     var i = 0;
     chapters.forEach(chapter => {
         chapterViews.push(
-            <ChapterBox key={i} name={chapter.name} units={chapter.units} onPressStart={() => navigation.navigate('LevelSelectPage', {units: chapter.path})} style={{marginBottom: '6%'}}/>
+            <ChapterBox key={i} name={chapter.name} units={chapter.units} userData={userData}onPressStart={() => navigation.navigate('LevelSelectPage', {units: chapter.path , userData:userData})} style={{marginBottom: '6%'}}/>
         );
         i++;
     });
@@ -25,7 +26,8 @@ const CoursePage = ({style, route, navigation}) => {
 
     return (
         <View style={{flex: 1}}>
-            <Header navigation={navigation}/>
+            <UserContext.Provider value={userData}>
+            <Header navigation={navigation}  />
             <ScrollView style={CourseStyle.container}>
                 <View style={CourseStyle.scrollContent}>
                     {/* Course Overview */}
@@ -54,7 +56,9 @@ const CoursePage = ({style, route, navigation}) => {
 
                 </View>
             </ScrollView>
+            </UserContext.Provider>
             <Navbar navigation={navigation}/>
+            
         </View>
     );
 }

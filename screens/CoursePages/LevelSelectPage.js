@@ -3,6 +3,7 @@ import {Image} from "expo-image";
 import {Header, Navbar, Ribbon, Padlock, AnimatedPercentageCircle} from '../../components/Index.js';
 
 import Images from '../../images/Index.js';
+import UserContext from '../../local_data/user-context.js';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -10,7 +11,7 @@ const windowWidth = Dimensions.get('window').width;
 
 const LevelSelectPage = ({route, navigation}) => {
 
-  var { units } = route.params;
+  var { units ,userData} = route.params;
   if (units === null) {
     return;
   }
@@ -79,6 +80,7 @@ const LevelSelectPage = ({route, navigation}) => {
     
   return (
     <View style={{flex: 1}}>
+      <UserContext.Provider value={userData}>
       <Header navigation={navigation}/>
 
       <View style={styles.container}>
@@ -96,6 +98,8 @@ const LevelSelectPage = ({route, navigation}) => {
 
       </View>
       <Navbar navigation={navigation}/>
+      </UserContext.Provider >
+
     </View>
     
   );

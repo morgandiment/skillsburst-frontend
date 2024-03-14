@@ -18,6 +18,7 @@ var timer = () => {};
 
 function QuizAutoBuild({ route, navigation }) {
   const { quiz } = route.params;
+  console.log(quiz)
   if (quiz === undefined) {
     return (<View><Text>Error</Text></View>);
   }
@@ -31,6 +32,7 @@ function QuizAutoBuild({ route, navigation }) {
   function getQuiz() {
     if (!initialised.current) {
       initialised.current = true;
+
       // Find relevant quiz based on quiz format given in json
       switch (quiz.format) {
         case 'multiple_choice':

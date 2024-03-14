@@ -4,12 +4,21 @@ import {Image} from "expo-image";
 
 import Images from '../../images/Index.js';
 import Courses from '../../courses/Courses.js';
+const testgame = require('../../quizzes/multipleChoiceTemplate.json');
+
+
+import UserContext from '../../local_data/user-context.js';
+import { useContext } from "react";
 
 // Potential fix for ios scaling? - apparently doesnt work on ios .-.
 const windowWidth = Dimensions.get('window').width * 0.9;
 const windowHeight = Dimensions.get('window').height * 0.85;
 
-const HomePage = ({style, navigation}) => {
+const HomePage = ({style,route, navigation}) => {
+        console.log(route.params)
+        const userData  = JSON.parse(JSON.stringify(route.params))   ;
+      //  console.log(userData.data.Username)
+        const headerData = route.params
         // Entries on the current courses box, each one links to a course page
         const CourseView = ({
             img =  Images.icons.dice_icon,
@@ -51,7 +60,7 @@ const HomePage = ({style, navigation}) => {
     Courses.forEach(course => {
         i++;
         currentCourses.push(
-            <CourseView key={i} name={course.name} percentage={0} img={course.icon} onPress={() => {navigation.navigate('CoursePage', {course: course})}} />
+            <CourseView key={i} name={course.name} percentage={0} img={course.icon} onPress={() => {navigation.navigate('CoursePage', {course: course ,userData:userData})}} />
         );
         
     });
@@ -67,12 +76,14 @@ const HomePage = ({style, navigation}) => {
 
     return (
             <View style={{flex: 1}}>
-                <Header navigation={navigation} style={{}}/>
+                <UserContext.Provider value={userData}>
+
+                <Header navigation={navigation}  style={{}}/>
                 
                 <View style={[styles.container, style]}>
 
                     <View>
-                        <Text style={styles.welcomeText}>Welcome [User]</Text>
+                        <Text style={styles.welcomeText}>Welcome {userData.data.Username}</Text>
                     </View>
 
                     {/* Continue Current Course*/}
@@ -80,7 +91,7 @@ const HomePage = ({style, navigation}) => {
                     <View style={[styles.continueContainer, styles.iosShadow]} >
                         <View flex={1.5} alignItems={'center'} justifyContent={'center'}>
                             {/* Needs a number instead of percentage for sizing due to svg*/}
-                            <AnimatedPercentageCircle onPress={() => {navigation.navigate('QuizPage', {quiz: '/quizzes/multipleChoiceTest.json'})}} active={true} imgARatio={0.5} percentage={0.75} w={windowWidth / 30} r={windowWidth / 7} img={Images.other.play} barEmptyColor={'#056b7a'} />
+                            <AnimatedPercentageCircle onPress={() => {navigation.navigate('QuizPage', {quiz: testgame})}} active={true} imgARatio={0.5} percentage={0.75} w={windowWidth / 30} r={windowWidth / 7} img={Images.other.play} barEmptyColor={'#056b7a'} />
                         </View>
                         <View flex={2} justifyContent={'center'}>
                             <View height={'70%'} width={'90%'} alignItems={'center'}  borderRadius={20} backgroundColor={'#01778a'}>
@@ -100,7 +111,7 @@ const HomePage = ({style, navigation}) => {
                             </View>
                         </ScrollView>
 
-                        <TouchableOpacity style={styles.courseButton} onPress={() => {navigation.navigate('CourseSelectPage')}}>
+                        <TouchableOpacity style={styles.courseButton} onPress={() => {navigation.navigate('CourseSelectPage',headerData)}}>
                             <Text style={[styles.courseHeaderText, {padding: '2%'}]}> Add/Remove Courses</Text>
                         </TouchableOpacity>
                     </View>
@@ -129,6 +140,7 @@ const HomePage = ({style, navigation}) => {
                 </View>
                 
                 <Navbar navigation={navigation}/>
+                </UserContext.Provider>
             </View>
     );
 }

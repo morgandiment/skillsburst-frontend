@@ -26,11 +26,9 @@ function App() {
             //gestureEnabled: false,
           }}
         > 
-
-          <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}}/>
           <Stack.Screen name="SignupPage" component={SignupPage} options={{headerShown: false}}/>
-
-
+          <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}}/>
+         
           <Stack.Screen name="HomePage" component={HomePage} options={{title: 'Home Page', headerShown: false}}/>
           <Stack.Screen name="LevelSelectPage" component={LevelSelectPage} options={{title: 'Level Select Page', headerShown: false}}/>
           <Stack.Screen name="CourseSelectPage" component={CourseSelectPage} options={{title: 'Course Select Page', headerShown: false}}/>

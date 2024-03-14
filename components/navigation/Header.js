@@ -8,14 +8,19 @@ import { StatusBar } from 'expo-status-bar';
 
 import Images from '../../images/Index'
 
+import UserContext from "../../local_data/user-context";
+import { useContext } from "react";
+
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 // Tab variables
 const tabWidth = windowWidth * 0.7;
 
-const Header = ({style, navigation}) => {
+const Header = ({style, navigation }) => {
+  const userData = useContext(UserContext);
 
+  console.log(userData,'header')
   // position of tab: 0 -> fully on screen, -tabWidth -> fully off screen
   const x = useSharedValue(-tabWidth);
 
@@ -85,8 +90,9 @@ const Header = ({style, navigation}) => {
           <Animated.View style={[TabStyles.tab, {height: windowHeight, left: x}]}>
 
             {/* Mini Profile Display area */}
-            <View style={ProfileDisplayStyles.profileDisplayContainer}> 
-              <Text style={ProfileDisplayStyles.profileDisplayText}>[Username]</Text>
+            <View style={ProfileDisplayStyles.profileDisplayContainer}>
+              {/*userData.data.Username*/}
+              <Text style={ProfileDisplayStyles.profileDisplayText}>{userData.data.Username}</Text>
 
               <Image style={ProfileDisplayStyles.profilePicture} source={Images.icons.username}/>
               

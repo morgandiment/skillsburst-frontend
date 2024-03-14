@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from "react";
+import { useState ,useRef} from "react";
 import { Button, StyleSheet, Text, View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Platform, KeyboardAvoidingView, ScrollView} from 'react-native';
 import {Image} from "expo-image";
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -8,22 +8,32 @@ import { SimpleButton, TextInputWithIcon } from '../components/Index.js';
 //import {  } from './Index.js';
 import Images from '.././images/Index.js';
 
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Api_Url } from '../constants';
+import axios from 'axios';
+import {Register} from '../api/register.js'
+import { Alert } from 'react-native';
+
 function SignupPage({ navigation }) {
+  const currentDate = new Date();
+  const maxDate = new Date();
+  maxDate.setFullYear(currentDate.getFullYear() - 14); 
 
-  const [fullName, setFullName] = useState("");
-  const [fullNameMessageVisible, setFullNameMessageVisible] = useState(false);
+  const [Username, setUserName] = useState('');
+  const [userNameMessageVisible, setuserNameMessageVisible] = useState(false);
 
-  const [email, setEmail] = useState("");
+  const [Email, setEmail] = useState('');
   const [emailMessageVisible, setEmailMessageVisible] = useState(false);
 
-  const [date, setDate] = useState(new Date());
-  //const [dateMessageVisible, setFullNameMessageVisible] = useState(false);
-
-  const [password, setPassword] = useState("");
+  const [DateOfBirth, setDateOfBirth] = useState(maxDate);
+  const [Password, setPassword] = useState('');
   const [passwordMessageVisible, setPasswordMessageVisible] = useState(false);
 
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [ConfirmPassword, setConfirmPassword] = useState('');
   const [confirmPasswordMessageVisible, setConfirmPasswordMessageVisible] = useState(false);
+
+  const [data, setData] = React.useState('');
 
   const [show, setShowDatePicker] = useState(Platform.OS === "ios");
   
@@ -38,27 +48,50 @@ function SignupPage({ navigation }) {
     setDate(selectedDate);
   };
 
-  const attemptSignup = () => {
-    const fullNamePattern = /^[a-z ,.'-]+$/i;
-    setFullNameMessageVisible(!fullNamePattern.test(fullName));
-
-    const emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    setEmailMessageVisible(!emailPattern.test(email.toLowerCase()));
-
-    //must be at least: 8 chars - one uppercase letter - one lowercase letter - one number - one special character
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    setPasswordMessageVisible(!passwordPattern.test(password));
-
-    setConfirmPasswordMessageVisible(password != confirmPassword);
-
-    //put backend function here
-    console.log(fullName);
-    console.log(email);
-    console.log(date);
-    console.log(password);
-    console.log(confirmPassword);
-    //navigation.navigate('HomePage')
+  const clearInputs =()=> {
+    console.log("Clearing inputs...");
+    
+    setUserName('');
+    console.log("Before clearing, Email:", Email);
+    setEmail('');
+    console.log("After clearing, Email:", Email);
+    setDateOfBirth(maxDate);
+    setPassword('');
+    setConfirmPassword('');
+    console.log("Inputs cleared!");
   }
+
+  const clearMessage =()=> {
+    setuserNameMessageVisible(false);
+    setEmailMessageVisible(false);
+    setPasswordMessageVisible(false);
+    setConfirmPasswordMessageVisible(false);
+  }
+
+  // }
+
+
+  // for testing we no use
+  // async function autologin() {
+  //   const token = await AsyncStorage.getItem('token');
+  //   if (token) {
+  //     const url = `${Api_Url}/login/UserSession`;
+  //     const response = await axios.post(url, { token: token });
+  //     setData(response.data.data);
+  //   }
+  // }
+  
+  React.useEffect(() => {
+    // autologin();
+    clearMessage();
+    clearInputs();
+  }, []);
+  
+  React.useEffect(() => {
+    if (data) {
+      navigation.navigate('HomePage', { data });
+    }
+  }, [data, navigation]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -73,12 +106,12 @@ function SignupPage({ navigation }) {
             <TextInputWithIcon
               style={styles.textInputStyle}
               textStyle={{fontSize: 20}}
-              placeholder={"Full Name"}
+              placeholder={"Username"}
               imagePath={Images.icons.username}
-              onChangeText={setFullName}
+              onChangeText={setUserName}
+              failMessage={"*Must Enter a Valid username \n*Please make sure there are no spaces in the username"}
 
-              failMessage="*Must Give Both First and Last Name"
-              showFailMessage={fullNameMessageVisible}
+              showFailMessage={userNameMessageVisible}
             />
 
             <TextInputWithIcon
@@ -87,8 +120,8 @@ function SignupPage({ navigation }) {
               placeholder={"Email Address"}
               imagePath={Images.icons.letter}
               onChangeText={setEmail}
-
-              failMessage="Must Enter a Valid Email Address" 
+              value={Email}
+              failMessage="*Must Enter a Valid Email Address" 
               showFailMessage={emailMessageVisible}
             />
 
@@ -102,8 +135,8 @@ function SignupPage({ navigation }) {
               />
               {show &&
               <DateTimePicker
-                value = {date}
-                maximumDate={date}
+                value = {DateOfBirth}
+                maximumDate={maxDate}
                 mode='date'
                 display="default"
                 onChange={onDateChange}
@@ -123,7 +156,7 @@ function SignupPage({ navigation }) {
               imagePath={Images.icons.key}
               onChangeText={setPassword}
 
-              failMessage={"Must Contain at Least:\n8 Characters,\n1 Upper Case Character,\n1 Lower Case Character,\n1 Number,\n1 Special Character"}
+              failMessage={"*Must Contain at Least:\n8 Characters,\n1 Upper Case Character,\n1 Lower Case Character,\n1 Number,\n1 Special Character"}
               showFailMessage={passwordMessageVisible}
             />
 
@@ -135,24 +168,52 @@ function SignupPage({ navigation }) {
               imagePath={Images.icons.key}
               onChangeText={setConfirmPassword}
 
-              failMessage="Passwords Do Not Match"
+              failMessage="*Passwords Do Not Match"
               showFailMessage={confirmPasswordMessageVisible}
             />
           </View>
         </ScrollView>
+        
 
         <SimpleButton
           style={styles.signupButtonStyle}
           textStyle={{fontSize: 18}}
           title="Sign Up"
-          onPress={attemptSignup}
+          onPress={async () => {
+            try {
+              // Wait for the Register function to complete
+              const registrationSuccess = await Register(Username,Email,DateOfBirth,Password,ConfirmPassword,setuserNameMessageVisible,setEmailMessageVisible,setPasswordMessageVisible,setConfirmPasswordMessageVisible,clearMessage);
+
+              if (registrationSuccess){
+                clearInputs()
+                clearMessage()
+
+                navigation.navigate('LoginPage');
+
+                Alert.alert('User has been successfully registered')
+              }
+               
+              // Now you can log the username
+             // console.log('Username:', Username);
+            } catch (error) {
+              // Handle any errors that might occur during registration
+              console.error('Registration failed:', error);
+            }
+          }}
         />
   
         <SimpleButton
           style={{marginTop: -20}}
           textStyle={styles.createAccountText}
           title={"Already have an account?"}
-          onPress={() => navigation.navigate('LoginPage')}
+          
+          onPress={() => {
+            clearInputs();
+            
+            clearMessage();
+            console.log("Navigating to LoginPage...");
+            navigation.navigate('LoginPage');
+          }}
         />
 
       </View>

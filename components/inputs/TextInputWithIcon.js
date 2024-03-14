@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, TextInput, Text } from 'react-native';
 import {Image} from "expo-image";
 
-const TextInputWithIcon = ({ style, textStyle, placeholder="", imagePath, isPassword=false, onChangeText, showFailMessage=false, failMessage="regex failed"}) => {
+const TextInputWithIcon = ({ style, textStyle, placeholder="", imagePath, isPassword=false, onChangeText , value, showFailMessage=false, failMessage="regex failed" }) => {
 
   //const [showFailMessage, setShowMessage] = React.useState(false);
 
@@ -21,7 +21,7 @@ const TextInputWithIcon = ({ style, textStyle, placeholder="", imagePath, isPass
         secureTextEntry={isPassword}
         flex={1}
         onChangeText={onChangeText}
-
+        value={value}
         style={textStyle}
       />
       </View>

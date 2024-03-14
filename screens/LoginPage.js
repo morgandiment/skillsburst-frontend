@@ -5,20 +5,20 @@ import {Image} from "expo-image";
 import { SimpleButton, TextInputWithIcon } from '../components/Index.js';
 //import {  } from './Index.js';
 import Images from '.././images/Index.js';
-
+import {Login } from '../api/login.js';
 function SignupPage({ navigation }) {
-  const [username, onChangeUsername] = useState('');
+  const [User, onChangeUsername] = useState('');
   const [usernameMessageVisible, setUsernameMessageVisible] = useState(false);
 
-  const [password, onChangePassword] = useState('');
+  const [Password, onChangePassword] = useState('');
   const [passwordMessageVisible, setPasswordMessageVisible] = useState(false);
 
-  const attemptLogin = () => {
-    //put backend function here
-    console.log(username);
-    console.log(password);
-    navigation.navigate('HomePage')
-  }
+  // const attemptLogin = () => {
+  //   //put backend function here
+  //   console.log(username);
+  //   console.log(password);
+  //   navigation.navigate('HomePage')
+  // }
 
   return (
     
@@ -62,7 +62,21 @@ function SignupPage({ navigation }) {
             style={styles.loginButtonStyle}
             textStyle={{fontSize: 18}}
             title="Login"
-            onPress={attemptLogin}
+            onPress={async () => {
+              try {
+                // Wait for the Login function to complete
+                const response = await Login(User,Password);
+                if (response){
+                  const data = response.data.data
+                  onChangeUsername('')
+                  onChangePassword('')
+                  navigation.navigate('HomePage',{data});
+                }
+              } catch (error) {
+                // Handle any errors that might occur during login
+                console.error('Login failed:', error);
+              }
+            }}
           />
 
           <SimpleButton

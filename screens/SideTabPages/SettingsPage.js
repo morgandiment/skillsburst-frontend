@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { Header, Navbar } from '../../components/Index.js';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from 'react-native';
 const SettingsPage = ({style, navigation}) => {
 
 
@@ -9,6 +10,30 @@ const SettingsPage = ({style, navigation}) => {
             <TouchableOpacity style={styles.SettingEntry} onPress={onPress}>
                 <Text style={[styles.contentText, textStyle]}>{text}</Text>
             </TouchableOpacity>
+        );
+    }
+
+    async function signout() {
+        Alert.alert(
+            'Are you sure you want to signout?',
+            'This will bring you back to the login page.',
+            [
+              {
+                text: 'Cancel',
+                style: 'cancel',
+              },
+              {
+                text: 'Signout',
+                onPress: async  () => {
+                    await AsyncStorage.removeItem('token');
+                    console.log('Token deleted successfully');
+                    navigation.navigate('LoginPage');
+                    Alert.alert('Signout successfully.');
+                },
+                style: 'destructive',
+              },
+            ],
+            { cancelable: false }
         );
     }
 //contentContainerStyle={{alignItems: 'center', height: '100%'}
@@ -26,7 +51,7 @@ const SettingsPage = ({style, navigation}) => {
                         <View>
                             <SettingEntry text={'Edit Profile'} onPress={() => {navigation.navigate('EditProfile')}}/>
                             <SettingEntry text={'Change Password'}/>
-                            <SettingEntry text={'Sign Out'}/>
+                            <SettingEntry text={'Sign Out'} onPress={signout}/>
                             <SettingEntry text={'Delete Account'} textStyle={{color: 'red', fontWeight: 'bold'}}/>
                         </View>
                     </View>

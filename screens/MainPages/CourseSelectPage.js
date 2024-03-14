@@ -7,9 +7,19 @@ import courses from '../../courses/Courses.js';
 const windowHeight = Dimensions.get('window').height * 0.85;
 
 // Stand in for actual user data that would either be fetched from database or local save data
+
+
 var currentCourses = ['Arithmetic'];
 
-const CourseSelectPage = ({navigation}) => {
+
+const CourseSelectPage = ({route,navigation }) => {
+    
+    const userData  = JSON.parse(JSON.stringify(route.params))   ;
+    console.log(userData.data.Username)
+    const headerData = route.params
+
+    console.log(headerData)
+    
     const [active, setActive] = useState(() => {
         var initialState = [];
         for (var i = 0; i < courses.length; i++) {
@@ -98,10 +108,10 @@ const CourseSelectPage = ({navigation}) => {
 
     return (
         <View style={{flex: 1}}>
-            <Header navigation={navigation}/>
+            <Header navigation={navigation}  headerData={headerData}  />
             <ScrollView flex={1} width={'100%'} backgroundColor={'white'}>
                 <View style={styles.container}>
-                    
+                    <Text>{userData}</Text>
                     <View style={styles.courseBox}>
                         <View style={styles.headerContainer}>
                             <Text style={[styles.headerText]}>Currently Taking:</Text>
