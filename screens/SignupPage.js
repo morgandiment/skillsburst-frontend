@@ -49,16 +49,11 @@ function SignupPage({ navigation }) {
   };
 
   const clearInputs =()=> {
-    console.log("Clearing inputs...");
-    
     setUserName('');
-    console.log("Before clearing, Email:", Email);
     setEmail('');
-    console.log("After clearing, Email:", Email);
     setDateOfBirth(maxDate);
     setPassword('');
     setConfirmPassword('');
-    console.log("Inputs cleared!");
   }
 
   const clearMessage =()=> {
@@ -188,9 +183,7 @@ function SignupPage({ navigation }) {
               if (registrationSuccess){
                 clearInputs()
                 clearMessage()
-
                 navigation.navigate('LoginPage');
-
                 Alert.alert('User has been successfully registered')
               }
                
@@ -210,7 +203,6 @@ function SignupPage({ navigation }) {
           
           onPress={() => {
             clearInputs();
-            
             clearMessage();
             console.log("Navigating to LoginPage...");
             navigation.navigate('LoginPage');

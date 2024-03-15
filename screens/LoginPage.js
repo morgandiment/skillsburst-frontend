@@ -7,10 +7,10 @@ import { SimpleButton, TextInputWithIcon } from '../components/Index.js';
 import Images from '.././images/Index.js';
 import {Login } from '../api/login.js';
 function SignupPage({ navigation }) {
-  const [User, onChangeUsername] = useState('');
-  const [usernameMessageVisible, setUsernameMessageVisible] = useState(false);
+  const [User, setUser] = useState('');
+  const [userMessageVisible, setUserMessageVisible] = useState(false);
 
-  const [Password, onChangePassword] = useState('');
+  const [Password, setPassword] = useState('');
   const [passwordMessageVisible, setPasswordMessageVisible] = useState(false);
 
   // const attemptLogin = () => {
@@ -19,6 +19,15 @@ function SignupPage({ navigation }) {
   //   console.log(password);
   //   navigation.navigate('HomePage')
   // }
+
+  const clearInputs =()=> {
+    setUser('');
+    setPassword('');
+  }
+  const clearMessage =()=> {
+    setUserMessageVisible(false);
+    setPasswordMessageVisible(false);
+  }
 
   return (
     
@@ -38,10 +47,10 @@ function SignupPage({ navigation }) {
               textStyle={{fontSize: 20}}
               placeholder={"Email or Username"}
               imagePath={Images.icons.username}
-              onChangeText={onChangeUsername}
-
-              failMessage='No Account with this Email or Username Found'
-              showFailMessage={usernameMessageVisible}
+              onChangeText={setUser}
+              value={User}
+              failMessage='*Enter a existing username or email'
+              showFailMessage={userMessageVisible}
             />
 
             <TextInputWithIcon
@@ -50,9 +59,9 @@ function SignupPage({ navigation }) {
               placeholder={"Password"}
               isPassword={true}
               imagePath={Images.icons.key}
-              onChangeText={onChangePassword}
-
-              failMessage='Incorrect Password'
+              onChangeText={setPassword}
+              value={Password}
+              failMessage='*Enter a existing password corresponding to the username or password'
               showFailMessage={passwordMessageVisible}
             />
 
@@ -65,11 +74,12 @@ function SignupPage({ navigation }) {
             onPress={async () => {
               try {
                 // Wait for the Login function to complete
-                const response = await Login(User,Password);
+                
+                const response = await Login(User,Password ,setUsernameMessageVisible, setPasswordMessageVisible);
                 if (response){
                   const data = response.data.data
-                  onChangeUsername('')
-                  onChangePassword('')
+                  clearMessage()
+                  clearInputs()
                   navigation.navigate('HomePage',{data});
                 }
               } catch (error) {
@@ -83,7 +93,11 @@ function SignupPage({ navigation }) {
             style={{marginTop: -20}}
             textStyle={styles.createAccountText}
             title={"Don't have an account?"}
-            onPress={() => navigation.navigate('SignupPage')}
+            
+            onPress={() => {
+              clearMessage()
+              clearInputs() 
+              navigation.navigate('SignupPage')}}
           />
         </View>
       </TouchableWithoutFeedback>
