@@ -81,25 +81,9 @@ const isValidUsername = (username) => {
 };
 
 const isValidPassword = (password) => {
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if ((/\s/.test(password))  ||(password.length < 8)  ||  (!/\d/.test(password)))
 
-    return(passwordPattern.test(password));
-    // if (/\s/.test(password)) {
-    //     Alert.alert('Error','Please make sure there are no spaces in the password')
-    //     return false;
-    // }
-
-    // if (password.length < 8) {
-    //     Alert.alert('Error', 'Password must be at least 8 characters long.');
-    //     return false;
-    // }
-
-    // if (!/\d/.test(password)) {
-    //     Alert.alert('Error', 'Password must include at least one number.');
-    //     return false;
-    // }
-
-    
+        return false;
 
     return true;
 };

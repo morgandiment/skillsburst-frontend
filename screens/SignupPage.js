@@ -45,7 +45,7 @@ function SignupPage({ navigation }) {
     if (Platform.OS === "android"){
       setShowDatePicker(false);
     }
-    setDate(selectedDate);
+    setDateOfBirth(selectedDate);
   };
 
   const clearInputs =()=> {
@@ -152,7 +152,7 @@ function SignupPage({ navigation }) {
               imagePath={Images.icons.key}
               onChangeText={setPassword}
               value={Password}
-              failMessage={"*Must Contain at Least:\n8 Characters,\n1 Upper Case Character,\n1 Lower Case Character,\n1 Number,\n1 Special Character"}
+              failMessage={"*Must Contain at Least:\n8 Characters,\n1 Number"}
               showFailMessage={passwordMessageVisible}
             />
 
