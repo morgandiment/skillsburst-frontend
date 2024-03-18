@@ -4,6 +4,8 @@ import { Button, StyleSheet, Text, View, Keyboard, TouchableWithoutFeedback, Tou
 import {Image} from "expo-image";
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+import {registerUser} from "../API/database_connection.js";
+
 import { SimpleButton, TextInputWithIcon } from '../components/Index.js';
 //import {  } from './Index.js';
 import Images from '.././images/Index.js';
@@ -46,18 +48,29 @@ function SignupPage({ navigation }) {
     setEmailMessageVisible(!emailPattern.test(email.toLowerCase()));
 
     //must be at least: 8 chars - one uppercase letter - one lowercase letter - one number - one special character
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&]{8,}$/;
     setPasswordMessageVisible(!passwordPattern.test(password));
 
     setConfirmPasswordMessageVisible(password != confirmPassword);
 
-    //put backend function here
-    console.log(fullName);
-    console.log(email);
-    console.log(date);
-    console.log(password);
-    console.log(confirmPassword);
-    //navigation.navigate('HomePage')
+    if (fullNameMessageVisible | emailMessageVisible | passwordMessageVisible | confirmPasswordMessageVisible){
+      return;
+    }
+
+    const userData = {
+      firstName: fullName.split(" ")[0],
+      lastName: fullName.split(" ")[1],
+      Email: email,
+      Password: password,
+      DOB: date.toLocaleDateString('en-GB'),
+    };
+
+    console.log(userData);
+
+    //for testing we no use
+    //registerUser(userData);
+    
+    navigation.navigate('HomePage');
   }
 
   return (
@@ -68,7 +81,9 @@ function SignupPage({ navigation }) {
           source={require('../images/skillsburst_banner_logo.png')}
         />
 
-        <ScrollView style={{width: "80%", maxHeight: "30%"}}>
+        <View style={{width: "90%", borderWidth: 1}}/>
+        
+        <ScrollView style={{width: "80%", maxHeight: "35%"}}>
           <View style={{flex: 1, rowGap: 20}}>
             <TextInputWithIcon
               style={styles.textInputStyle}
@@ -141,20 +156,22 @@ function SignupPage({ navigation }) {
           </View>
         </ScrollView>
 
-        <SimpleButton
-          style={styles.signupButtonStyle}
-          textStyle={{fontSize: 18}}
-          title="Sign Up"
-          onPress={attemptSignup}
-        />
-  
-        <SimpleButton
-          style={{marginTop: -20}}
-          textStyle={styles.createAccountText}
-          title={"Already have an account?"}
-          onPress={() => navigation.navigate('LoginPage')}
-        />
+        <View style={{width: "90%", borderWidth: 1}}/>
 
+        <View style={{flex:1, justifyContent:"flex-end", alignItems:"center", marginBottom:30}}>
+          <SimpleButton
+            style={styles.signupButtonStyle}
+            textStyle={{fontSize: 18}}
+            title="Sign Up"
+            onPress={attemptSignup}
+          />
+    
+          <SimpleButton
+            textStyle={styles.createAccountText}
+            title={"Already have an account?"}
+            onPress={() => navigation.navigate('LoginPage')}
+          />
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -168,7 +185,6 @@ const styles = StyleSheet.create({
     
     flex: 1,
     flexDirection: 'column',
-    rowGap: 20,//"30%",
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
@@ -178,7 +194,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "30%",
     marginTop: 20,
-    marginBottom: -40,
   },
 
   textInputStyle: {
@@ -194,15 +209,15 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "white",
     width: "100%",
-    minHeight: 50,
-    maxHeight: 50,
+    minHeight: 60,
+    maxHeight: 60,
     borderRadius: 10,
   },
 
   signupButtonStyle: {
     backgroundColor: "white",
     borderRadius: 10,//"10%",
-    width: "40%",
+    width: 200,
     paddingVertical: 10,
   },
 

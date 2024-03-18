@@ -81,7 +81,7 @@ const ChapterStyle = StyleSheet.create({
         marginTop: '2%',
     },
     titleText: {
-        flex: 5,
+        flex: 4,
         fontSize: 18,
         fontWeight: 'bold',
     },
@@ -90,6 +90,7 @@ const ChapterStyle = StyleSheet.create({
         fontSize: 15,
         fontWeight: 'bold',
         color: '#93cab1',
+        left: 0,
     },
     barContainer: {
         width: '90%',

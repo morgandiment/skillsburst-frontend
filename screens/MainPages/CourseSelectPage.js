@@ -1,26 +1,64 @@
 import { StyleSheet, View, Text, Alert, Image, TouchableOpacity, ScrollView, Dimensions} from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Change path as needed
 import { Header, Navbar } from '../../components/Index.js';
-import courses from '../../courses/Courses.js';
+import courses from '../../courses/index.js';
 const windowHeight = Dimensions.get('window').height * 0.85;
 
-// Stand in for actual user data that would either be fetched from database or local save data
-var currentCourses = ['Arithmetic'];
+    // Stand in for actual user data that would either be fetched from database or local save data
+    //var currentCourses = [];
 
-const CourseSelectPage = ({navigation}) => {
-    const [active, setActive] = useState(() => {
-        var initialState = [];
-        for (var i = 0; i < courses.length; i++) {
-            if (currentCourses.includes(courses[i].name)) {
-                initialState.push(true);
-            } else {
-                initialState.push(false);
+    const CourseSelectPage = ({navigation}) => {
+        const [currentCourses, setCurrentCourses] = useState(["Arithmetic"]);
+        const [activeArr, setActiveArr] = useState([]);
+        const [notActiveArr, setNotActiveArr] = useState([]);
+
+        useEffect(() => {
+            const loadUserData = async () => {
+                try {
+                    const jsonValue = await AsyncStorage.getItem("userData");
+                    const obj = jsonValue != null ? JSON.parse(jsonValue) : null;
+                    setCurrentCourses(obj.current_courses)
+                } catch (e) {
+                    console.log(e);
+                }
+            };
+    
+            loadUserData();
+
+            // setInterval(function(){ 
+            //     setActiveArr([]);
+            //     setNotActiveArr([]);
+
+            //     var i = 0;
+            //     for (const course of courses) {
+            //         if (currentCourses.includes(course.name)) {
+            //             setActiveArr(activeArr.concat([<CourseView key={i} currentActive={true} course={course} i={i}/>]))
+            //             //console.log(activeArr)
+            //         } else {
+            //             setNotActiveArr(notActiveArr.concat([<CourseView key={i} currentActive={false} course={course} i={i}/>]))
+            //             //console.log(course.name)
+            //         }
+            //         i++;
+            //     } 
+            // }, 1000);
+            
+            
+        }, [])
+
+        const [active, setActive] = useState(() => {
+            var initialState = [];
+            for (var i = 0; i < courses.length; i++) {
+                if (currentCourses.includes(courses[i].name)) {
+                    initialState.push(true);
+                } else {
+                    initialState.push(false);
+                }
             }
-        }
-        return initialState;
-    });
+            return initialState;
+        });
 
     const saveData = () => {
         // Save data - put saving code here when save data format is decided
@@ -71,30 +109,7 @@ const CourseSelectPage = ({navigation}) => {
         )
     }
 
-    var activeArr = [];
-    var notActiveArr = [];
-
-    for (var i = 0; i < courses.length; i++) {
-
-        if (active[i] == true) {
-            activeArr.push(
-                <CourseView key={i} currentActive={true} course={courses[i]} i={i}/>
-            ) 
-        } else {
-            notActiveArr.push(
-                <CourseView key={i} currentActive={false} course={courses[i]} i={i}/>
-            )
-        }
-    }
-
-    if (activeArr.length === 0){
-        activeArr.push(<Text key={0} style={styles.headerText}>No Courses</Text>)
-    }
-
-    if (notActiveArr.length === 0){
-        notActiveArr.push(<Text key={0} style={styles.headerText}>No Courses</Text>)
-    }
-
+    
 
     return (
         <View style={{flex: 1}}>
@@ -110,6 +125,10 @@ const CourseSelectPage = ({navigation}) => {
         
                         {activeArr}
 
+                        { activeArr.length === 0 &&
+                            <Text key={0} style={styles.headerText}>No Courses</Text>
+                        }
+
                         <View marginBottom={'2%'}/>
                     </View>
                     
@@ -119,6 +138,10 @@ const CourseSelectPage = ({navigation}) => {
                         </View>
         
                         {notActiveArr}
+
+                        { notActiveArr.length === 0 &&
+                            <Text key={0} style={styles.headerText}>No Courses</Text>
+                        }
 
                         <View marginBottom={'2%'}/>
                     </View>

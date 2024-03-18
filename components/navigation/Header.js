@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { StyleSheet, TouchableOpacity, View, Text, Dimensions, Platform } from 'react-native';
-import { SafeAreaView } from "react-native-safe-area-context";
 import {Image} from "expo-image";
 
 import Animated, { useSharedValue, withTiming } from 'react-native-reanimated';
@@ -127,20 +126,20 @@ const Header = ({style, navigation}) => {
   
   // Main header return
   return (
-    <SafeAreaView style={[style, HeaderStyles.headerAndTabContainer, {zIndex: zIndex}]}>
-      <StatusBar backgroundColor='#01778a' style="auto"/>
+    <View style={[style, HeaderStyles.headerAndTabContainer, {zIndex: zIndex}]}>
+      <StatusBar backgroundColor="black" style="auto"/>
       <View style={HeaderStyles.headerContainer}>
         <TouchableOpacity onPress={toggleTab} style={HeaderStyles.headerButton}>
           <Image style={HeaderStyles.headerImage} source={Images.icons.white.hamburger_menu}/>
         </TouchableOpacity>
-        <Text style={HeaderStyles.headerText}>Skillburst</Text>
+        <Text style={HeaderStyles.headerText}>Skillsburst</Text>
       </View>
 
       { tabVisible && 
         <SideTab/>
       }
       
-    </SafeAreaView>
+    </View>
 
   );
 }
@@ -150,8 +149,12 @@ export default Header;
 const HeaderStyles = StyleSheet.create({
   headerAndTabContainer: {
     //marginTop: Platform.OS === "android" ? Constants.statusBarHeight : 0,
-    width: '100%',
-    height: '12%',
+    width: "100%",
+    height: "12%",
+
+    backgroundColor: '#0795ab',
+
+    paddingTop: 25,
   },
 
   headerContainer: {
@@ -159,7 +162,9 @@ const HeaderStyles = StyleSheet.create({
     backgroundColor: '#0795ab',
     flexDirection: 'row',
     elevation: 5,
-    alignItems: 'center'
+    alignItems: 'center',
+
+    borderWidth: 0
   },
 
   headerText: {

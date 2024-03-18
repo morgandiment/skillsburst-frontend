@@ -1,3 +1,5 @@
+import * as React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyleSheet, Text,  View, ScrollView, Dimensions} from 'react-native';
 import {Header, Navbar, ChapterBox} from '../../components/Index.js';
 
@@ -11,6 +13,7 @@ const CoursePreviewPage = ({style, route, navigation}) => {
     const description = course.description;
     const gameSelection = [];
     const chapters = course.chapters;
+
 
     var chapterViews = []
     var i = 0;

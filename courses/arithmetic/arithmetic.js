@@ -2,7 +2,7 @@ const course = {
     "name": "Arithmetic",
     "icon": require('../../images/dice_icon.png'),
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nec dui nunc mattis enim ut tellus elementum sagittis vitae. Risus pretium quam",
-    "total_units": 14,
+    "total_units": 10,
     "chapters": [
         {
             "name": "Basic Symbols",

@@ -6,6 +6,8 @@ import { SimpleButton, TextInputWithIcon } from '../components/Index.js';
 //import {  } from './Index.js';
 import Images from '.././images/Index.js';
 
+import {loginUser} from "../API/database_connection.js";
+
 function SignupPage({ navigation }) {
   const [username, onChangeUsername] = useState('');
   const [usernameMessageVisible, setUsernameMessageVisible] = useState(false);
@@ -13,12 +15,26 @@ function SignupPage({ navigation }) {
   const [password, onChangePassword] = useState('');
   const [passwordMessageVisible, setPasswordMessageVisible] = useState(false);
 
-  const attemptLogin = () => {
-    //put backend function here
-    console.log(username);
-    console.log(password);
-    navigation.navigate('HomePage')
-  }
+  const attemptLogin = () => {    
+    const userData = {
+      Username: username,
+      Password: password,
+    };
+
+    console.log(userData);
+
+    if (false){
+      loginResponse = loginUser(userData);
+      setUsernameMessageVisible(!loginResponse.username.iswrong);
+      setPasswordMessageVisible(!loginResponse.password.iswrong);
+    };
+
+    if (usernameMessageVisible | passwordMessageVisible){
+      return;
+    };
+
+    navigation.navigate('HomePage');
+  };
 
   return (
     
@@ -57,20 +73,20 @@ function SignupPage({ navigation }) {
             />
 
           </ScrollView>
+          <View style={{flex:1, justifyContent:"flex-end", alignItems:"center", marginBottom:30}}>
+            <SimpleButton
+              style={styles.loginButtonStyle}
+              textStyle={{fontSize: 18}}
+              title="Login"
+              onPress={attemptLogin}
+            />
 
-          <SimpleButton
-            style={styles.loginButtonStyle}
-            textStyle={{fontSize: 18}}
-            title="Login"
-            onPress={attemptLogin}
-          />
-
-          <SimpleButton
-            style={{marginTop: -20}}
-            textStyle={styles.createAccountText}
-            title={"Don't have an account?"}
-            onPress={() => navigation.navigate('SignupPage')}
-          />
+            <SimpleButton
+              textStyle={styles.createAccountText}
+              title={"Don't have an account?"}
+              onPress={() => navigation.navigate('SignupPage')}
+            />
+          </View>
         </View>
       </TouchableWithoutFeedback>
   );
@@ -107,7 +123,7 @@ const styles = StyleSheet.create({
   loginButtonStyle: {
     backgroundColor: "white",
     borderRadius: 10,//"10%",
-    width: "40%",
+    width: 200,
     paddingVertical: 10,
   },
 

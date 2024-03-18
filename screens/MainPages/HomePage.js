@@ -1,32 +1,37 @@
+import React, {useContext} from 'react';
 import { StyleSheet, Text, View, Dimensions, TouchableOpacity, ScrollView, Platform } from 'react-native';
 import {Header, Navbar, AnimatedPercentageCircle, AnimatedProgressBar} from '../../components/Index.js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Image} from "expo-image";
 
 import Images from '../../images/Index.js';
-import Courses from '../../courses/Courses.js';
+import Courses from '../../courses/index.js';
+
+import {userData} from '../../userContext.js'
 
 const windowWidth = Dimensions.get('window').width * 0.9;
 const windowHeight = Dimensions.get('window').height * 0.85;
 
 const HomePage = ({style, navigation}) => {
-        // Entries on the current courses box, each one links to a course page
-        const CourseView = ({
-            img =  Images.icons.dice_icon,
-            name = 'No name', 
-            percentage = 0,
-            onPress = () => {},
-        }) => {
-            return (
-                // cant use percentage height because of variable scrollview height
-                <TouchableOpacity onPress={onPress} style={[styles.course, styles.iosShadow, {height: windowHeight*.5*.15}]}> 
-                    <Image style={{ flex: 1, resizeMode: 'contain', height: '80%'}} source={img}/>
-                    <Text style={[{flex: 1.2}]}>{name}</Text>
-                    <View flex={3}>
-                        <AnimatedProgressBar w={windowWidth*0.8*(3/5)} percentage={percentage}/>
-                    </View>
-                </TouchableOpacity>
-            );
-        }
+    
+    // Entries on the current courses box, each one links to a course page
+    const CourseView = ({
+        img =  Images.icons.dice_icon,
+        name = 'No name', 
+        percentage = 0,
+        onPress = () => {},
+    }) => {
+        return (
+            // cant use percentage height because of variable scrollview height
+            <TouchableOpacity onPress={onPress} style={[styles.course, styles.iosShadow, {height: windowHeight*.5*.15}]}> 
+                <Image style={{ flex: 1, resizeMode: 'contain', height: '80%'}} source={img}/>
+                <Text style={[{flex: 1.2}]}>{name}</Text>
+                <View flex={3}>
+                    <AnimatedProgressBar w={windowWidth*0.8*(3/5)} percentage={percentage}/>
+                </View>
+            </TouchableOpacity>
+        );
+    }
 
     /*
 
@@ -48,11 +53,12 @@ const HomePage = ({style, navigation}) => {
     var currentCourses = [];
     var i = 0;
     Courses.forEach(course => {
-        i++;
-        currentCourses.push(
-            <CourseView key={i} name={course.name} percentage={0} img={course.icon} onPress={() => {navigation.navigate('ChapterSelectPage', {course: course})}} />
-        );
-        
+        if (true){ //user data includes
+            i++;
+            currentCourses.push(
+                <CourseView key={i} name={course.name} percentage={0} img={course.icon} onPress={() => {navigation.navigate('ChapterSelectPage', {course: course})}} />
+            );
+        };
     });
 
     const streak = [1, 2, 3, 4, 5, 6, 7];
@@ -65,13 +71,14 @@ const HomePage = ({style, navigation}) => {
     };
 
     return (
+        <userData.Consumer>
             <View style={{flex: 1}}>
-                <Header navigation={navigation} style={{}}/>
+                <Header navigation={navigation}/>
                 
                 <View style={[styles.container, style]}>
 
                     <View>
-                        <Text style={styles.welcomeText}>Welcome [User]</Text>
+                        <Text style={styles.welcomeText}>Welcome {data.username}</Text>
                     </View>
 
                     {/* Continue Current Course*/}
@@ -79,12 +86,12 @@ const HomePage = ({style, navigation}) => {
                     <View style={[styles.continueContainer, styles.iosShadow]} >
                         <View flex={1.5} alignItems={'center'} justifyContent={'center'}>
                             {/* Needs a number instead of percentage for sizing due to svg*/}
-                            <AnimatedPercentageCircle onPress={() => {navigation.navigate('QuizPage', {quiz: '/quizzes/multipleChoiceTest.json'})}} active={true} imgARatio={0.5} percentage={0.75} w={windowWidth / 30} r={windowWidth / 7} img={Images.other.play} barEmptyColor={'#056b7a'} />
+                            <AnimatedPercentageCircle onPress={() => {navigation.navigate('QuizPage', {quiz: '/quizzes/multipleChoiceTest.json'})}} active={true} imgARatio={0.5} percentage={0} w={windowWidth / 30} r={windowWidth / 7} img={Images.other.play} barEmptyColor={'#056b7a'} />
                         </View>
                         <View flex={2} justifyContent={'center'}>
                             <View height={'70%'} width={'90%'} alignItems={'center'}  borderRadius={20} backgroundColor={'#01778a'}>
-                                <Text style={[styles.whiteText, {fontSize: 20}]} marginTop={10}>Arithmetic:</Text>
-                                <Text style={[styles.whiteText, {fontSize: 15}]} marginTop={5}>Unit 3 - Addition 5</Text>
+                                <Text style={[styles.whiteText, {fontSize: 20}]} marginTop={10}>{}:</Text>
+                                <Text style={[styles.whiteText, {fontSize: 15}]} marginTop={5}>{} - {}</Text>
                             </View>
                         </View>
                     </View>
@@ -129,6 +136,7 @@ const HomePage = ({style, navigation}) => {
                 
                 <Navbar navigation={navigation}/>
             </View>
+        </userData.Consumer>
     );
 }
 

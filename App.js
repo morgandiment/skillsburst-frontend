@@ -4,19 +4,62 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, { Easing } from 'react-native-reanimated';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {SimpleButton, AnimatedButton } from './components/Index.js';
 import { Template, QuizEndPage, QuizAutoBuild, CoursePreviewPage, LevelSelectPage, LandingPage, CourseSelectPage, LoginPage, SignupPage, HomePage, ProfileEditPage, SettingsPage, ChapterSelectPage, Feedback, HelpPage, ContactPage } from './screens/Index.js';
 import TemplatePage from './screens/TemplatePage.js';
 
+import Courses from './courses/index.js';
+
+import {userData} from './userContext.js'
+
 const Stack = createNativeStackNavigator();
 
 function App() {
+  const [initialRoute, setInitialRoute] = React.useState("HomePage");
+
+  const checkToken = async () => {
+    try {
+      const value = await AsyncStorage.getItem("token");
+      if (value !== null) {
+        //there is a login token so go straight to mainpage
+      } 
+    } catch (e) {
+      console.log(e);
+    };
+  }
+
+  React.useEffect(() => {
+    checkToken();
+  }, [])
+
+  const defaultUserData = {
+    username : "Jabbamjc",
+    profile_picture : "put a link to bucket here",
+    progress : {},
+    last_course : {
+      course : "Arithmetic",
+      unit : "Unit 1",
+      lesson : "Addition 1"
+    },
+    current_courses : [
+      "Arithmetic",
+      "Literacy",
+      "Digital",
+      "Interview Skills",
+    ],
+    daily_streak : 1,
+  };
 
   return (
+    <userData.Provider value={{user: defaultUserData}}>
     <GestureHandlerRootView style={{flex: 1}}>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{
+        <Stack.Navigator 
+          initialRouteName={initialRoute}
+
+          screenOptions={{
             headerStyle: { 
               backgroundColor: '#eeeeee',
             },
@@ -24,12 +67,13 @@ function App() {
             headerTitleStyle: { fontWeight: 'bold'},
             headerShown: false,
             animation: 'fade',
-            gestureEnabled: false,
+            //gestureEnabled: false,
           }}
-        > 
+        >
+
           <Stack.Screen name="SignupPage" component={SignupPage} options={{headerShown: false}}/>
           <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}}/>
-
+          
           <Stack.Screen name="HomePage" component={HomePage} options={{title: 'Home Page'}}/>
           <Stack.Screen name="LevelSelectPage" component={LevelSelectPage} options={{title: 'Level Select Page'}}/>
           <Stack.Screen name="CourseSelectPage" component={CourseSelectPage} options={{title: 'Course Select Page'}}/>
@@ -51,7 +95,8 @@ function App() {
 
         </Stack.Navigator>
       </NavigationContainer>
-    </GestureHandlerRootView> 
+    </GestureHandlerRootView>
+    </userData.Provider>
   );
 }
 

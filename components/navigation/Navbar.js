@@ -1,3 +1,6 @@
+import * as React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import {Image} from "expo-image";
 import Images from '../../images/Index'
@@ -6,6 +9,35 @@ import Images from '../../images/Index'
 
 
 const Navbar = ({ style, navigation }) => {
+
+    const [userData, setUserData] = React.useState({
+        username : "",
+        profile_picture : "",
+        progress : {},
+            last_course : {
+            course : "",
+            unit : "",
+            lesson : ""
+        },
+        current_courses : [],
+        daily_streak : 0,
+      });
+    
+      React.useEffect(() => {
+          const loadUserData = async () => {
+              try {
+                  const jsonValue = await AsyncStorage.getItem("userData");
+                  const obj = jsonValue != null ? JSON.parse(jsonValue) : null;
+                  setUserData(obj);
+              } catch (e) {
+                  console.log(e);
+              }
+          };
+    
+          loadUserData();
+          
+      }, [])
+
     return (
     <View style={[styles.bar, style]}>
 
@@ -13,8 +45,8 @@ const Navbar = ({ style, navigation }) => {
             <Image style={styles.imgSty} source={Images.icons.home}/>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navButton}> 
-            <Image style={styles.imgSty} source={Images.icons.default}/>
+        <TouchableOpacity style={styles.navButton} onPress={() => console.log(userData)}> 
+            <Image style={styles.imgSty} source={Images.icons.key}/>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.navButton}> 

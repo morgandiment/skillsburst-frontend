@@ -1,3 +1,5 @@
+import * as React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyleSheet, View, Dimensions, ScrollView, TouchableOpacity, Text } from 'react-native';
 import {Header, Navbar, Ribbon, Padlock, AnimatedPercentageCircle, ChapterBox} from '../../components/Index.js';
 import {Image} from "expo-image";
@@ -69,7 +71,7 @@ const LevelSelectPage = ({route, navigation}) => {
             
             <Quizzes qs={unit.quizzes}/>
 
-            <Padlock w={w*3.5} locked={false} t={"Checkpoint " + (index + 1)}/>
+            <Padlock w={w*3.5} locked={true} t={"Checkpoint " + (index + 1)}/>
             <View style={{marginBottom: '4%'}}/>
         </View>)
     });
