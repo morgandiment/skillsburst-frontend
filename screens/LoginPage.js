@@ -75,7 +75,7 @@ function SignupPage({ navigation }) {
               try {
                 // Wait for the Login function to complete
                 
-                const response = await Login(User,Password ,setUsernameMessageVisible, setPasswordMessageVisible);
+                const response = await Login(User,Password ,setUserMessageVisible, setPasswordMessageVisible);
                 if (response){
                   const data = response.data.data
                   clearMessage()

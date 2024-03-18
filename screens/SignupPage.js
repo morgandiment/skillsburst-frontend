@@ -67,17 +67,17 @@ function SignupPage({ navigation }) {
 
 
   // for testing we no use
-  // async function autologin() {
-  //   const token = await AsyncStorage.getItem('token');
-  //   if (token) {
-  //     const url = `${Api_Url}/login/UserSession`;
-  //     const response = await axios.post(url, { token: token });
-  //     setData(response.data.data);
-  //   }
-  // }
+  async function autologin() {
+    const token = await AsyncStorage.getItem('token');
+    if (token) {
+      const url = `${Api_Url}/login/UserSession`;
+      const response = await axios.post(url, { token: token });
+      setData(response.data.data);
+    }
+  }
   
   React.useEffect(() => {
-    // autologin();
+    autologin();
     clearMessage();
     clearInputs();
   }, []);

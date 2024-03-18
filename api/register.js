@@ -48,18 +48,18 @@ export const Register = async (Username,Email,DateOfBirth,Password,ConfirmPasswo
     };
 
     //for testing we no use
-    // const url = `${Api_Url}/register/registerUser`
-    // try {
-    //     console.log('sdshropfgo');
-    //     const response = await axios.post(url, userData);
+    const url = `${Api_Url}/register/registerUser`
+    try {
+        console.log('sdshropfgo');
+        const response = await axios.post(url, userData);
 
-    //     console.log(response.data  );
-    //     return true;
-    // } catch (error) {
-    //     //console.error('Error:',  error.response.data.message);
-    //     Alert.alert('Error',error.response.data.message)
-    //     return false;
-    // }
+        console.log(response.data  );
+        return true;
+    } catch (error) {
+        //console.error('Error:',  error.response.data.message);
+        Alert.alert('Error',error.response.data.message)
+        return false;
+    }
     return true
 };
 
