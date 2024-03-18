@@ -68,7 +68,7 @@ function SignupPage({ navigation }) {
     console.log(userData);
 
     //for testing we no use
-    //registerUser(userData);
+    registerUser(userData);
     
     navigation.navigate('HomePage');
   }

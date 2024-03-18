@@ -23,7 +23,7 @@ function SignupPage({ navigation }) {
 
     console.log(userData);
 
-    if (false){
+    if (true){
       loginResponse = loginUser(userData);
       setUsernameMessageVisible(!loginResponse.username.iswrong);
       setPasswordMessageVisible(!loginResponse.password.iswrong);

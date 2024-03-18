@@ -30,6 +30,10 @@ const MultipleChoiceQuiz = ({
   questions,
   format,
   navigation,
+  lessonName,
+  courseName,
+  unitName,
+  chapterName,
 }) => {
   //const transition = useSharedValue(0); // Width and height of the transition animated view - displays x or tick
 
@@ -120,7 +124,7 @@ const MultipleChoiceQuiz = ({
       clearTimeout(timer);
       var pass = score.current >= required ? true : false;
       const results = { type: type, times: times.current, score: score.current, selectedIndexes: selected.current, questions: questions, questionCount: questionCount, maxStreak: streak.current[1] }
-      navigation.navigate('QuizEndPage', { format: format, pass: pass, results: results });
+      navigation.navigate('QuizEndPage', { unitName: unitName, chapterName: chapterName, courseName: courseName, lessonName: lessonName, format: format, pass: pass, results: results });
     }
   }
 

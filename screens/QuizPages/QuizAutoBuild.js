@@ -12,7 +12,7 @@ const windowHeight = Platform.OS === "android" ? Dimensions.get('window').height
 var timer = () => {};
 
 function QuizAutoBuild({ route, navigation }) {
-  const { quiz } = route.params;
+  const { quiz, courseName, chapterName, unitName } = route.params;
   if (quiz === undefined) {
     return (<View><Text>Error</Text></View>);
   }
@@ -29,11 +29,11 @@ function QuizAutoBuild({ route, navigation }) {
       // Find relevant quiz based on quiz format given in json - prolly should've just passed quizzes as paramets - may change
       switch (quiz.format) {
         case 'multiple_choice':
-          return (<MultipleChoiceQuiz format={quiz.format} required={quiz.required_correct}  type={quiz.type} maxTime={quiz.time} questionCount={quiz.number_of_questions} questions={quiz.questions} navigation={navigation}/>)
+          return (<MultipleChoiceQuiz courseName={courseName} lessonName={quiz.name} chapterName={chapterName} unitName={unitName} format={quiz.format} required={quiz.required_correct}  type={quiz.type} maxTime={quiz.time} questionCount={quiz.number_of_questions} questions={quiz.questions} navigation={navigation}/>)
         case 'lesson_quiz':
-          return (<LessonQuiz format={quiz.format} partCount={quiz.number_of_parts} parts={quiz.parts} navigation={navigation}/>)
+          return (<LessonQuiz courseName={courseName} lessonName={quiz.name} chapterName={chapterName} unitName={unitName} format={quiz.format} partCount={quiz.number_of_parts} parts={quiz.parts} navigation={navigation}/>)
         case 'lesson':
-          return (<Lesson format={quiz.format} partCount={quiz.number_of_parts} parts={quiz.parts} navigation={navigation}/>)
+          return (<Lesson courseName={courseName} lessonName={quiz.name} chapterName={chapterName} unitName={unitName} format={quiz.format} partCount={quiz.number_of_parts} parts={quiz.parts} navigation={navigation}/>)
         default:
           return (
           <View style={styles.noQuizStyle}>

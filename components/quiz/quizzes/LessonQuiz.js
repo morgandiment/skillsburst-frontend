@@ -16,6 +16,10 @@ const LessonQuiz = ({
   partCount,
   parts,
   format,
+  lessonName,
+  courseName,
+  unitName,
+  chapterName,
 }) => {
   //const transition = useSharedValue(0); // Width and height of the transition animated view - displays x or tick
 
@@ -71,7 +75,7 @@ const LessonQuiz = ({
     }
     else
     {
-      navigation.navigate('QuizEndPage', { format: format, pass: true, results: null });
+      navigation.navigate('QuizEndPage', { unitName: unitName, chapterName: chapterName, courseName: courseName, lessonName: lessonName, format: format, pass: true, results: null });
     }
   }
 

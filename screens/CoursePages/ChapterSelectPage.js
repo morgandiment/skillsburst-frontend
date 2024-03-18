@@ -1,7 +1,9 @@
-import * as React from 'react';
+import React, {useContext} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyleSheet, Text,  View, ScrollView, Dimensions} from 'react-native';
 import {Header, Navbar, ChapterBox, AnimatedPercentageCircleText} from '../../components/Index.js';
+
+import { UserContext } from '../../userContext.js'
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -10,59 +12,47 @@ const ChapterSelectPage = ({style, route, navigation}) => {
     const name = course.name;
     const chapters = course.chapters;
 
-    const [userData, setUserData] = React.useState({
-        username : "",
-        profile_picture : "",
-        progress : {},
-            last_course : {
-            course : "",
-            unit : "",
-            lesson : ""
-        },
-        current_courses : [],
-        daily_streak : 0,
-    });
+    const data = useContext(UserContext);
 
-    const [completionPercentage, setCompletionPercentage] = React.useState(0);
+    React.useMemo(() => {
+        const updateProgress = () => {
+            if (data.progress[name] === undefined){
+                //take copy of progress
+                const progressCopy = data.progress
 
-    React.useEffect(() => {
-        const loadUserData = async () => {
-            try {
-                const jsonValue = await AsyncStorage.getItem("userData");
-                const obj = jsonValue != null ? JSON.parse(jsonValue) : null;
-
-                //if no user data for being here create it
-                if (obj.progress[name] === undefined){
-                    obj.progress[name] = {
-                        percentage : 100,
-                        chapters : {}
-                    }
-                    for (const chapter of chapters){
-                        obj.progress[name].chapters[chapter.name] = {
-                            achievements_unlocked : 0,
-                            units : {}
-                        }
+                //add new value to copy
+                progressCopy[name] = {
+                    percentage : 0,
+                    chapters : {}
+                }
+                for (const chapter of chapters){
+                    progressCopy[name].chapters[chapter.name] = {
+                        achievements_unlocked : 0,
+                        units : {}
                     }
                 }
-                await AsyncStorage.setItem("userData", JSON.stringify(obj));
-                setUserData(obj);
-            } catch (e) {
-                console.log(e);
+
+                //overwrite old progress with updated
+                data.updateProgress(progressCopy);
             }
         };
 
-        loadUserData();
+        const updateCompletionPercentage = () => {
+            var playerTotal = 0;
+            for (const chapter of chapters){
+                playerTotal += data.progress[name].chapters[chapter.name].achievements_unlocked;
+            }
+            const progressCopy = data.progress
+            progressCopy[name].percentage = Math.round((playerTotal / course.total_units) * 100) / 100
+            data.updateProgress(progressCopy)
+        }
+
+        updateProgress();
+        updateCompletionPercentage();
         
     }, [])
 
-    const calculateCompletion = () => {
-        var playerTotal = 0;
-        for (const chapter of chapters){
-            playerTotal += typeof(userData.progress[name]) === 'undefined' ? 0 : userData.progress[name].chapters[chapter.name].achievements_unlocked;
-        }
-        setCompletionPercentage(Math.round(playerTotal / course.total_units))
-        console.log(completionPercentage)
-    }
+    
 
     // Switch to embedded map
     var chapterViews = []
@@ -70,12 +60,12 @@ const ChapterSelectPage = ({style, route, navigation}) => {
     chapters.forEach(chapter => {
         chapterViews.push(
             <ChapterBox
-            completion={typeof(userData.progress[name]) === 'undefined' ? 0 : userData.progress[name].chapters[chapter.name].achievements_unlocked} 
+            completion={data.progress[name].chapters[chapter.name].achievements_unlocked} 
             key={i} 
             name={chapter.name}
             units={chapter.units} 
             active={true}
-            onPressStart={() => navigation.navigate('LevelSelectPage', {units: chapter.path, name: chapter.name})} 
+            onPressStart={() => navigation.navigate('LevelSelectPage', {units: chapter.path, courseName: name, chapterName: chapter.name})} 
             style={{marginBottom: '6%'}}/>
         );
         i++;
@@ -90,7 +80,7 @@ const ChapterSelectPage = ({style, route, navigation}) => {
                 <View style={CourseStyle.scrollContent}>
 
                     <Text style={CourseStyle.heading}>{name}</Text>
-                    <AnimatedPercentageCircleText onPress={() => {navigation.navigate('CoursePreviewPage', {course: course})}} active={true} percentage={typeof(userData.progress[name]) === 'undefined' ? 0 : userData.progress[name].percentage} w={windowWidth / 30} r={windowWidth / 7} />
+                    <AnimatedPercentageCircleText onPress={() => {navigation.navigate('CoursePreviewPage', {course: course})}} active={true} percentage={data.progress[name].percentage} w={windowWidth / 30} r={windowWidth / 7} />
 
                     {/* Display chapters */}
                     <View style={CourseStyle.chapterContainer}>

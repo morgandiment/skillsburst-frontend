@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useContext} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -12,12 +12,12 @@ import TemplatePage from './screens/TemplatePage.js';
 
 import Courses from './courses/index.js';
 
-import {userData} from './userContext.js'
+import { UserContext } from './userContext.js'
 
 const Stack = createNativeStackNavigator();
 
 function App() {
-  const [initialRoute, setInitialRoute] = React.useState("HomePage");
+  const [initialRoute, setInitialRoute] = React.useState("signupPage");
 
   const checkToken = async () => {
     try {
@@ -34,26 +34,37 @@ function App() {
     checkToken();
   }, [])
 
-  const defaultUserData = {
-    username : "Jabbamjc",
-    profile_picture : "put a link to bucket here",
-    progress : {},
-    last_course : {
-      course : "Arithmetic",
-      unit : "Unit 1",
-      lesson : "Addition 1"
-    },
-    current_courses : [
-      "Arithmetic",
-      "Literacy",
-      "Digital",
-      "Interview Skills",
-    ],
-    daily_streak : 1,
-  };
+  const [progress, setProgress] = React.useState({})
+  const [lastLesson, setLastLesson] = React.useState({
+    course : "Arithmetic",
+    unit : "Unit 1",
+    lesson : "Addition 1"
+  })
+  const [currentCourses, setCurrentCourses] = React.useState([
+    "Arithmetic",
+    "Literacy",
+    "Digital",
+    "Interview Skills",
+  ])
+  const [dailyStreak, setDailyStreak] = React.useState(1)
 
   return (
-    <userData.Provider value={{user: defaultUserData}}>
+    <UserContext.Provider value={{
+      username : "Jabbamjc",
+      profile_picture : "put a link to bucket here",
+
+      progress : progress,
+      updateProgress : setProgress,
+
+      last_lesson : lastLesson,
+      updateLastLesson : setLastLesson,
+
+      current_courses : currentCourses,
+      updateCurrentCourses : setCurrentCourses,
+
+      daily_streak : dailyStreak,
+      updateDailyStreak : setDailyStreak,
+    }}>
     <GestureHandlerRootView style={{flex: 1}}>
       <NavigationContainer>
         <Stack.Navigator 
@@ -96,7 +107,7 @@ function App() {
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>
-    </userData.Provider>
+    </UserContext.Provider>
   );
 }
 

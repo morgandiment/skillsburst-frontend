@@ -1,17 +1,42 @@
+import React, {useContext} from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity, Dimensions } from 'react-native';
 import { MultipleChoiceResults } from '../../components/quiz/quizResults/Results';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import Images from '../../images/Index';
 
+import { UserContext } from '../../userContext.js'
+
 const windowWidth = Dimensions.get('window').width;
 
-const QuizEndPage = ({
-    navigation,
-    route,
-    }) => {
+const QuizEndPage = ({navigation, route}) => {
+
+    const { courseName, lessonName, unitName, chapterName, format, pass, results } = route.params;
+
+    const data = useContext(UserContext);
+
+    React.useMemo(() => {
+        console.log(unitName)
+        const updateUnit = () => {
+            //take copy of progress
+            const progressCopy = data.progress
+
+            //add new value to copy
+            progressCopy[courseName].chapters[chapterName].units[unitName].lessons[lessonName] = {
+                passed : pass,
+                percentage : Math.round((results.score / results.questionCount) * 100) / 100,
+                time : results.times.reduce((a, b) => a + b, 0),
+                maxStreak: results.maxStreak,
+                score: results.score,
+            }
+
+            data.updateProgress(progressCopy);
+        }
+
+        updateUnit();
+    }, [])
     
-    const { format, pass, results } = route.params;
+    
     
     const ResultBreakdown = () => {
         switch (format) {

@@ -7,12 +7,53 @@ import {Image} from "expo-image";
 import Images from '../../images/Index.js';
 import Courses from '../../courses/index.js';
 
-import {userData} from '../../userContext.js'
+import { UserContext } from '../../userContext.js'
 
 const windowWidth = Dimensions.get('window').width * 0.9;
 const windowHeight = Dimensions.get('window').height * 0.85;
 
 const HomePage = ({style, navigation}) => {
+
+    const data = useContext(UserContext);
+
+    React.useMemo(() => {
+        const updateProgress = () => {
+            for (const course of Courses){
+                //take copy of progress
+                const progressCopy = data.progress
+
+                //add new value to copy
+                progressCopy[course.name] = {
+                    percentage : 0,
+                    chapters : {}
+                }
+                for (const chapter of course.chapters){
+                    progressCopy[course.name].chapters[chapter.name] = {    
+                        achievements_unlocked : 0,
+                        units : {}
+                    }
+                }
+
+                //overwrite old progress with updated
+                data.updateProgress(progressCopy);
+            }
+        }
+
+        const updateCompletionPercentage = () => {
+            for (const course of Courses){
+                var playerTotal = 0;
+                for (const chapter of course.chapters){
+                    playerTotal += data.progress[course.name].chapters[chapter.name].achievements_unlocked;
+                }
+                const progressCopy = data.progress
+                progressCopy[course.name].percentage = Math.round((playerTotal / course.total_units) * 100) / 100
+                data.updateProgress(progressCopy)
+            }
+        }
+
+        updateProgress();
+        updateCompletionPercentage();
+    }, [])
     
     // Entries on the current courses box, each one links to a course page
     const CourseView = ({
@@ -53,12 +94,10 @@ const HomePage = ({style, navigation}) => {
     var currentCourses = [];
     var i = 0;
     Courses.forEach(course => {
-        if (true){ //user data includes
-            i++;
-            currentCourses.push(
-                <CourseView key={i} name={course.name} percentage={0} img={course.icon} onPress={() => {navigation.navigate('ChapterSelectPage', {course: course})}} />
-            );
-        };
+        i++;
+        currentCourses.push(
+            <CourseView key={i} name={course.name} percentage={data.progress[course.name].percentage} img={course.icon} onPress={() => {navigation.navigate('ChapterSelectPage', {course: course})}} />
+        );
     });
 
     const streak = [1, 2, 3, 4, 5, 6, 7];
@@ -66,12 +105,11 @@ const HomePage = ({style, navigation}) => {
     // Function to determine the color of the number boxes based on streak
     const getNumberBoxColor = (index) => {
       // Determine the color based on the index
-      const completedDays = 3; // Number of completed days (for example)
+      const completedDays = data.daily_streak; // Number of completed days (for example)
       return index < completedDays ? '#00fda2' : '#ffffff'; // Green for completed days, white for remaining days
     };
 
     return (
-        <userData.Consumer>
             <View style={{flex: 1}}>
                 <Header navigation={navigation}/>
                 
@@ -86,12 +124,12 @@ const HomePage = ({style, navigation}) => {
                     <View style={[styles.continueContainer, styles.iosShadow]} >
                         <View flex={1.5} alignItems={'center'} justifyContent={'center'}>
                             {/* Needs a number instead of percentage for sizing due to svg*/}
-                            <AnimatedPercentageCircle onPress={() => {navigation.navigate('QuizPage', {quiz: '/quizzes/multipleChoiceTest.json'})}} active={true} imgARatio={0.5} percentage={0} w={windowWidth / 30} r={windowWidth / 7} img={Images.other.play} barEmptyColor={'#056b7a'} />
+                            <AnimatedPercentageCircle onPress={() => {navigation.navigate('QuizPage', {quiz: "../../courses/arithmetic/1/quizzes/u1q1.json" })}} active={true} imgARatio={0.5} percentage={data.progress[data.last_lesson.course].percentage} w={windowWidth / 30} r={windowWidth / 7} img={Images.other.play} barEmptyColor={'#056b7a'} />
                         </View>
                         <View flex={2} justifyContent={'center'}>
                             <View height={'70%'} width={'90%'} alignItems={'center'}  borderRadius={20} backgroundColor={'#01778a'}>
-                                <Text style={[styles.whiteText, {fontSize: 20}]} marginTop={10}>{}:</Text>
-                                <Text style={[styles.whiteText, {fontSize: 15}]} marginTop={5}>{} - {}</Text>
+                                <Text style={[styles.whiteText, {fontSize: 20}]} marginTop={10}>{data.last_lesson.course}:</Text>
+                                <Text style={[styles.whiteText, {fontSize: 15}]} marginTop={5}>{data.last_lesson.unit} - {data.last_lesson.lesson}</Text>
                             </View>
                         </View>
                     </View>
@@ -136,7 +174,6 @@ const HomePage = ({style, navigation}) => {
                 
                 <Navbar navigation={navigation}/>
             </View>
-        </userData.Consumer>
     );
 }
 
