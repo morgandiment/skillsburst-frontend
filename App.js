@@ -8,7 +8,7 @@ import Animated, { Easing } from 'react-native-reanimated';
 import {SimpleButton, AnimatedButton } from './components/Index.js';
 import { Template, QuizEndPage, QuizAutoBuild, CoursePreviewPage, LevelSelectPage, LandingPage, CourseSelectPage, LoginPage, SignupPage, HomePage, ProfileEditPage, SettingsPage, ChapterSelectPage, Feedback, HelpPage, ContactPage } from './screens/Index.js';
 import TemplatePage from './screens/TemplatePage.js';
-
+import OnboardingMainScreen from './screens/OnboardingPages/OnboardingMainScreen.js';
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -27,6 +27,7 @@ function App() {
             gestureEnabled: false,
           }}
         > 
+          {/* <Stack.Screen name="OnboardingMainScreen" component={OnboardingMainScreen} options={{headerShown: false}}/> */}
           <Stack.Screen name="SignupPage" component={SignupPage} options={{headerShown: false}}/>
           <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}}/>
 
