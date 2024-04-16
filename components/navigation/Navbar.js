@@ -23,7 +23,7 @@ const Navbar = ({ style, navigation }) => {
             <Image style={styles.imgSty} source={Images.icons.key}/>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navButton} onPress={() => console.log(JSON.stringify(data.progress.Arithmetic.chapters))}> 
+        <TouchableOpacity style={styles.navButton} onPress={() => console.log(JSON.stringify(data))}> 
             <Image style={styles.imgSty} source={Images.icons.default}/>
         </TouchableOpacity>
 

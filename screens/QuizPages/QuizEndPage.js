@@ -33,6 +33,12 @@ const QuizEndPage = ({navigation, route}) => {
             data.updateProgress(progressCopy);
         }
 
+        data.updateLastLesson({
+            course : courseName,
+            unit : unitName,
+            lesson : lessonName,
+        });
+
         updateUnit();
     }, [])
     

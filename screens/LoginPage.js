@@ -23,11 +23,13 @@ function SignupPage({ navigation }) {
 
     console.log(userData);
 
-    if (true){
+    if (false){
       loginResponse = loginUser(userData);
       setUsernameMessageVisible(!loginResponse.username.iswrong);
       setPasswordMessageVisible(!loginResponse.password.iswrong);
     };
+
+    loginUser(userData);
 
     if (usernameMessageVisible | passwordMessageVisible){
       return;
