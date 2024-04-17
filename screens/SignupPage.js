@@ -27,6 +27,9 @@ function SignupPage({ navigation }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmPasswordMessageVisible, setConfirmPasswordMessageVisible] = useState(false);
 
+  const [username, setUsername] = useState("");
+  const [usernameMessageVisible, setUsernameMessageVisible] = useState(false);
+
   const [show, setShowDatePicker] = useState(Platform.OS === "ios");
   
   const showDatePicker = () => {
@@ -58,11 +61,12 @@ function SignupPage({ navigation }) {
     }
 
     const userData = {
-      firstName: fullName.split(" ")[0],
-      lastName: fullName.split(" ")[1],
+      FirstName: fullName.split(" ")[0],
+      LastName: fullName.split(" ")[1],
       Email: email,
       Password: password,
       DOB: date.toLocaleDateString('en-GB'),
+      Username: username,
     };
 
     console.log(userData);
@@ -152,6 +156,17 @@ function SignupPage({ navigation }) {
 
               failMessage="Passwords Do Not Match"
               showFailMessage={confirmPasswordMessageVisible}
+            />
+
+            <TextInputWithIcon
+              style={styles.textInputStyle}
+              textStyle={{fontSize: 20}}
+              placeholder={"Username"}
+              imagePath={Images.icons.username}
+              onChangeText={setUsername}
+
+              failMessage="This username is already in use" 
+              showFailMessage={usernameMessageVisible}
             />
           </View>
         </ScrollView>

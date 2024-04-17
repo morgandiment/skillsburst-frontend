@@ -9,9 +9,8 @@ export const UserContext = React.createContext({
     updateProgress: () => {},
 
     last_lesson : {
-      course : "Arithmetic",
-      unit : "Unit 1",
-      lesson : "Addition 1"
+      course : "Problem Solving",
+      quiz : "Addition 1"
     },
     updateLastLesson: () => {},
     

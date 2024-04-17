@@ -23,17 +23,13 @@ var timer = () => {};
 
 const MultipleChoiceQuiz = ({
   style,
-  type,
+  course,
+  difficulty,
+  quiz,
+  passThreshold = 0.6, //percentage
   maxTime = 999999,
-  required,
-  questionCount,
-  questions,
-  format,
   navigation,
-  lessonName,
-  courseName,
-  unitName,
-  chapterName,
+
 }) => {
   //const transition = useSharedValue(0); // Width and height of the transition animated view - displays x or tick
 
@@ -47,7 +43,7 @@ const MultipleChoiceQuiz = ({
   
   const [finished, setFinished] = useState(false); // on finsihed set view to full screen -> cool ending animation?
   const [currentQuestion, setCurrentQuestion] = useState(() => {
-    const initialState = questions[currentIndex.current];
+    const initialState = quiz.questions[currentIndex.current];
     return initialState;
   });
 
@@ -55,7 +51,7 @@ const MultipleChoiceQuiz = ({
   // convert to change startTimer definition based on switch(type) instead of checking inside - increase performance!!
   const startTimer = () => {
     timer = setInterval(() => {
-      switch (type){
+      switch (quiz.type){
         case "total_time":
           if(currentTime.current + totalTime.current >= maxTime-0.1) {
             timeOutQuiz();
@@ -114,27 +110,27 @@ const MultipleChoiceQuiz = ({
 
     totalTime.current = times.current.reduce((partialSum, a) => partialSum + a, 0);
 
-    if (currentIndex.current < questionCount){
+    if (currentIndex.current < quiz.answer_count){
       start();
-      setCurrentQuestion(questions[currentIndex.current]);
+      setCurrentQuestion(quiz.questions[currentIndex.current]);
     }
     else
     {
       // Finished with quiz
       clearTimeout(timer);
-      var pass = score.current >= required ? true : false;
-      const results = { type: type, times: times.current, score: score.current, selectedIndexes: selected.current, questions: questions, questionCount: questionCount, maxStreak: streak.current[1] }
-      navigation.navigate('QuizEndPage', { unitName: unitName, chapterName: chapterName, courseName: courseName, lessonName: lessonName, format: format, pass: pass, results: results });
+      var pass = score.current / quiz.answer_count >= passThreshold ? true : false;
+      const results = { type: quiz.type, times: times.current, score: score.current, selectedIndexes: selected.current, questions: quiz.questions, questionCount: quiz.answer_count, maxStreak: streak.current[1] }
+      navigation.navigate('QuizEndPage', { quiz: quiz, course: course, difficulty: difficulty, pass: pass, results: results });
     }
   }
 
   function timeOutQuiz() {
     // Time out every following question
-    for (var i = currentIndex.current; i < questionCount; i++) {
+    for (var i = currentIndex.current; i < quiz.answer_count; i++) {
       selected.current.push(-1);
     }
     clearTimeout(timer);
-    const results = { type: type, times: times.current, score: score.current,  selectedIndexes: selected.current, questions: questions, questionCount: questionCount,  maxStreak: streak.current[1] }
+    const results = { type: quiz.type, times: times.current, score: score.current,  selectedIndexes: selected.current, questions: quiz.questions, questionCount: quiz.answer_count,  maxStreak: streak.current[1] }
     navigation.navigate('QuizEndPage', { format: format, pass: false, results: results });
     
   }
@@ -225,9 +221,9 @@ const MultipleChoiceQuiz = ({
       <View style={styles.top}>
 
         {/* Question prgoress bar */}
-        <QuestionProgressBar style={styles.progressBar} current={currentIndex.current} total={questionCount} w={windowWidth*0.9}/>
+        <QuestionProgressBar style={styles.progressBar} current={currentIndex.current} total={quiz.answer_count} w={windowWidth*0.9}/>
         <View flex={1} width={'100%'} justifyContent={'space-evenly'} flexDirection={'row'}>
-          <CountdownCricle duration={maxTime * 1000} type={type} r={windowWidth/7} w={windowWidth/19} barEmptyColor='#056b7a'/>
+          <CountdownCricle duration={maxTime * 1000} type={quiz.type} r={windowWidth/7} w={windowWidth/19} barEmptyColor='#056b7a'/>
           {/*<View width={windowWidth/3} height={windowWidth/3} borderRadius={windowWidth} backgroundColor={'red'}>
               <Text>{streak.current[0]}</Text>
           </View>*/}

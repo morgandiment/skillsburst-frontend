@@ -11,12 +11,17 @@ const windowWidth = Dimensions.get('window').width;
 
 const QuizEndPage = ({navigation, route}) => {
 
-    const { courseName, lessonName, unitName, chapterName, format, pass, results } = route.params;
+    const {
+        course,
+        difficulty,
+        quiz,
+        pass, 
+        results,
+    } = route.params;
 
     const data = useContext(UserContext);
 
     React.useMemo(() => {
-        console.log(unitName)
         const updateUnit = () => {
             //take copy of progress
             const progressCopy = data.progress
@@ -34,18 +39,15 @@ const QuizEndPage = ({navigation, route}) => {
         }
 
         data.updateLastLesson({
-            course : courseName,
-            unit : unitName,
-            lesson : lessonName,
+            course : course.name,
+            quiz : quiz.name,
         });
 
-        updateUnit();
+        //updateUnit();
     }, [])
     
-    
-    
     const ResultBreakdown = () => {
-        switch (format) {
+        switch (quiz.format) {
             case 'multiple_choice':
                 return <MultipleChoiceResults results={results}/>
             default:

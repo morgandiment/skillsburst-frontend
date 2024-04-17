@@ -1,13 +1,13 @@
-import arithmetic from './arithmetic/arithmetic';
-import literacy from './literacy/literacy';
-import digital from './digital/digital';
-import interview from './interview/interview';
+import problemSolving from './problemSolving';
+import literacy from './literacy';
+import digital from './digital';
+import interview from './interview';
 
 const courses = [
-    arithmetic,
-    literacy,
-    digital,
-    interview
+    problemSolving,
+    //literacy,
+    //digital,
+    //interview
 ]
 
 export default courses;

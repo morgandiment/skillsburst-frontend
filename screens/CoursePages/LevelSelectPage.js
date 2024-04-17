@@ -14,16 +14,14 @@ const windowWidth = Dimensions.get('window').width;
 
 const LevelSelectPage = ({route, navigation}) => {
 
-  var { units, courseName, chapterName} = route.params;
-  if (units === null) {
-    return;
-  }
-  var units = units.default;
+  var { course, difficulty } = route.params;
+  var quizzes = course.quizzes[difficulty];
+
+  console.log(quizzes)
 
   var w = windowWidth / 7;
 
   const data = useContext(UserContext);
-
   React.useMemo(() => {
       const updateUnit = () => {
         for (const unit of units){
@@ -55,33 +53,31 @@ const LevelSelectPage = ({route, navigation}) => {
         }
       }
 
-      updateUnit();
+      //updateUnit();
   }, []);
 
   // Component that returns an array of all questions as precentage circles for a given unit
-  var unitIndex = -1;
-  const Quizzes = ({qs}) => {
-    const n = qs.length;
+  const Quizzes = (quizzes) => {
+    const n = quizzes.quizzes.length;
     const qArr = [];
-    
-    qs.map((level, index) => {
-      if (index == 0){
-        unitIndex += 1
-      }
-      console.log(units[unitIndex].name)
+
+    var i = 0;
+
+    for (const quiz of quizzes.quizzes){
       qArr.push(
         <AnimatedPercentageCircle 
-        key={index} 
-        w={w/5}
-        r={w/1.2} 
-        text={level.name} 
-        percentage={data.progress[courseName].chapters[chapterName].units[units[unitIndex].name].lessons[level.name].percentage} 
-        active={true}
-        img={level.image}
-        onPress={() => navigation.navigate('QuizPage', {quiz: level.questions[0], courseName: courseName, chapterName: chapterName, unitName: units[unitIndex].name })}
+          key={i} 
+          w={w/5}
+          r={w/1.2} 
+          text={quiz.name} 
+          percentage={0} 
+          active={true}
+          img={Images?.[quiz.icon]}
+          onPress={() => navigation.navigate('QuizPage', {quiz: quiz, course : course, difficulty : difficulty})}
         />
       )
-    });
+      i++;
+    };
 
     const formated = [];
     var i = 0;
@@ -105,22 +101,23 @@ const LevelSelectPage = ({route, navigation}) => {
 
   // Component that iterates through every unit within the current chapter and returns them as an array
   // Need to fix the padlock styling
-  const Units = () => {
-    var us = [];
-    units.map((unit, index) => {
-        us.push(
-        <View key={index} style={styles.unitContainer}>
-            <Ribbon t={unit.name}/>
+  // const Units = () => {
+  //   var us = [];
+  //   quizzes.map((quiz, index) => {
+  //       us.push(
+  //         <View key={index} style={styles.unitContainer}>
+  //           <Ribbon t={quiz.name}/>
             
-            <Quizzes qs={unit.quizzes}/>
+  //           <Quizzes qs={quiz.questions}/>
 
-            <Padlock w={w*3.5} locked={true} t={"Checkpoint " + (index + 1)}/>
-            <View style={{marginBottom: '4%'}}/>
-        </View>)
-    });
+  //           <Padlock w={w*3.5} locked={true} t={"Checkpoint " + (index + 1)}/>
+  //           <View style={{marginBottom: '4%'}}/>
+  //         </View>
+  //       )
+  //   });
 
-    return <View>{us}</View>
-  }
+  //   return <View>{us}</View>
+  // }
     
   return (
     <View style={{flex: 1}}>
@@ -135,7 +132,18 @@ const LevelSelectPage = ({route, navigation}) => {
           
         <ScrollView width={"100%"} showsVerticalScrollIndicator={false}>
           <View style={[styles.container, {marginVertical: w/8}]}>
-            <Units/>
+            
+
+            <View key={0} style={styles.unitContainer}>
+              <Ribbon t={difficulty}/>
+              
+                <Quizzes quizzes={quizzes}/>
+
+              <Padlock w={w*3.5} locked={true} t={"Checkpoint : xyz"}/>
+              <View style={{marginBottom: '4%'}}/>
+            </View>
+
+
           </View>
           <View marginVertical={'30%'}/>
         </ScrollView>
@@ -156,6 +164,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    
   },
   unitContainer: {
     alignItems: 'center',

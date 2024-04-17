@@ -23,19 +23,23 @@ function SignupPage({ navigation }) {
 
     console.log(userData);
 
-    if (false){
-      loginResponse = loginUser(userData);
-      setUsernameMessageVisible(!loginResponse.username.iswrong);
-      setPasswordMessageVisible(!loginResponse.password.iswrong);
+    loginResponse = loginUser(userData);
+    if (loginResponse){ //login successful
+
+      //load userdata into context//
+        //navigation.navigate('HomePage');
+      //if (userData.finished_intro){
+        
+      //} else {
+        navigation.navigate('OnboardingMainScreen');  
+      //}
+
+    } else { //login failed
+      setUsernameMessageVisible(!loginResponse.cause == "username");
+      setPasswordMessageVisible(!loginResponse.cause == "password");
     };
 
-    loginUser(userData);
 
-    if (usernameMessageVisible | passwordMessageVisible){
-      return;
-    };
-
-    navigation.navigate('HomePage');
   };
 
   return (

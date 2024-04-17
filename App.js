@@ -7,7 +7,7 @@ import Animated, { Easing } from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {SimpleButton, AnimatedButton } from './components/Index.js';
-import { Template, QuizEndPage, QuizAutoBuild, CoursePreviewPage, LevelSelectPage, LandingPage, CourseSelectPage, LoginPage, SignupPage, HomePage, ProfileEditPage, SettingsPage, ChapterSelectPage, Feedback, HelpPage, ContactPage } from './screens/Index.js';
+import { Template, QuizEndPage, QuizAutoBuild, OnboardingMainScreen, CoursePreviewPage, LevelSelectPage, LandingPage, CourseSelectPage, LoginPage, SignupPage, HomePage, ProfileEditPage, SettingsPage, ChapterSelectPage, Feedback, HelpPage, ContactPage } from './screens/Index.js';
 import TemplatePage from './screens/TemplatePage.js';
 
 import Courses from './courses/index.js';
@@ -47,6 +47,8 @@ function App() {
     "Interview Skills",
   ])
   const [dailyStreak, setDailyStreak] = React.useState(1)
+  const [finishedIntro, setFinishedIntro] = React.useState(false)
+  const [introData, setIntroData] = React.useState()
 
   return (
     <UserContext.Provider value={{
@@ -64,6 +66,12 @@ function App() {
 
       daily_streak : dailyStreak,
       updateDailyStreak : setDailyStreak,
+
+      finished_intro : finishedIntro,
+      updateFinishedIntro : setFinishedIntro,
+
+      intro_data : introData,
+      updateIntroData : setIntroData,
     }}>
     <GestureHandlerRootView style={{flex: 1}}>
       <NavigationContainer>
@@ -81,11 +89,14 @@ function App() {
             //gestureEnabled: false,
           }}
         >
+          <Stack.Screen name="HomePage" component={HomePage} options={{title: 'Home Page'}}/>
 
           <Stack.Screen name="SignupPage" component={SignupPage} options={{headerShown: false}}/>
           <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}}/>
+
+          <Stack.Screen name="OnboardingMainScreen" component={OnboardingMainScreen} options={{}}/>
           
-          <Stack.Screen name="HomePage" component={HomePage} options={{title: 'Home Page'}}/>
+          
           <Stack.Screen name="LevelSelectPage" component={LevelSelectPage} options={{title: 'Level Select Page'}}/>
           <Stack.Screen name="CourseSelectPage" component={CourseSelectPage} options={{title: 'Course Select Page'}}/>
           <Stack.Screen name="CoursePreviewPage" component={CoursePreviewPage} options={{title: 'Course Preview Page'}}/>

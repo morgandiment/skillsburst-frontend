@@ -51,8 +51,8 @@ const HomePage = ({style, navigation}) => {
             }
         }
 
-        updateProgress();
-        updateCompletionPercentage();
+        //updateProgress();
+        //updateCompletionPercentage();
     }, [])
     
     // Entries on the current courses box, each one links to a course page
@@ -96,7 +96,7 @@ const HomePage = ({style, navigation}) => {
     Courses.forEach(course => {
         i++;
         currentCourses.push(
-            <CourseView key={i} name={course.name} percentage={data.progress[course.name].percentage} img={course.icon} onPress={() => {navigation.navigate('ChapterSelectPage', {course: course})}} />
+            <CourseView key={i} name={course.name} percentage={data?.progress?.[course.name]?.percentage} img={course.icon} onPress={() => {navigation.navigate('ChapterSelectPage', {course: course})}} />
         );
     });
 
@@ -124,12 +124,12 @@ const HomePage = ({style, navigation}) => {
                     <View style={[styles.continueContainer, styles.iosShadow]} >
                         <View flex={1.5} alignItems={'center'} justifyContent={'center'}>
                             {/* Needs a number instead of percentage for sizing due to svg*/}
-                            <AnimatedPercentageCircle onPress={() => {navigation.navigate('QuizPage', {quiz: "../../courses/arithmetic/1/quizzes/u1q1.json" })}} active={true} imgARatio={0.5} percentage={data.progress[data.last_lesson.course].percentage} w={windowWidth / 30} r={windowWidth / 7} img={Images.other.play} barEmptyColor={'#056b7a'} />
+                            <AnimatedPercentageCircle onPress={() => {navigation.navigate('QuizPage', {quiz: "../../courses/arithmetic/1/quizzes/u1q1.json" })}} active={true} imgARatio={0.5} percentage={data?.progress?.[data.last_lesson.course]?.percentage} w={windowWidth / 30} r={windowWidth / 7} img={Images.other.play} barEmptyColor={'#056b7a'} />
                         </View>
                         <View flex={2} justifyContent={'center'}>
                             <View height={'70%'} width={'90%'} alignItems={'center'}  borderRadius={20} backgroundColor={'#01778a'}>
-                                <Text style={[styles.whiteText, {fontSize: 20}]} marginTop={10}>{data.last_lesson.course}:</Text>
-                                <Text style={[styles.whiteText, {fontSize: 15}]} marginTop={5}>{data.last_lesson.unit} - {data.last_lesson.lesson}</Text>
+                                <Text style={[styles.whiteText, {fontSize: 18}]} marginTop={10}>{data.last_lesson.course}:</Text>
+                                <Text style={[styles.whiteText, {fontSize: 15}]} marginTop={5}>{data.last_lesson.quiz}</Text>
                             </View>
                         </View>
                     </View>

@@ -10,7 +10,7 @@ const windowWidth = Dimensions.get('window').width;
 const ChapterSelectPage = ({style, route, navigation}) => {
     const {course} = route.params;
     const name = course.name;
-    const chapters = course.chapters;
+    const difficulties = course.Difficulties;
 
     const data = useContext(UserContext);
 
@@ -47,26 +47,27 @@ const ChapterSelectPage = ({style, route, navigation}) => {
             data.updateProgress(progressCopy)
         }
 
-        updateProgress();
-        updateCompletionPercentage();
+        //updateProgress();
+        //updateCompletionPercentage();
         
     }, [])
 
     
 
     // Switch to embedded map
-    var chapterViews = []
+    var difficultyViews = []
     var i = 0;
-    chapters.forEach(chapter => {
-        chapterViews.push(
+    difficulties.forEach(difficulty => {
+        difficultyViews.push(
             <ChapterBox
-            completion={data.progress[name].chapters[chapter.name].achievements_unlocked} 
-            key={i} 
-            name={chapter.name}
-            units={chapter.units} 
-            active={true}
-            onPressStart={() => navigation.navigate('LevelSelectPage', {units: chapter.path, courseName: name, chapterName: chapter.name})} 
-            style={{marginBottom: '6%'}}/>
+                //completion={data.progress[name].chapters[chapter.name].achievements_unlocked} 
+                key={i} 
+                name={difficulty}
+                //units={chapter.units} //quizzes 
+                active={true}
+                onPressStart={() => navigation.navigate('LevelSelectPage', {course : course, difficulty: difficulty})} 
+                style={{marginBottom: '6%'}}
+            />
         );
         i++;
     });
@@ -80,13 +81,13 @@ const ChapterSelectPage = ({style, route, navigation}) => {
                 <View style={CourseStyle.scrollContent}>
 
                     <Text style={CourseStyle.heading}>{name}</Text>
-                    <AnimatedPercentageCircleText onPress={() => {navigation.navigate('CoursePreviewPage', {course: course})}} active={true} percentage={data.progress[name].percentage} w={windowWidth / 30} r={windowWidth / 7} />
+                    <AnimatedPercentageCircleText onPress={() => {navigation.navigate('CoursePreviewPage', {course: course})}} active={true} percentage={data?.progress?.[name]?.percentage} w={windowWidth / 30} r={windowWidth / 7} />
 
                     {/* Display chapters */}
                     <View style={CourseStyle.chapterContainer}>
                         <Text style={CourseStyle.subHeading}>Chapters</Text>
                         <Text marginBottom={'6%'}>Fully complete a chapter for a special acheivement!</Text>
-                        {chapterViews}
+                        {difficultyViews}
                     </View>
 
                 </View>

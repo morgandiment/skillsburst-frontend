@@ -14,6 +14,7 @@ import CourseSelectPage from './MainPages/CourseSelectPage.js';
 import LevelSelectPage from './CoursePages/LevelSelectPage.js';
 import CoursePreviewPage from './MainPages/CoursePreviewPage.js';
 import QuizEndPage from './QuizPages/QuizEndPage.js';
+import OnboardingMainScreen from './NewUserPages/OnboardingMainScreen.js';
 
 export {
     Template,
@@ -32,4 +33,5 @@ export {
     LevelSelectPage,
     CoursePreviewPage,
     QuizEndPage,
+    OnboardingMainScreen,
 }
