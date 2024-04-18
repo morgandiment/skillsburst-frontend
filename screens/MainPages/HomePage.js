@@ -8,6 +8,7 @@ import Images from '../../images/Index.js';
 import Courses from '../../courses/index.js';
 
 import { UserContext } from '../../userContext.js'
+import { getCourseData } from "../../API/database_connection.js";
 
 const windowWidth = Dimensions.get('window').width * 0.9;
 const windowHeight = Dimensions.get('window').height * 0.85;
@@ -15,45 +16,6 @@ const windowHeight = Dimensions.get('window').height * 0.85;
 const HomePage = ({style, navigation}) => {
 
     const data = useContext(UserContext);
-
-    React.useMemo(() => {
-        const updateProgress = () => {
-            for (const course of Courses){
-                //take copy of progress
-                const progressCopy = data.progress
-
-                //add new value to copy
-                progressCopy[course.name] = {
-                    percentage : 0,
-                    chapters : {}
-                }
-                for (const chapter of course.chapters){
-                    progressCopy[course.name].chapters[chapter.name] = {    
-                        achievements_unlocked : 0,
-                        units : {}
-                    }
-                }
-
-                //overwrite old progress with updated
-                data.updateProgress(progressCopy);
-            }
-        }
-
-        const updateCompletionPercentage = () => {
-            for (const course of Courses){
-                var playerTotal = 0;
-                for (const chapter of course.chapters){
-                    playerTotal += data.progress[course.name].chapters[chapter.name].achievements_unlocked;
-                }
-                const progressCopy = data.progress
-                progressCopy[course.name].percentage = Math.round((playerTotal / course.total_units) * 100) / 100
-                data.updateProgress(progressCopy)
-            }
-        }
-
-        //updateProgress();
-        //updateCompletionPercentage();
-    }, [])
     
     // Entries on the current courses box, each one links to a course page
     const CourseView = ({
@@ -74,31 +36,23 @@ const HomePage = ({style, navigation}) => {
         );
     }
 
-    /*
-
-    // Get all current course json files
-    var currentCourses = [];
-    var i = 0;
-    getCourses().forEach(courseName => {
-        var i = 0;
-        Courses.forEach(course => {
-            i++;
-            if (course.name == courseName) {
-                currentCourses.push(
-                    <CourseView key={i} name={course.name} percentage={0} img={course.icon} onPress={() => {navigation.navigate('CoursePage', {course: course})}} />
-                );
-            }
-        });
-    }); */
+    const [p, setP] = React.useState([]);
+    React.useEffect(() => {
+        var temp = []
+        for (const course of Courses) {
+            temp.push(data?.progress?.[course.name]?.percentage)
+        }
+        setP(temp)
+    }, [data])
 
     var currentCourses = [];
     var i = 0;
-    Courses.forEach(course => {
-        i++;
+    for (const course of Courses) {
         currentCourses.push(
-            <CourseView key={i} name={course.name} percentage={data?.progress?.[course.name]?.percentage} img={course.icon} onPress={() => {navigation.navigate('ChapterSelectPage', {course: course})}} />
+            <CourseView key={i} name={course.name} percentage={p[i]} img={course.icon} onPress={() => {getCourseData(course.name).then((courseData) => navigation.navigate('ChapterSelectPage', { course: courseData }))}} />
         );
-    });
+        i++;
+    }
 
     const streak = [1, 2, 3, 4, 5, 6, 7];
 
@@ -124,7 +78,7 @@ const HomePage = ({style, navigation}) => {
                     <View style={[styles.continueContainer, styles.iosShadow]} >
                         <View flex={1.5} alignItems={'center'} justifyContent={'center'}>
                             {/* Needs a number instead of percentage for sizing due to svg*/}
-                            <AnimatedPercentageCircle onPress={() => {navigation.navigate('QuizPage', {quiz: "../../courses/arithmetic/1/quizzes/u1q1.json" })}} active={true} imgARatio={0.5} percentage={data?.progress?.[data.last_lesson.course]?.percentage} w={windowWidth / 30} r={windowWidth / 7} img={Images.other.play} barEmptyColor={'#056b7a'} />
+                            <AnimatedPercentageCircle onPress={() => {navigation.navigate('QuizPage', {quiz: "../../courses/arithmetic/1/quizzes/u1q1.json" })}} active={true} imgARatio={0.5} percentage={0} w={windowWidth / 30} r={windowWidth / 7} img={Images.other.play} barEmptyColor={'#056b7a'} />
                         </View>
                         <View flex={2} justifyContent={'center'}>
                             <View height={'70%'} width={'90%'} alignItems={'center'}  borderRadius={20} backgroundColor={'#01778a'}>

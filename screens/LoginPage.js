@@ -1,14 +1,17 @@
-import React , {useState} from 'react';
+import React , {useState, useContext} from 'react';
 import { Button, StyleSheet, Text, View, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
 import {Image} from "expo-image";
+import { UserContext } from '../userContext.js'
 
 import { SimpleButton, TextInputWithIcon } from '../components/Index.js';
 //import {  } from './Index.js';
 import Images from '.././images/Index.js';
 
-import {loginUser} from "../API/database_connection.js";
+import {loginUser, loadUserProgress} from "../API/database_connection.js";
 
 function SignupPage({ navigation }) {
+  const userContextData = useContext(UserContext);
+
   const [username, onChangeUsername] = useState('');
   const [usernameMessageVisible, setUsernameMessageVisible] = useState(false);
 
@@ -21,25 +24,31 @@ function SignupPage({ navigation }) {
       Password: password,
     };
 
-    console.log(userData);
+    loginUser(userData).then((loginResponse) => {
+      if (loginResponse){ //login successful
 
-    loginResponse = loginUser(userData);
-    if (loginResponse){ //login successful
-
-      //load userdata into context//
-        //navigation.navigate('HomePage');
-      //if (userData.finished_intro){
+        //load user data
+        userContextData.updateUsername(loginResponse.username)
+        userContextData.updateId(loginResponse.UserID)
+  
+        //load userdata into context//
+        console.log(userContextData.id)
+        loadUserProgress(userContextData.id).then((userProgress) => {
+          userContextData.updateProgress(userProgress);
+          navigation.navigate('HomePage');
+        })
         
-      //} else {
-        navigation.navigate('OnboardingMainScreen');  
-      //}
-
-    } else { //login failed
-      setUsernameMessageVisible(!loginResponse.cause == "username");
-      setPasswordMessageVisible(!loginResponse.cause == "password");
-    };
-
-
+        //if (userData.finished_intro){
+          
+        //} else {
+          //navigation.navigate('OnboardingMainScreen');  
+        //}
+  
+      } else { //login failed
+        setUsernameMessageVisible(!loginResponse.cause == "username");
+        setPasswordMessageVisible(!loginResponse.cause == "password");
+      };
+    })
   };
 
   return (

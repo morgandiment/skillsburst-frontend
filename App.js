@@ -33,36 +33,31 @@ function App() {
   React.useEffect(() => {
     checkToken();
   }, [])
-
+  const [username, setUsername] = React.useState("")
+  const [profilePicture, setProfilePicture] = React.useState("")
+  const [id, setId] = React.useState("")
   const [progress, setProgress] = React.useState({})
-  const [lastLesson, setLastLesson] = React.useState({
-    course : "Arithmetic",
-    unit : "Unit 1",
-    lesson : "Addition 1"
-  })
-  const [currentCourses, setCurrentCourses] = React.useState([
-    "Arithmetic",
-    "Literacy",
-    "Digital",
-    "Interview Skills",
-  ])
+  const [lastLesson, setLastLesson] = React.useState({})
   const [dailyStreak, setDailyStreak] = React.useState(1)
   const [finishedIntro, setFinishedIntro] = React.useState(false)
-  const [introData, setIntroData] = React.useState()
+  const [introData, setIntroData] = React.useState({})
 
   return (
     <UserContext.Provider value={{
-      username : "Jabbamjc",
-      profile_picture : "put a link to bucket here",
+      username : username,
+      updateUsername : setUsername,
+
+      profile_picture : profilePicture,
+      updateProfilePicture : setProfilePicture,
+
+      id : id,
+      updateId : setId,
 
       progress : progress,
       updateProgress : setProgress,
 
       last_lesson : lastLesson,
       updateLastLesson : setLastLesson,
-
-      current_courses : currentCourses,
-      updateCurrentCourses : setCurrentCourses,
 
       daily_streak : dailyStreak,
       updateDailyStreak : setDailyStreak,
@@ -89,10 +84,11 @@ function App() {
             //gestureEnabled: false,
           }}
         >
+          
+          <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}}/>
           <Stack.Screen name="HomePage" component={HomePage} options={{title: 'Home Page'}}/>
 
           <Stack.Screen name="SignupPage" component={SignupPage} options={{headerShown: false}}/>
-          <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}}/>
 
           <Stack.Screen name="OnboardingMainScreen" component={OnboardingMainScreen} options={{}}/>
           

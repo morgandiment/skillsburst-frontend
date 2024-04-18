@@ -60,7 +60,7 @@ const AnimatedPercentageCircle = ({
     }));
   
     return (
-      <View alignItems = "center">
+      <View style={{ alignItems:"center", width:"40%" }}>
         <View style={{width: total, height: total, alignItems: "center"}}>
 
           <Svg transform={[{rotate: "-90deg"}]}>

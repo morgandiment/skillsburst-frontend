@@ -2,8 +2,6 @@ const course = {
     "name": "Problem Solving",
     "icon": require('../images/maths_symbols_icon_green.svg'),
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nec dui nunc mattis enim ut tellus elementum sagittis vitae. Risus pretium quam",
-    
-    "total_units": 10,
 
     "Difficulties" : ["Beginner", "Intermediate", "Advanced"],
     
@@ -15,12 +13,12 @@ const course = {
             "format":"multiple_choice",
             "time":15,
             "number_of_questions":null,
-            "type":"question_time", //not sure
-            "answer_count":7, //num of questions
+            "type":"question_time",
+            "answer_count":7,
             "questions":[{"question":"What is 27 + 49?","answer_count":4,"long_form":false,"answers":["54","66","76","84"],"correct_index":2},{"question":"What is 134 + 65?","answer_count":4,"long_form":false,"answers":["184","186","197","199"],"correct_index":3},{"question":"What is 73 + 19?","answer_count":4,"long_form":false,"answers":["92","94","96","98"],"correct_index":0},{"question":"What is 39 + 9?","answer_count":4,"long_form":false,"answers":["44","45","46","48"],"correct_index":3},{"question":"What is 123 + 123?","answer_count":4,"long_form":false,"answers":["213","222","231","246"],"correct_index":3},{"question":"What is 69 + 69?","answer_count":4,"long_form":false,"answers":["100","133","138","169"],"correct_index":2},{"question":"What is 189 + 11?","answer_count":4,"long_form":false,"answers":["198","199","200","201"],"correct_index":2}]
           },
           {
-            "name": "Addition 2",
+            "name":"Addition 2",
             "icon":"default",
             "format":"multiple_choice",
             "time":15,
@@ -29,6 +27,15 @@ const course = {
             "answer_count":10,
             "questions":[{"question":"What is 456 + 654?","answer_count":4,"long_form":false,"answers":["1,000","1,050","1,110","1,164"],"correct_index":2},{"question":"What is 322 + 322?","answer_count":4,"long_form":false,"answers":["644","654","664","674"],"correct_index":0},{"question":"What is 1,000 + 472?","answer_count":4,"long_form":false,"answers":["1,470","1,471","1,472","1,473"],"correct_index":2},{"question":"What is 887 + 396?","answer_count":4,"long_form":false,"answers":["1,054","1,123","1,195","1,283"],"correct_index":3},{"question":"What is 4,534 + 604?","answer_count":4,"long_form":false,"answers":["4,894","5,138","5,554","5,921"],"correct_index":1},{"question":"What is 9,998 + 9,999?","answer_count":4,"long_form":false,"answers":["19,997","19,998","19,999","20,000"],"correct_index":0},{"question":"What is 56,765 + 89?","answer_count":4,"long_form":false,"answers":["56,805","56,832","56,845","56,854"],"correct_index":3},{"question":"What is 11,456 + 11,043?","answer_count":4,"long_form":false,"answers":["22,456","22,499","22,506","22,534"],"correct_index":1},{"question":"What is 73,665 + 25,444?","answer_count":4,"long_form":false,"answers":["99,109","99,119","99,129","99,139"],"correct_index":0},{"question":"What is 106,543 + 12,455?","answer_count":4,"long_form":false,"answers":["117,562","118,998","119,734","120,223"],"correct_index":1}],
           },
+          {
+            "name":"Decimal Numbers 1",
+            "icon":"default",
+            "format":"multiple_choice",
+            "time":15,
+            "number_of_questions":null,
+            "type":"question_time",
+            "answer_count":10,
+            "questions":[{"question":"What is 0.5 + 0.22?","answer_count":4,"long_form":false,"answers":["0.50","0.70","0.72","5.22"],"correct_index":2},{"question":"What is 0.124 + 0.421?","answer_count":4,"long_form":false,"answers":["0.5","0.507","0.545","0.555"],"correct_index":2},{"question":"What is 0.5 - 0.25?","answer_count":4,"long_form":false,"answers":["0.45","0.35","0.25","0.2"],"correct_index":2},{"question":"What is 19.4 - 13.8?","answer_count":4,"long_form":false,"answers":["5","5.6","6.2","6.8"],"correct_index":1},{"question":"What is 110.55 + 90.45?","answer_count":4,"long_form":false,"answers":["200","200.5","201.5","202"],"correct_index":0},{"question":"What is 0.4472 - 0.3273?","answer_count":4,"long_form":false,"answers":["0.1193","0.1197","0.1198","0.1199"],"correct_index":3},{"question":"What is -0.478 + 0.478?","answer_count":4,"long_form":false,"answers":["UNDEFINED","0","0.478","1"],"correct_index":1},{"question":"What is 52.89 + 81.22?","answer_count":4,"long_form":false,"answers":["130.53","132.88","134.11","-136.1"],"correct_index":2},{"question":"What is -0.411 - 0.711?","answer_count":4,"long_form":false,"answers":["-1.122","-1.132","-1.222","-1.322"],"correct_index":0},{"question":"What is 0.45678 + 0.23456?","answer_count":4,"long_form":false,"answers":["0.68742","0.69134","0.69333","0.70210"],"correct_index":2}]},
         ],
         "Intermediate": [
           {

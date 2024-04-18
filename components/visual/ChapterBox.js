@@ -7,13 +7,13 @@ const ChapterBox = ({
     style, 
     name = 'Default Name',
     completion = 0,
-    units = 10,
+    num_of_quizzes = 0,
     active = false,
     onPressStart = () => {},
     onPressAchieve = () => {},
 }) => {
 
-    const percentage = completion / units * 100;
+    const percentage = completion / num_of_quizzes * 100;
 
     const VariableStartButton = () => {
         if (active === true) {
@@ -50,7 +50,7 @@ const ChapterBox = ({
                 <TouchableOpacity style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} onPress={onPressAchieve}>
                     <View style={{flexDirection: 'row', alignItems: 'center', width: '70%'}} >  
                         <Image style={{flex: 1, aspectRatio: 1.6, resizeMode: 'contain'}} source={Images.icons.trophy_icon_filled}/>
-                        <Text flex={1.7}><Text style={[{fontWeight: 'bold'}]}>{completion}</Text>/{units}</Text>
+                        <Text flex={1.7}><Text style={[{fontWeight: 'bold'}]}>{completion}</Text>/{num_of_quizzes}</Text>
                     </View>
                     <Text style={{fontSize: 10}}>Unlocked</Text>
                 </TouchableOpacity>

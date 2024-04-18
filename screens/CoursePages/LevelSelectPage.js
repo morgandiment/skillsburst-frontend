@@ -17,43 +17,55 @@ const LevelSelectPage = ({route, navigation}) => {
   var { course, difficulty } = route.params;
   var quizzes = course.quizzes[difficulty];
 
-  console.log(quizzes)
-
   var w = windowWidth / 7;
 
   const data = useContext(UserContext);
   React.useMemo(() => {
-      const updateUnit = () => {
-        for (const unit of units){
-          //take copy of progress
-          const progressCopy = data.progress
+      const initQuizzes = () => {
+        const progressCopy = data.progress
 
-          //add new value to copy
-          if (typeof progressCopy[courseName].chapters[chapterName].units[unit.name] === "undefined"){
-            progressCopy[courseName].chapters[chapterName].units[unit.name] = {
-              unlocked : false,
-              complete : false,
-              lessons : { },
-            };
-          };
+        //add new value to copy
+        var i = 0;
+        for (const quiz of quizzes){
+          if (typeof progressCopy[course.name].difficulties[difficulty].quizzes[quiz.name] === "undefined"){
+            progressCopy[course.name].difficulties[difficulty].quizzes[quiz.name] = {
+              locked : true,
+              unlock_requirement : i,
 
-          for (const quiz of unit.quizzes){
-            if (typeof progressCopy[courseName].chapters[chapterName].units[unit.name].lessons[quiz.name] === "undefined"){
-              progressCopy[courseName].chapters[chapterName].units[unit.name].lessons[quiz.name] = {
+              last_try : {
                 passed : false,
                 percentage : 0,
                 time : 0,
                 maxStreak: 0,
                 score: 0,
+              },
+              
+              best_try : {
+                passed : false,
+                percentage : 0,
+                time : Number.MAX_SAFE_INTEGER,
+                maxStreak: 0,
+                score: 0,
+              }
             }
-            };
           }
-
-          data.updateProgress(progressCopy);
+          i++;
         }
+        data.updateProgress(progressCopy);
       }
 
-      //updateUnit();
+      const updateQuizzes = () => {
+        const progressCopy = data.progress
+
+        //add new value to copy
+        for (const quiz of quizzes){
+          progressCopy[course.name].difficulties[difficulty].quizzes[quiz.name].locked = !(progressCopy[course.name].difficulties[difficulty].quizzes[quiz.name].unlock_requirement <= progressCopy[course.name].difficulties[difficulty].quizzes_passed)
+        }
+        data.updateProgress(progressCopy);
+      }
+      
+      initQuizzes();
+      updateQuizzes();
   }, []);
 
   // Component that returns an array of all questions as precentage circles for a given unit
@@ -70,7 +82,7 @@ const LevelSelectPage = ({route, navigation}) => {
           w={w/5}
           r={w/1.2} 
           text={quiz.name} 
-          percentage={0} 
+          percentage={data.progress[course.name].difficulties[difficulty].quizzes[quiz.name].best_try.percentage} 
           active={true}
           img={Images?.[quiz.icon]}
           onPress={() => navigation.navigate('QuizPage', {quiz: quiz, course : course, difficulty : difficulty})}
@@ -82,13 +94,17 @@ const LevelSelectPage = ({route, navigation}) => {
     const formated = [];
     var i = 0;
     if (n % 2 !== 0) {
-      formated.push(qArr[i])
+      formated.push(
+        <View key={i} style={{flexDirection: "row", justifyContent: "space-evenly", marginTop: w/5}}>
+          {qArr[i]}
+        </View>
+      )
       i++;
     }
 
     for (i; i < n; i += 2) {
       formated.push(
-        <View key={i} style={{flexDirection: "row", marginTop: w/5}}>
+        <View key={i} style={{flexDirection: "row", justifyContent: "space-evenly", marginTop: w/5}}>
             {qArr[i]}
             <View width={w/1.5}></View>
             {qArr[i+1]}
@@ -125,7 +141,7 @@ const LevelSelectPage = ({route, navigation}) => {
 
       <View style={styles.container}>
 
-        <TouchableOpacity style= {{alignSelf: "flex-start", position: "absolute", top: 0, zIndex: 2}} onPress={() => navigation.goBack()}>
+        <TouchableOpacity style= {{alignSelf: "flex-start", position: "absolute", top: 0, zIndex: 2}} onPress={() => navigation.navigate('ChapterSelectPage', { course: course })}>
           <Image style={{aspectRatio: 1, width: 50}} source={Images.icons.back_arrow}/>
         </TouchableOpacity>
 
@@ -167,7 +183,8 @@ const styles = StyleSheet.create({
     
   },
   unitContainer: {
+    flex: 1,
+    width:"100%",
     alignItems: 'center',
-    justifyContent: 'center',
   }
 });

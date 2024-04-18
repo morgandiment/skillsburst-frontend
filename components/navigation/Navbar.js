@@ -5,6 +5,8 @@ import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import {Image} from "expo-image";
 import Images from '../../images/Index'
 
+import { saveUserProgress } from "../../API/database_connection.js";
+
 // Temp navbar im was using for scaling
 
 
@@ -19,15 +21,15 @@ const Navbar = ({ style, navigation }) => {
             <Image style={styles.imgSty} source={Images.icons.home}/>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navButton} onPress={() => console.log(data)}> 
+        <TouchableOpacity style={styles.navButton} onPress={() => console.log(JSON.stringify(data))}> 
             <Image style={styles.imgSty} source={Images.icons.key}/>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navButton} onPress={() => console.log(JSON.stringify(data))}> 
+        <TouchableOpacity style={styles.navButton} onPress={() => data.updateProgress({})}> 
             <Image style={styles.imgSty} source={Images.icons.default}/>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navButton}> 
+        <TouchableOpacity style={styles.navButton } onPress={() => saveUserProgress(data.id, data.progress)}> 
             <Image style={styles.imgSty} source={Images.icons.default}/>
         </TouchableOpacity>
 

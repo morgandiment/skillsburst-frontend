@@ -6,6 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import Images from '../../images/Index';
 
 import { UserContext } from '../../userContext.js'
+import {saveUserProgress} from "../../API/database_connection.js";
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -21,13 +22,14 @@ const QuizEndPage = ({navigation, route}) => {
 
     const data = useContext(UserContext);
 
-    React.useMemo(() => {
-        const updateUnit = () => {
+    React.useEffect(() => {
+        const updateQuiz = () => {
             //take copy of progress
             const progressCopy = data.progress
 
             //add new value to copy
-            progressCopy[courseName].chapters[chapterName].units[unitName].lessons[lessonName] = {
+
+            progressCopy[course.name].difficulties[difficulty].quizzes[quiz.name].last_try = {
                 passed : pass,
                 percentage : Math.round((results.score / results.questionCount) * 100) / 100,
                 time : results.times.reduce((a, b) => a + b, 0),
@@ -35,7 +37,19 @@ const QuizEndPage = ({navigation, route}) => {
                 score: results.score,
             }
 
+            var best_try = progressCopy[course.name].difficulties[difficulty].quizzes[quiz.name].best_try
+            progressCopy[course.name].difficulties[difficulty].quizzes[quiz.name].best_try = {
+                passed : pass || best_try.passed,
+                percentage : Math.max(Math.round((results.score / results.questionCount) * 100) / 100, best_try.percentage),
+                time : pass ? Math.min(results.times.reduce((a, b) => a + b, 0), best_try.time) : best_try.time,
+                maxStreak: Math.max(results.maxStreak, best_try.maxStreak),
+                score: Math.max(results.score, best_try.score),
+            }
+
             data.updateProgress(progressCopy);
+
+            //console.log(data.id)
+            saveUserProgress(data.id, data.progress);
         }
 
         data.updateLastLesson({
@@ -43,7 +57,7 @@ const QuizEndPage = ({navigation, route}) => {
             quiz : quiz.name,
         });
 
-        //updateUnit();
+        updateQuiz();
     }, [])
     
     const ResultBreakdown = () => {

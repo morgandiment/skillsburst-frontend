@@ -1,28 +1,30 @@
-import * as React from 'react';
+import React, {useContext} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyleSheet, Text,  View, ScrollView, Dimensions} from 'react-native';
 import {Header, Navbar, ChapterBox} from '../../components/Index.js';
+
+import { UserContext } from '../../userContext.js'
 
 const windowHeight = Dimensions.get('window').height * 0.85;
 const windowWidth = Dimensions.get('window').width;
 
 const CoursePreviewPage = ({style, route, navigation}) => {
     const {course} = route.params;
+    const data = useContext(UserContext);
 
     const name = course.name;
     const description = course.description;
     const gameSelection = [];
-    const chapters = course.chapters;
+    const difficulties = course.difficulties;
 
-
-    var chapterViews = []
+    var difficultyViews = []
     var i = 0;
-    chapters.forEach(chapter => {
-        chapterViews.push(
-            <ChapterBox key={i} name={chapter.name} units={chapter.units} onPressStart={() => navigation.navigate('LevelSelectPage', {units: chapter.path})} style={{marginBottom: '6%'}}/>
+    for (const difficulty of difficulties){
+        difficultyViews.push(
+            <ChapterBox key={i} name={difficulty} completion={data.progress[name].difficulties[difficulty].quizzes_passed} num_of_quizzes={data.progress[name].difficulties[difficulty].num_of_quizzes} onPressStart={() => navigation.navigate('LevelSelectPage', {course : course, difficulty: difficulty})} style={{marginBottom: '6%'}}/>
         );
         i++;
-    });
+    }
 
     // Add how to play screen here or on category select page
 
@@ -52,7 +54,7 @@ const CoursePreviewPage = ({style, route, navigation}) => {
                     <View style={CourseStyle.chapterContainer}>
                         <Text style={CourseStyle.subHeading}>Chapters</Text>
                         <Text marginBottom={'6%'}>Fully complete a chapter for a special acheivement!</Text>
-                        {chapterViews}
+                        {difficultyViews}
                     </View>
 
                 </View>

@@ -9,70 +9,90 @@ const windowWidth = Dimensions.get('window').width;
 
 const ChapterSelectPage = ({style, route, navigation}) => {
     const {course} = route.params;
-    const name = course.name;
-    const difficulties = course.Difficulties;
+
+    const name = course.name
+    const difficulties = course.difficulties;
 
     const data = useContext(UserContext);
 
-    React.useMemo(() => {
-        const updateProgress = () => {
-            if (data.progress[name] === undefined){
-                //take copy of progress
-                const progressCopy = data.progress
-
-                //add new value to copy
-                progressCopy[name] = {
-                    percentage : 0,
-                    chapters : {}
-                }
-                for (const chapter of chapters){
-                    progressCopy[name].chapters[chapter.name] = {
-                        achievements_unlocked : 0,
-                        units : {}
-                    }
-                }
-
-                //overwrite old progress with updated
-                data.updateProgress(progressCopy);
-            }
-        };
-
-        const updateCompletionPercentage = () => {
-            var playerTotal = 0;
-            for (const chapter of chapters){
-                playerTotal += data.progress[name].chapters[chapter.name].achievements_unlocked;
-            }
+    const initProgress = () => {
+        if (data.progress[name] === undefined){
+            //take copy of progress
             const progressCopy = data.progress
-            progressCopy[name].percentage = Math.round((playerTotal / course.total_units) * 100) / 100
-            data.updateProgress(progressCopy)
+
+            //add new value to copy
+            progressCopy[name] = {
+                percentage : 0,
+                difficulties : {}
+            }
+            for (const difficulty of difficulties){
+                progressCopy[name].difficulties[difficulty] = {
+                    percentage : 0,
+                    quizzes_passed : 0,
+                    num_of_quizzes : course.quizzes[difficulty].length,
+                    quizzes : {}
+                }
+            }
+
+            //overwrite old progress with updated
+            data.updateProgress(progressCopy);
         }
+    };
 
-        //updateProgress();
-        //updateCompletionPercentage();
-        
-    }, [])
+    const updateCompletionPercentage = () => {
+        var totalQuizzesPassed = 0;
+        var totalQuizzes = 0;
+        for (const difficulty of difficulties){
+            totalQuizzesPassed += data.progress[name].difficulties[difficulty].quizzes_passed;
+            totalQuizzes += data.progress[name].difficulties[difficulty].num_of_quizzes;
+        }
+        const progressCopy = data.progress
+        progressCopy[name].percentage = Math.round((totalQuizzesPassed / totalQuizzes) * 100) / 100
+        data.updateProgress(progressCopy)
+    }
 
-    
+    const updateCompletedQuizzes = () => {
+        const progressCopy = data.progress
+        for (const difficulty of difficulties){
+            completedCount = 0;
+
+            //convert json object to array
+            const quizArr = []
+            for(var i in data.progress[name].difficulties[difficulty].quizzes){
+                quizArr.push(data.progress[name].difficulties[difficulty].quizzes [i]);
+            }
+                
+            for (const quiz of quizArr){
+                if (quiz.best_try.passed){
+                    completedCount ++;
+                }
+                progressCopy[name].difficulties[difficulty].quizzes_passed = completedCount;
+            }
+        }     
+        data.updateProgress(progressCopy)
+    };
+
+    initProgress();
+    updateCompletedQuizzes();
+    updateCompletionPercentage();
 
     // Switch to embedded map
     var difficultyViews = []
     var i = 0;
-    difficulties.forEach(difficulty => {
+    for (const difficulty of difficulties) {
         difficultyViews.push(
             <ChapterBox
-                //completion={data.progress[name].chapters[chapter.name].achievements_unlocked} 
+                completion={data.progress?.[name].difficulties[difficulty].quizzes_passed}
+                num_of_quizzes={data.progress?.[name].difficulties[difficulty].num_of_quizzes}
                 key={i} 
                 name={difficulty}
-                //units={chapter.units} //quizzes 
                 active={true}
                 onPressStart={() => navigation.navigate('LevelSelectPage', {course : course, difficulty: difficulty})} 
                 style={{marginBottom: '6%'}}
             />
         );
         i++;
-    });
-
-    // Add how to play screen here or on category select page
+    };
 
     return (
         <View style={{flex: 1}}>
@@ -81,7 +101,7 @@ const ChapterSelectPage = ({style, route, navigation}) => {
                 <View style={CourseStyle.scrollContent}>
 
                     <Text style={CourseStyle.heading}>{name}</Text>
-                    <AnimatedPercentageCircleText onPress={() => {navigation.navigate('CoursePreviewPage', {course: course})}} active={true} percentage={data?.progress?.[name]?.percentage} w={windowWidth / 30} r={windowWidth / 7} />
+                    <AnimatedPercentageCircleText onPress={() => {navigation.navigate('CoursePreviewPage', {course: course})}} active={true} percentage={data.progress[name].percentage} w={windowWidth / 30} r={windowWidth / 7} />
 
                     {/* Display chapters */}
                     <View style={CourseStyle.chapterContainer}>
@@ -96,7 +116,6 @@ const ChapterSelectPage = ({style, route, navigation}) => {
         </View>
     );
 }
-
 export default ChapterSelectPage;
 
 const CourseStyle = StyleSheet.create({
