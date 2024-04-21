@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity, Dimensions } from 'react-native';
 import { MultipleChoiceResults } from '../../components/quiz/quizResults/Results';
+import { OpportunityModal } from '../../components/Index.js';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import Images from '../../images/Index';
@@ -11,7 +12,6 @@ import {saveUserProgress} from "../../API/database_connection.js";
 const windowWidth = Dimensions.get('window').width;
 
 const QuizEndPage = ({navigation, route}) => {
-
     const {
         course,
         difficulty,
@@ -19,6 +19,13 @@ const QuizEndPage = ({navigation, route}) => {
         pass, 
         results,
     } = route.params;
+
+    console.log(results)
+    return (
+        <View>
+            <OpportunityModal navigation={navigation} oppotunities={["Google!"]}/>
+        </View>
+    )
 
     const data = useContext(UserContext);
 
@@ -83,6 +90,11 @@ const QuizEndPage = ({navigation, route}) => {
             <View style={styles.passFail}>
                 <View style={[styles.circleStyle, { backgroundColor: bgColour }]}> 
                     <Image style={{flex: 1, aspectRatio: 0.5, resizeMode: 'contain'}} source={img}/>
+
+                    {/* OPPORTUNITY MODAL POPUP*/}
+                    <OpportunityModal navigation={navigation} oppotunities={["Google!"]}/>
+
+
                 </View>
                 <View alignItems={'center'} justifyContent={'center'}>
                     <Text style={styles.endText}>{resultMessage}</Text>

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Platform, Dimensions } from 'react-native';
 import Animated, { useSharedValue, withTiming, Easing } from 'react-native-reanimated'; 
 import * as Haptics from 'expo-haptics';
 
-import { MultipleChoiceQuiz, LessonQuiz, Lesson } from '../../components/quiz/Quizzes.js';
+import { MultipleChoiceQuiz, LessonQuiz, Lesson, TypingQuiz } from '../../components/quiz/Quizzes.js';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const windowWidth = Platform.OS === "android" ? Dimensions.get('window').width : Dimensions.get('window').width;
@@ -11,11 +11,20 @@ const windowHeight = Platform.OS === "android" ? Dimensions.get('window').height
 
 var timer = () => {};
 
+
+quiz = require("../../quizzes/typingtest.json")
+course = "lol"
+difficulty = "lol"
+
 function QuizAutoBuild({ route, navigation }) {
-  const { quiz, course, difficulty } = route.params;
-  if (quiz === undefined) {
-    return (<View><Text>Error</Text></View>);
-  }
+
+  // TESTING :>>>>
+  
+
+  //const { quiz, course, difficulty } = route.params;
+  //if (quiz === undefined) {
+  //  return (<View><Text>Error</Text></View>);
+  //}
 
   const [timeLeft, setTimeLeft] = useState(3);
   const [timeLeftLabel, setTimeLeftLabel] = useState(3);
@@ -33,8 +42,10 @@ function QuizAutoBuild({ route, navigation }) {
         case 'lesson_quiz':
           return (<LessonQuiz courseName={courseName} lessonName={quiz.name} chapterName={chapterName} unitName={unitName} format={quiz.format} partCount={quiz.number_of_parts} parts={quiz.parts} navigation={navigation}/>)
         case 'lesson':
-          return (<Lesson courseName={courseName} lessonName={quiz.name} chapterName={chapterName} unitName={unitName} format={quiz.format} partCount={quiz.number_of_parts} parts={quiz.parts} navigation={navigation}/>)
-        default:
+          return (<Lesson lessonName={quiz.name} format={quiz.format} partCount={quiz.number_of_parts} parts={quiz.parts} navigation={navigation}/>)
+        case 'type_test':
+          return(<TypingQuiz quiz={quiz} navigation={navigation}/>)
+          default:
           return (
           <View style={styles.noQuizStyle}>
             <Text>Error quiz not found, please return.</Text>

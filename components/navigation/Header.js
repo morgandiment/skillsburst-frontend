@@ -132,7 +132,7 @@ const Header = ({style, navigation}) => {
         <TouchableOpacity onPress={toggleTab} style={HeaderStyles.headerButton}>
           <Image style={HeaderStyles.headerImage} source={Images.icons.white.hamburger_menu}/>
         </TouchableOpacity>
-        <Text style={HeaderStyles.headerText}>Skillsburst</Text>
+        <Text style={HeaderStyles.headerText}>Skill Bursts</Text>
       </View>
 
       { tabVisible && 

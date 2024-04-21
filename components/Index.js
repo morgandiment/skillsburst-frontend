@@ -13,7 +13,8 @@ import Navbar from './navigation/Navbar.js';
 import AnimatedPercentageCircle from './buttons/AnimatedPercentageCircle.js';
 import PercentageCircle from './buttons/PercentageCircle.js';
 import AnimatedPercentageCircleText from './buttons/AnimatedPercentageCircleText.js';
-
+import OpportunityBox from './visual/OpportunityBox.js';
+import OpportunityModal from './visual/OpportunityModal.js';
 
 export {
     SimpleButton,
@@ -30,4 +31,6 @@ export {
     PercentageCircle,
     TextInputWithIcon,
     AnimatedPercentageCircleText,
+    OpportunityBox,
+    OpportunityModal,
 }

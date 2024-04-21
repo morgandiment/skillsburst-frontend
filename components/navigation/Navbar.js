@@ -7,7 +7,16 @@ import Images from '../../images/Index'
 
 import { saveUserProgress } from "../../API/database_connection.js";
 
-// Temp navbar im was using for scaling
+
+/*
+            <TouchableOpacity style={styles.navButton} onPress={() => data.updateProgress({})}> 
+            <Image style={styles.imgSty} source={Images.icons.trophy_star}/>
+        </TouchableOpacity>
+
+
+
+*/
+
 
 
 const Navbar = ({ style, navigation }) => {
@@ -24,10 +33,13 @@ const Navbar = ({ style, navigation }) => {
         <TouchableOpacity style={styles.navButton} onPress={() => console.log(JSON.stringify(data))}> 
             <Image style={styles.imgSty} source={Images.icons.key}/>
         </TouchableOpacity>
-
-        <TouchableOpacity style={styles.navButton} onPress={() => data.updateProgress({})}> 
-            <Image style={styles.imgSty} source={Images.icons.default}/>
+        
+        {/* can move this somewhere else if needed*/}
+        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('Opportunities')}> 
+            <Image style={styles.imgSty} source={Images.icons.trophy_star}/>
         </TouchableOpacity>
+
+        
 
         <TouchableOpacity style={styles.navButton } onPress={() => saveUserProgress(data.id, data.progress)}> 
             <Image style={styles.imgSty} source={Images.icons.default}/>
@@ -59,6 +71,3 @@ const styles = StyleSheet.create({
     }
 
 });
-
-
-// https://docs.expo.dev/versions/latest/sdk/navigation-bar/

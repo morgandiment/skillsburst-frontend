@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, Platform, Dimensions, ScrollView} from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, Platform, Dimensions, ScrollView, Systrace} from 'react-native';
 import Animated, { useAnimatedProps, useSharedValue, withTiming } from 'react-native-reanimated'; 
 
 import CountdownCricle from '../components/CountdownCricle';
@@ -70,13 +70,57 @@ const Lesson = ({
   
   const PageContent = () => {
     var pc = [];
-    currentPart.page_content.map((content, index) => {
+    index = 0;
+    currentPart.page_content.forEach(content => {
+      var this_format = contentFormats.base;
+      var customStyle = {};
+      var customText = {};
+      
+      switch(content.text_colour) {
+        case 'dark':
+          customText.color = 'black'; 
+          break;
+        case 'light':
+          customText.color = 'white'; 
+          break;
+        default:
+          customText.color = '#' + content.text_colour;
+          break;
+      }
+
+      switch(content.bg_colour) {
+        case 'dark':
+          customStyle.backgroundColor = '#212121'; 
+          break;
+        case 'light':
+          customStyle.backgroundColor = 'white'; 
+          break;
+        default:
+          customStyle.backgroundColor = '#' + content.bg_colour;
+          break;
+      }
+
+      switch (content.corner){
+        case 's':
+          customStyle.borderRadius = 2;
+          break;
+        default:
+          customStyle.borderRadius = 15;
+          break;
+      }
+
+      if (content.center == true) {
+        customText.alignSelf = 'center';
+      }
+
       pc.push(
-          <View key={index} style={styles.textContainer}>
-              <Text style={styles.contentText}>{content}</Text>
+          <View key={index} style={[this_format, customStyle]}>
+              <Text style={customText}>{content.content}</Text>
           </View>   
       )
-    })
+      index++;
+    });
+
     return pc;
   }
 
@@ -104,6 +148,31 @@ const Lesson = ({
 };
 
 export default Lesson;
+
+const contentFormats = StyleSheet.create({
+  light_text: {
+    color: 'white',
+  },
+  dark_text: {
+    color: 'black',
+  },
+  base: {
+    backgroundColor: 'white',
+    width: '85%',
+    borderRadius: 15,
+    elevation: 5,
+    padding: '5%',
+    marginVertical: '3%',
+  },
+  light_c: {
+    backgroundColor: 'white',
+    width: '85%',
+    borderRadius: 15,
+    elevation: 5,
+    padding: '5%',
+    marginVertical: '3%',
+  },
+})
 
 const styles = StyleSheet.create({
   bgColor: {

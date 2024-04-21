@@ -1,0 +1,41 @@
+{
+    "name" : "type 1",
+    "format": "type_test",
+    "words_to_guess" : 13,
+    "difficulty" : "Beginner",
+    "questions" : [
+        [
+            ["Kangaroos hop to move around quickly and walk on two or four legs while moving "],
+            ["slo", "wly"],
+            [". They cannot "],
+            ["wa", "lk"],
+            ["sideways"],
+            ["a", "nd"],
+            ["cannot hop"],
+            ["back", "wards"],
+            ["."]
+        ],
+        [
+            ["Kangaroos hop to move around quickly and walk on two or four legs while moving "],
+            ["slo", "wly"],
+            [". They cannot "],
+            ["wa", "lk"],
+            ["sideways"],
+            ["a", "nd"],
+            ["cannot hop"],
+            ["back", "wards"],
+            ["."]
+        ],
+        [
+            ["Kangaroos hop to move around quickly and walk on two or four legs while moving "],
+            ["slo", "wly"],
+            [". They cannot "],
+            ["wa", "lk"],
+            ["sideways"],
+            ["a", "nd"],
+            ["cannot hop"],
+            ["back", "wards"],
+            ["."]
+        ]
+    ]
+}

@@ -49,6 +49,13 @@ const images = {
 
     },
 
+    opportunityImages: {
+        chartered: require("./opp/chartered.png"),
+        skillShop: require("./opp/skillShop.png"),
+        bitesizeComp: require("./opp/bitesizeComp.png"),
+        fcc: require("./opp/fcc.png"),
+    },
+
     // idk what to call these
     //will sort these out - matt
     other: {

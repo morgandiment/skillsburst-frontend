@@ -1,0 +1,54 @@
+{
+    "name" : "Addition Lesson 1",
+    "format": "lesson",
+    "number_of_parts" : 5,
+    "parts" : [
+        {
+            "type": "l",
+            "page_title": "Intro to Addition",
+            "page_content": [
+                { "text_colour": "dark", "bg_colour": "light", "corner": "s", "content": "words really cool words that area being used for tesing, addition is cool, you can add two things together like this djaksfhjosidughfdoigu hfdo8guhndfiugh", "center": true  },
+                { "text_colour": "light", "bg_colour": "dark", "corner": "r", "content": "3 + 2 = 5", "center": true },
+                { "text_colour": "light", "bg_colour": "dark", "corner": "r", "content": "This addition works by adding 3 and 2 together wow\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.!!!", "center": true}
+            ]
+        },
+
+        {      
+            "type": "l",
+            "page_title": "Intro to Addition",
+            "page_content": [
+                { "text_colour": "dark", "bg_colour": "light", "corner": "s", "content": "3 + 2 = 5" },
+                { "text_colour": "ffffff", "bg_colour": "000000", "corner": "r", "content": "3 + 2 = 5" },
+                { "text_colour": "123456", "bg_colour": "000000", "corner": "s", "content": "3 + 2 = 5", "center": true },
+                { "text_colour": "123456", "bg_colour": "000000", "corner": "r", "content": "3 + 2 = 5" },
+                { "text_colour": "123456", "bg_colour": "ff0000", "corner": "r", "content": "3 + 2 = 5" },
+                { "text_colour": "ff0000", "bg_colour": "light", "corner": "s", "content": "3 + 2 = 5", "center": true }
+            ]
+        },
+
+        {
+            "type": "l",
+            "page_title": "Intro to Addition",
+            "page_content": [
+                { "text_colour": "000000", "bg_colour": "light", "corner": "r", "content": "3 + 2 = 5", "center": true },
+                { "text_colour": "000000", "bg_colour": "light", "corner": "r", "content": "3 + 2 = 5", "center": true }
+            ]
+        },
+
+        {
+            "type": "l",
+            "page_title": "Intro to Addition",
+            "page_content": [
+                { "text_colour": "000000", "bg_colour": "light", "corner": "r", "content": "3 + 2 = 5", "center": true }
+            ]
+        },
+
+        {
+            "type": "l",
+            "page_title": "Intro to Addition",
+            "page_content": [
+                { "text_colour": "000000", "bg_colour": "light", "corner": "r", "content": "3 + 2 = 5", "center": true }
+        ]
+        }
+    ]
+}
