@@ -43,7 +43,7 @@ const TypingQuiz = ({
   const LetterEntry = ({index, preset, style, edi=true, val}) => {
     
     function HandleChange(text, index){
-        if (text.length === 1 && index < inputRefs.current.length - 2) {
+        if (text.length === 1 && index < inputRefs.current.length - 1) {
             if (currentLetters.current[index] === undefined) {
                 currentLetters.current[index] = text;
                 inputRefs.current[index + 1].focus();
@@ -116,7 +116,7 @@ const TypingQuiz = ({
       }
       else if (gameState === 1 || gameState === 2){
         for (let i = 0; i < word.length; i++) {
-          if (currentLetters.current[i + len.current] !== undefined && currentLetters.current[i + len.current].toLowerCase() === word.charAt(i)) {
+          if (currentLetters.current[i + len.current] !== undefined && currentLetters.current[i + len.current].toLowerCase() === word.charAt(i).toLowerCase()) {
             score.current += 1;
             letters.push(
               <LetterEntry key={i + len.current} index={i + len.current} edi={false} val={currentLetters.current[i + len.current]} style={{backgroundColor: '#0EF0A4'}}/>
