@@ -51,7 +51,7 @@ const TypingQuiz = ({
 
             inputRefs.current[index + 1].focus();
         }
-        else if (text.length == 1) {
+        else if (text.length == 1 && currentLetters.current[index] === undefined) {
             currentLetters.current[index] = text;
         }
         else if ((currentLetters.current[index] === undefined) && text === 'Backspace' && index > 0) {
@@ -220,7 +220,11 @@ const TypingQuiz = ({
     function endQuiz() {
       // Called when all questions are answered
       var decimalScore = score.current / totalLen.current
-      navigation.navigate("QuizEndPage")
+      var pass = false;
+      if (decimalScore > passThreshold) {
+        pass = true;
+      }
+      navigation.navigate("QuizEndPage", {course: course, difficulty: difficulty, quiz: quiz, pass: pass, results: decimalScore})
     }
 
 

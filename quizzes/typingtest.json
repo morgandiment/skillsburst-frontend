@@ -1,7 +1,6 @@
 {
     "name" : "type 1",
     "format": "type_test",
-    "words_to_guess" : 13,
     "difficulty" : "Beginner",
     "questions" : [
         [

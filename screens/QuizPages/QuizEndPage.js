@@ -20,13 +20,6 @@ const QuizEndPage = ({navigation, route}) => {
         results,
     } = route.params;
 
-    console.log(results)
-    return (
-        <View>
-            <OpportunityModal navigation={navigation} oppotunities={["Google!"]}/>
-        </View>
-    )
-
     const data = useContext(UserContext);
 
     React.useEffect(() => {
