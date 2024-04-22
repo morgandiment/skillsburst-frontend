@@ -6,6 +6,7 @@ import PronounsAndStudyOptions from './PronounsAndStudyOptions';
 import SelectionHobbyScreen from './SelectionHobbyScreen';
 
 import { UserContext } from '../../userContext.js'
+import {updateFinishedIntro} from "../../API/database_connection.js";
 
 function OnboardingMainScreen({ navigation }) {
     const userData = useContext(UserContext);
@@ -18,17 +19,18 @@ function OnboardingMainScreen({ navigation }) {
 
     const handleInterestsSubmit = () => {
         // Handle interests submission, for example, store them or perform some action.
-        console.log('Interests submitted:', selectedPronouns, selectedStatus, selectedHobbies);
-        userData.updateIntroData({
+        const introData = {
             pronouns: selectedPronouns,
             education_status: selectedStatus,
             hobbies: selectedHobbies,
-        })
+        }
         userData.updateFinishedIntro(true)
+
+
+        updateFinishedIntro(userData.id, selectedPronouns, selectedStatus, selectedHobbies)
     };
 
     const handleOnDone = () => {
-        console.log(selectedPronouns);
         handleInterestsSubmit();
 
         //set user first time login false

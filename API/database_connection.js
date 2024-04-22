@@ -3,18 +3,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 import course from '../courses/problemSolving';
 
-const Api_Url = "https://ba9c-92-40-198-34.ngrok-free.app"
+const Api_Url = "https://75c3-92-40-198-74.ngrok-free.app"
 
 
 export async function registerUser(userData) {
     const url = `${Api_Url}/register/registerUser`;
     try {
          const response = await axios.post(url, userData);
-         return true;
+         return response;
 
      } catch (error) {
          console.error('Error:', error);
-         Alert.alert('Error', error.message)
+         //Alert.alert('Error', error.message)
          return false;
      };
 };
@@ -24,19 +24,26 @@ export const loginUser = async (userData) => {
     try {
         const response = await axios.post(url, userData);
     
-        Alert.alert(response.data.message,"Welcome to Skillsburst");
+        //Alert.alert(response.data.message,"Welcome to Skillsburst");
         //AsyncStorage.setItem("token",response.data.token );
-
-        //console.log(response.data.data.UserID);
-
-        
 
         return response.data.data;
 
     } catch (error) {
         //console.error('Error:',  error.response.data.message);
-        Alert.alert('Error' , error.response.data.message)
-        console.log(error.response.data)
+        //Alert.alert('Error' , error.response.data.message)
+        return false;
+    }
+}
+
+export const getUserData = async (userID) => {
+    const url = `${Api_Url}/login/getUserData`
+    try {
+        const response = await axios.post(url, { userID : userID });
+        return response.data.recordset[0];
+
+    } catch (error) {
+        //Alert.alert('Error' , error.response.data.message)
         return false;
     }
 }
@@ -57,7 +64,7 @@ export async function getCourseData(courseName) {
 
      } catch (error) {
          console.error('Error:', error);
-         Alert.alert('Error', error.message)
+         //Alert.alert('Error', error.message)
          return false;
      };
 };
@@ -70,7 +77,7 @@ export async function saveUserProgress(userID, userProgress) {
 
      } catch (error) {
         console.error('Error:', error);
-        Alert.alert('Error', error.message)
+        //Alert.alert('Error', error.message)
         return false;
      };
 };
@@ -83,7 +90,19 @@ export async function loadUserProgress(userID) {
 
      } catch (error) {
         console.error('Error:', error);
-        Alert.alert('Error', error.message)
+        return {};
+     };
+};
+
+export async function updateFinishedIntro(userID, selectedPronouns, selectedStatus, selectedHobbies) {
+    const url = `${Api_Url}/login/updateFinishedIntro`;
+    try {
+        const response = await axios.post(url, { userID : userID, selectedPronouns : selectedPronouns, selectedStatus : selectedStatus, selectedHobbies : selectedHobbies});
+        return response;
+
+     } catch (error) {
+        console.error('Error:', error);
+        //Alert.alert('Error', error.message)
         return false;
      };
 };

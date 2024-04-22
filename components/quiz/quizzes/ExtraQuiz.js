@@ -214,8 +214,6 @@ const MultipleChoiceQuiz = ({
       return (<ShortFormAnswerSelection/>)
     }
   }
-  
-  console.log(currentIndex.current)
 
   // The quiz page
   return (

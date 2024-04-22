@@ -12,19 +12,19 @@ const windowHeight = Platform.OS === "android" ? Dimensions.get('window').height
 var timer = () => {};
 
 
-quiz = require("../../quizzes/typingtest.json")
-course = "lol"
-difficulty = "lol"
+// quiz = require("../../quizzes/typingtest.json")
+// course = "lol"
+// difficulty = "lol"
 
 function QuizAutoBuild({ route, navigation }) {
 
   // TESTING :>>>>
   
 
-  //const { quiz, course, difficulty } = route.params;
-  //if (quiz === undefined) {
-  //  return (<View><Text>Error</Text></View>);
-  //}
+  const { quiz, course, difficulty } = route.params;
+  if (quiz === undefined) {
+   return (<View><Text>Error</Text></View>);
+  }
 
   const [timeLeft, setTimeLeft] = useState(3);
   const [timeLeftLabel, setTimeLeftLabel] = useState(3);
@@ -44,7 +44,7 @@ function QuizAutoBuild({ route, navigation }) {
         case 'lesson':
           return (<Lesson lessonName={quiz.name} format={quiz.format} partCount={quiz.number_of_parts} parts={quiz.parts} navigation={navigation}/>)
         case 'type_test':
-          return(<TypingQuiz quiz={quiz} navigation={navigation}/>)
+          return(<TypingQuiz quiz={quiz} course={course} difficulty={difficulty} navigation={navigation}/>)
           default:
           return (
           <View style={styles.noQuizStyle}>

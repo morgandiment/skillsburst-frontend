@@ -1,16 +1,18 @@
-import * as React from 'react';
-import { useState } from "react";
+import React , {useState, useContext} from 'react';
 import { Button, StyleSheet, Text, View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Platform, KeyboardAvoidingView, ScrollView} from 'react-native';
 import {Image} from "expo-image";
 import DateTimePicker from '@react-native-community/datetimepicker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {registerUser} from "../API/database_connection.js";
+import { UserContext } from '../userContext.js'
+import {loginUser, registerUser} from "../API/database_connection.js";
 
 import { SimpleButton, TextInputWithIcon } from '../components/Index.js';
 //import {  } from './Index.js';
 import Images from '.././images/Index.js';
 
 function SignupPage({ navigation }) {
+  const userContextData = useContext(UserContext);
 
   const [fullName, setFullName] = useState("");
   const [fullNameMessageVisible, setFullNameMessageVisible] = useState(false);
@@ -56,7 +58,7 @@ function SignupPage({ navigation }) {
 
     setConfirmPasswordMessageVisible(password != confirmPassword);
 
-    if (fullNameMessageVisible | emailMessageVisible | passwordMessageVisible | confirmPasswordMessageVisible){
+    if (fullNameMessageVisible || emailMessageVisible || passwordMessageVisible || confirmPasswordMessageVisible){
       return;
     }
 
@@ -69,12 +71,26 @@ function SignupPage({ navigation }) {
       Username: username,
     };
 
-    console.log(userData);
-
     //for testing we no use
-    registerUser(userData);
-    
-    navigation.navigate('HomePage');
+    registerUser(userData).then(() => {
+      try {
+        loginUser(userData).then( async (loginResponse) => {
+
+          userContextData.updateUsername(loginResponse.Username)
+          userContextData.updateId(loginResponse.UserID)
+          userContextData.updateFinishedIntro(loginResponse.finished_intro)
+          userContextData.updateProgress({})
+  
+          await AsyncStorage.setItem("token", `${loginResponse.UserID}`).then(() => {
+            navigation.navigate('OnboardingMainScreen'); 
+          });
+  
+        });
+      } catch(e){
+        print("register fail")
+      }
+      
+    });
   }
 
   return (
@@ -87,7 +103,7 @@ function SignupPage({ navigation }) {
 
         <View style={{width: "90%", borderWidth: 1}}/>
         
-        <ScrollView style={{width: "80%", maxHeight: "35%"}}>
+        <ScrollView style={{width: "80%", maxHeight: "25%"}}>
           <View style={{flex: 1, rowGap: 20}}>
             <TextInputWithIcon
               style={styles.textInputStyle}

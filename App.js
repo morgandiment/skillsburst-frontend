@@ -7,7 +7,7 @@ import Animated, { Easing } from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {SimpleButton, AnimatedButton } from './components/Index.js';
-import { OpportunityPage, OpportunityViewPage, QuizEndPage, QuizAutoBuild, OnboardingMainScreen, CoursePreviewPage, LevelSelectPage, LandingPage, CourseSelectPage, LoginPage, SignupPage, HomePage, ProfileEditPage, SettingsPage, ChapterSelectPage, Feedback, HelpPage, ContactPage } from './screens/Index.js';
+import {NothingHerePage, MainLearningScreen, ModuleLearningScreen, LessonLearningScreen, LoadingPage, OpportunityPage, OpportunityViewPage, QuizEndPage, QuizAutoBuild, OnboardingMainScreen, CoursePreviewPage, LevelSelectPage, LandingPage, CourseSelectPage, LoginPage, SignupPage, HomePage, ProfileEditPage, SettingsPage, ChapterSelectPage, Feedback, HelpPage, ContactPage } from './screens/Index.js';
 import TemplatePage from './screens/TemplatePage.js';
 
 import Courses from './courses/index.js';
@@ -17,30 +17,14 @@ import { UserContext } from './userContext.js'
 const Stack = createNativeStackNavigator();
 
 function App() {
-  const [initialRoute, setInitialRoute] = React.useState("signupPage");
+  const [initialRoute, setInitialRoute] = React.useState("asdSignupPage");
 
-  const checkToken = async () => {
-    try {
-      const value = await AsyncStorage.getItem("token");
-      if (value !== null) {
-        //there is a login token so go straight to mainpage
-      } 
-    } catch (e) {
-      console.log(e);
-    };
-  }
-
-  React.useEffect(() => {
-    checkToken();
-  }, [])
   const [username, setUsername] = React.useState("")
   const [profilePicture, setProfilePicture] = React.useState("")
   const [id, setId] = React.useState("")
   const [progress, setProgress] = React.useState({})
-  const [lastLesson, setLastLesson] = React.useState({})
   const [dailyStreak, setDailyStreak] = React.useState(1)
   const [finishedIntro, setFinishedIntro] = React.useState(false)
-  const [introData, setIntroData] = React.useState({})
 
   return (
     <UserContext.Provider value={{
@@ -56,66 +40,67 @@ function App() {
       progress : progress,
       updateProgress : setProgress,
 
-      last_lesson : lastLesson,
-      updateLastLesson : setLastLesson,
-
       daily_streak : dailyStreak,
       updateDailyStreak : setDailyStreak,
 
       finished_intro : finishedIntro,
       updateFinishedIntro : setFinishedIntro,
-
-      intro_data : introData,
-      updateIntroData : setIntroData,
     }}>
-    <GestureHandlerRootView style={{flex: 1}}>
-      <NavigationContainer>
-        <Stack.Navigator 
-          initialRouteName={initialRoute}
+      <GestureHandlerRootView style={{flex: 1}}>
+        <NavigationContainer>
+          <Stack.Navigator 
+            initialRouteName={initialRoute}
 
-          screenOptions={{
-            headerStyle: { 
-              backgroundColor: '#eeeeee',
-            },
-            headerTintColor: '#000000',
-            headerTitleStyle: { fontWeight: 'bold'},
-            headerShown: false,
-            animation: 'fade',
-            //gestureEnabled: false,
-          }}
-        >
-          
-          <Stack.Screen name="QuizPage" component={QuizAutoBuild} options={{title: 'Quiz Page'}}/>
-          <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}}/>
-          <Stack.Screen name="HomePage" component={HomePage} options={{title: 'Home Page'}}/>
+            screenOptions={{
+              headerStyle: { 
+                backgroundColor: '#eeeeee',
+              },
+              headerTintColor: '#000000',
+              headerTitleStyle: { fontWeight: 'bold'},
+              headerShown: false,
+              animation: 'fade',
+              //gestureEnabled: false,
+            }}
+          >
+            
+            <Stack.Screen name="LoadingPage" component={LoadingPage} options={{}}/>
+            
+            <Stack.Screen name="LoginPage" component={LoginPage} options={{headerShown: false}}/>
+            <Stack.Screen name="SignupPage" component={SignupPage} options={{headerShown: false}}/>
 
-          <Stack.Screen name="SignupPage" component={SignupPage} options={{headerShown: false}}/>
+            <Stack.Screen name="HomePage" component={HomePage} options={{title: 'Home Page'}}/>
 
-          <Stack.Screen name="OnboardingMainScreen" component={OnboardingMainScreen} options={{}}/>
-          <Stack.Screen name="Opportunities" component={OpportunityPage} options={{title: 'Opportunities Page'}}/>
-          <Stack.Screen name="OpportunityView" component={OpportunityViewPage} options={{title: 'Opportunities Page'}}/>
-          
-          <Stack.Screen name="LevelSelectPage" component={LevelSelectPage} options={{title: 'Level Select Page'}}/>
-          <Stack.Screen name="CourseSelectPage" component={CourseSelectPage} options={{title: 'Course Select Page'}}/>
-          <Stack.Screen name="CoursePreviewPage" component={CoursePreviewPage} options={{title: 'Course Preview Page'}}/>
-          
-          {/* Need to add some way of back swipe prevention - as going back to quiz you just took makes no sense and breaks everything */}
+            <Stack.Screen name="OnboardingMainScreen" component={OnboardingMainScreen} options={{}}/>
+            <Stack.Screen name="Opportunities" component={OpportunityPage} options={{title: 'Opportunities Page'}}/>
+            <Stack.Screen name="OpportunityView" component={OpportunityViewPage} options={{title: 'Opportunities Page'}}/>
+            
+            <Stack.Screen name="LevelSelectPage" component={LevelSelectPage} options={{title: 'Level Select Page'}}/>
+            <Stack.Screen name="CourseSelectPage" component={CourseSelectPage} options={{title: 'Course Select Page'}}/>
+            <Stack.Screen name="CoursePreviewPage" component={CoursePreviewPage} options={{title: 'Course Preview Page'}}/>
+            
+            {/* Need to add some way of back swipe prevention - as going back to quiz you just took makes no sense and breaks everything */}
+            <Stack.Screen name="QuizPage" component={QuizAutoBuild} options={{title: 'Quiz Page'}}/>
+            <Stack.Screen name="QuizEndPage" component={QuizEndPage} options={{title: 'Quiz End Page', animation: 'none'}}/>
 
-          <Stack.Screen name="QuizEndPage" component={QuizEndPage} options={{title: 'Quiz End Page', animation: 'none'}}/>
+            {/* Course Pages*/}
+            <Stack.Screen name="ChapterSelectPage" component={ChapterSelectPage} options={{title: 'Chapter select Page'}}/>
 
-          {/* Course Pages*/}
-          <Stack.Screen name="ChapterSelectPage" component={ChapterSelectPage} options={{title: 'Chapter select Page'}}/>
+            <Stack.Screen name="MainLearningScreen" component={MainLearningScreen} options={{}}/>
+            <Stack.Screen name="ModuleLearningScreen" component={ModuleLearningScreen} options={{}}/>
+            <Stack.Screen name="LessonLearningScreen" component={LessonLearningScreen} options={{}}/>
 
-          {/* Side tab Pages - convert to screen navigator of header component?? */}
-          <Stack.Screen name="Settings" component={SettingsPage} options={{title: 'Settings Page'}} />
-          <Stack.Screen name="Help" component={HelpPage} options={{title: 'Help Page'}} />
-          <Stack.Screen name="Contact" component={ContactPage} options={{title: 'Contact Page'}} />
-          <Stack.Screen name="Feedback" component={Feedback} options={{title: 'Feedback Page',}} />
-          <Stack.Screen name="EditProfile" component={ProfileEditPage} options={{title: 'Edit Profile Page'}}/>
+            <Stack.Screen name="NothingHere" component={NothingHerePage} options={{}}/>
 
-        </Stack.Navigator>
-      </NavigationContainer>
-    </GestureHandlerRootView>
+            {/* Side tab Pages - convert to screen navigator of header component?? */}
+            <Stack.Screen name="Settings" component={SettingsPage} options={{title: 'Settings Page'}} />
+            <Stack.Screen name="Help" component={HelpPage} options={{title: 'Help Page'}} />
+            <Stack.Screen name="Contact" component={ContactPage} options={{title: 'Contact Page'}} />
+            <Stack.Screen name="Feedback" component={Feedback} options={{title: 'Feedback Page',}} />
+            <Stack.Screen name="EditProfile" component={ProfileEditPage} options={{title: 'Edit Profile Page'}}/>
+
+          </Stack.Navigator>
+        </NavigationContainer>
+      </GestureHandlerRootView>
     </UserContext.Provider>
   );
 }

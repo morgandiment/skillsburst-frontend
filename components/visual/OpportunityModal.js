@@ -26,27 +26,39 @@ const OpportunityModal = ({
         i++;
     });
 
-    return (
-        <Modal
-        transparent={true}
-        visible={v}
-        >
-        <Animated.View style={omStyle.darken} entering={FadeIn}>
-            <Animated.View style={omStyle.mainModal} entering={ZoomIn}>
-                <Text style={[omStyle.tText, {margin: '5%'}]}>NEW OPPORTUNITIES AVALAIBLE</Text>
-                {qArr}
-                <View style={omStyle.buttonContainer}>
-                    <TouchableOpacity style={[omStyle.modButton, {marginTop: '5%'}]} title="View all" onPress={() => navigation.navigate('Opportunities')}>
-                        <Text style={omStyle.bText}>View All</Text>
-                    </TouchableOpacity>
 
-                    <TouchableOpacity style={[omStyle.modButton, {backgroundColor: '#ffffff'}]} title="View all" onPress={()=>{setV(false)}}>
-                        <Text style={[omStyle.bText, {color: '#0EF0A4'}]}>Close</Text>
-                    </TouchableOpacity>
-                </View>
-            </Animated.View>
-        </Animated.View>
-        </Modal>
+    const close = () => {
+        setV(false);
+    }
+
+    const goToPage = () => {
+        close()
+        navigation.navigate('Opportunities')
+    }
+
+    return (
+        <View>
+            { v && 
+            <Modal transparent={true} >
+                <Animated.View style={omStyle.darken} entering={FadeIn}>
+                    <Animated.View style={omStyle.mainModal} entering={ZoomIn}>
+                        <Text style={[omStyle.tText, {margin: '5%'}]}>NEW OPPORTUNITIES AVALAIBLE</Text>
+                        {qArr}
+                        <View style={omStyle.buttonContainer}>
+                            <TouchableOpacity style={[omStyle.modButton, {marginTop: '5%'}]} title="View all" onPress={() => goToPage()}>
+                                <Text style={omStyle.bText}>View All</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={[omStyle.modButton, {backgroundColor: '#ffffff'}]} title="View all" onPress={() => close()}>
+                                <Text style={[omStyle.bText, {color: '#0EF0A4'}]}>Close</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </Animated.View>
+                </Animated.View>
+            </Modal>
+            }
+        </View>
+        
     );
 }
 

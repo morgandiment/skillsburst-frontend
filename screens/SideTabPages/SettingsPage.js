@@ -1,7 +1,16 @@
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { Header, Navbar } from '../../components/Index.js';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const SettingsPage = ({style, navigation}) => {
+
+    const logout = async () => {
+        await AsyncStorage.setItem("token", "").then(() => {
+            navigation.navigate('LoginPage');
+            
+        });
+    };
 
 
     const SettingEntry = ({onPress = () => {}, text="Default", textStyle}) => {
@@ -24,10 +33,10 @@ const SettingsPage = ({style, navigation}) => {
                         </View>
 
                         <View>
-                            <SettingEntry text={'Edit Profile'} onPress={() => {navigation.navigate('EditProfile')}}/>
+                            <SettingEntry text={'Edit Profile'}/>
                             <SettingEntry text={'Change Password'}/>
-                            <SettingEntry text={'Sign Out'}/>
-                            <SettingEntry text={'Delete Account'} textStyle={{color: 'red', fontWeight: 'bold'}}/>
+                            <SettingEntry text={'Sign Out'} onPress={() => logout()}/>
+                            <SettingEntry text={'Delete Account'}/>
                         </View>
                     </View>
 

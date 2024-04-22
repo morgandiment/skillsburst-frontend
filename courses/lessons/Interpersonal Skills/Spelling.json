@@ -1,0 +1,7 @@
+{
+    "name": "spelling",
+    "screen": "LessonLearningScreen", 
+    "learning_data": [{"name":"What is Spelling", "info":"Spelling is the act of writing or naming the letters that show up within a word. There are many words in the english dictionary, and each use different combinations in order to create words."}, 
+    {"name":"The Purpose of spelling", "info": "By written or verbal audio of a given word, we as humans can identify how to spell that word just based on the sound that each letter in the alphabet has."},
+    {"name":"Remember", "info":"Remember that you should try to recount the alphabet, follow the words carefully and try and grasp the spelling based off of that."}]
+}

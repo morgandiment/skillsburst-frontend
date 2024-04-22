@@ -5,7 +5,7 @@ import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import {Image} from "expo-image";
 import Images from '../../images/Index'
 
-import { saveUserProgress } from "../../API/database_connection.js";
+import { saveUserProgress, loadUserProgress } from "../../API/database_connection.js";
 
 
 /*
@@ -26,25 +26,21 @@ const Navbar = ({ style, navigation }) => {
     return (
     <View style={[styles.bar, style]}>
 
-        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('HomePage')}> 
+        <TouchableOpacity style={styles.navButton} onPress={() => loadUserProgress(data.id).then((res) => data.updateProgress(res), navigation.navigate('HomePage'))}> 
             <Image style={styles.imgSty} source={Images.icons.home}/>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navButton} onPress={() => console.log(JSON.stringify(data))}> 
-            <Image style={styles.imgSty} source={Images.icons.key}/>
+        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate("NothingHere")}> 
+            <Image style={styles.imgSty} source={Images.icons.medal}/>
         </TouchableOpacity>
         
-        {/* can move this somewhere else if needed*/}
+        <TouchableOpacity style={styles.navButton } onPress={() => navigation.navigate("MainLearningScreen")}> 
+            <Image style={styles.imgSty} source={Images.icons.graduation_hat}/>
+        </TouchableOpacity>
+
         <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('Opportunities')}> 
             <Image style={styles.imgSty} source={Images.icons.trophy_star}/>
         </TouchableOpacity>
-
-        
-
-        <TouchableOpacity style={styles.navButton } onPress={() => saveUserProgress(data.id, data.progress)}> 
-            <Image style={styles.imgSty} source={Images.icons.default}/>
-        </TouchableOpacity>
-
     </View>
     )
 }

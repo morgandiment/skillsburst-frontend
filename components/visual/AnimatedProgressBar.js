@@ -31,7 +31,7 @@ const AnimatedProgressBar = (
       <View style={{width: w, height: h, backgroundColor: "#D9D9D9", borderRadius: h}}> 
         <Bar/>    
         <View position={"absolute"} alignItems={"center"} justifyContent={"center"} width={w}>
-          <Text>{percentage * 100}%</Text> 
+          <Text>{Math.floor(percentage*100)}%</Text> 
         </View>
       </View>
     );

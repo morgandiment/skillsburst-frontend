@@ -2,14 +2,14 @@ import React , {useState, useContext} from 'react';
 import { Button, StyleSheet, Text, View, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
 import {Image} from "expo-image";
 import { UserContext } from '../userContext.js'
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SimpleButton, TextInputWithIcon } from '../components/Index.js';
 //import {  } from './Index.js';
 import Images from '.././images/Index.js';
 
 import {loginUser, loadUserProgress} from "../API/database_connection.js";
 
-function SignupPage({ navigation }) {
+function LoginPage({ navigation }) {
   const userContextData = useContext(UserContext);
 
   const [username, onChangeUsername] = useState('');
@@ -24,25 +24,26 @@ function SignupPage({ navigation }) {
       Password: password,
     };
 
-    loginUser(userData).then((loginResponse) => {
+    loginUser(userData).then( async (loginResponse) => {
       if (loginResponse){ //login successful
 
         //load user data
-        userContextData.updateUsername(loginResponse.username)
+        userContextData.updateUsername(loginResponse.Username)
         userContextData.updateId(loginResponse.UserID)
-  
-        //load userdata into context//
-        console.log(userContextData.id)
-        loadUserProgress(userContextData.id).then((userProgress) => {
-          userContextData.updateProgress(userProgress);
-          navigation.navigate('HomePage');
-        })
-        
-        //if (userData.finished_intro){
-          
-        //} else {
-          //navigation.navigate('OnboardingMainScreen');  
-        //}
+        userContextData.updateFinishedIntro(loginResponse.finished_intro)
+
+        await AsyncStorage.setItem("token", `${loginResponse.UserID}`).then(() => {
+          //load userdata into context//
+          loadUserProgress(loginResponse.UserID).then((userProgress) => {
+            userContextData.updateProgress(userProgress);
+
+            if (userContextData.finished_intro){ //if user has completed onboarding
+              navigation.navigate("HomePage");
+            } else {
+              navigation.navigate('OnboardingMainScreen');  
+            }
+          });
+        });
   
       } else { //login failed
         setUsernameMessageVisible(!loginResponse.cause == "username");
@@ -107,7 +108,7 @@ function SignupPage({ navigation }) {
   );
 }
 
-export default SignupPage;
+export default LoginPage;
 
 const styles = StyleSheet.create({
   screenViewStyle: {

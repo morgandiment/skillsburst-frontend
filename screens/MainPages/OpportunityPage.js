@@ -12,9 +12,9 @@ const OpportunityBoxes = ({opps, navigation}) => {
     opps.forEach(op => {
         qArr.push(
           <OpportunityBox 
-          key={i}
-          opportunity={op}
-          navigation={navigation}
+            key={i}
+            opportunity={op}
+            navigation={navigation}
           />
         )
         i++;
@@ -27,7 +27,7 @@ const OpportunityBoxes = ({opps, navigation}) => {
 const OpportunityPage = ({navigation}) => {
     return (
         <View style={{flex: 1}}>
-            <OpportunityModal navigation={navigation} oppotunities={["Chartered Institue for IT", "Google Learn", "BBC Bitesize CompSci"]}/>
+            
             <Header navigation={navigation}/>
             <ScrollView style={styles.container}>
             <View style={styles.scrollContent}>

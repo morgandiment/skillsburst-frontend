@@ -46,16 +46,16 @@ const QuizEndPage = ({navigation, route}) => {
                 score: Math.max(results.score, best_try.score),
             }
 
+            progressCopy.last_lesson = {
+                course : course.name,
+                difficulty : difficulty,
+                quiz : quiz.name
+            }
+
             data.updateProgress(progressCopy);
 
-            //console.log(data.id)
             saveUserProgress(data.id, data.progress);
         }
-
-        data.updateLastLesson({
-            course : course.name,
-            quiz : quiz.name,
-        });
 
         updateQuiz();
     }, [])
@@ -108,7 +108,7 @@ const QuizEndPage = ({navigation, route}) => {
                 <ResultBreakdown/>
             </View>
 
-            <TouchableOpacity style={styles.continue} onPress={() => {navigation.pop(2)}}>
+            <TouchableOpacity style={styles.continue} onPress={() => {navigation.navigate('LevelSelectPage', {course : course, difficulty: difficulty})}}>
                 <Text style={styles.continueText}>Continue</Text>
             </TouchableOpacity>
         </SafeAreaView>

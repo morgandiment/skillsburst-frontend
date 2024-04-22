@@ -50,7 +50,7 @@ const ChapterBox = ({
                 <TouchableOpacity style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} onPress={onPressAchieve}>
                     <View style={{flexDirection: 'row', alignItems: 'center', width: '70%'}} >  
                         <Image style={{flex: 1, aspectRatio: 1.6, resizeMode: 'contain'}} source={Images.icons.trophy_icon_filled}/>
-                        <Text flex={1.7}><Text style={[{fontWeight: 'bold'}]}>{completion}</Text>/{num_of_quizzes}</Text>
+                        <Text flex={2}><Text style={[{fontWeight: 'bold'}]}>{completion}</Text>/{num_of_quizzes}</Text>
                     </View>
                     <Text style={{fontSize: 10}}>Unlocked</Text>
                 </TouchableOpacity>

@@ -8,7 +8,10 @@ import Images from '../../images/Index.js';
 import Courses from '../../courses/index.js';
 
 import { UserContext } from '../../userContext.js'
-import { getCourseData } from "../../API/database_connection.js";
+import { getCourseData, saveUserProgress } from "../../API/database_connection.js";
+
+import course from '../../courses/problemSolving.js';
+import { set } from 'react-hook-form';
 
 const windowWidth = Dimensions.get('window').width * 0.9;
 const windowHeight = Dimensions.get('window').height * 0.85;
@@ -16,6 +19,7 @@ const windowHeight = Dimensions.get('window').height * 0.85;
 const HomePage = ({style, navigation}) => {
 
     const data = useContext(UserContext);
+    //console.log(JSON.stringify(data))
     
     // Entries on the current courses box, each one links to a course page
     const CourseView = ({
@@ -36,23 +40,34 @@ const HomePage = ({style, navigation}) => {
         );
     }
 
-    const [p, setP] = React.useState([]);
-    React.useEffect(() => {
-        var temp = []
-        for (const course of Courses) {
-            temp.push(data?.progress?.[course.name]?.percentage)
+    const initCourses = () => {
+        var progressCopy = data.progress
+
+        for(const course of Courses){
+            if (typeof progressCopy[course.name] === "undefined"){
+                progressCopy[course.name] = {
+                    percentage : 0,
+                    
+                    difficulties : {}
+                }
+            }
         }
-        setP(temp)
-    }, [data])
+        data.updateProgress(progressCopy)
+    }
+
+    initCourses()
+    //saveUserProgress(data.id, data.progress);
 
     var currentCourses = [];
     var i = 0;
     for (const course of Courses) {
         currentCourses.push(
-            <CourseView key={i} name={course.name} percentage={p[i]} img={course.icon} onPress={() => {getCourseData(course.name).then((courseData) => navigation.navigate('ChapterSelectPage', { course: courseData }))}} />
+            <CourseView key={i} name={course.name} percentage={data?.progress?.[course.name]?.percentage} img={course.icon} onPress={() => {getCourseData(course.name).then((courseData) => navigation.navigate('ChapterSelectPage', { course: courseData }))}} />
         );
+
         i++;
     }
+    
 
     const streak = [1, 2, 3, 4, 5, 6, 7];
 
@@ -62,6 +77,14 @@ const HomePage = ({style, navigation}) => {
       const completedDays = data.daily_streak; // Number of completed days (for example)
       return index < completedDays ? '#00fda2' : '#ffffff'; // Green for completed days, white for remaining days
     };
+
+    const navLevelSelectPage = (courseName, difficulty) => {
+        getCourseData(courseName).then((courseData) => {
+            navigation.navigate('LevelSelectPage', {course : courseData, difficulty: difficulty});
+        });
+    }
+
+    
 
     return (
             <View style={{flex: 1}}>
@@ -74,23 +97,35 @@ const HomePage = ({style, navigation}) => {
                     </View>
 
                     {/* Continue Current Course*/}
-                    {/*<Text style={{fontSize: 15}} marginTop={5}>Continue where you left off</Text>*/}
+                    
                     <View style={[styles.continueContainer, styles.iosShadow]} >
-                        <View flex={1.5} alignItems={'center'} justifyContent={'center'}>
-                            {/* Needs a number instead of percentage for sizing due to svg*/}
-                            <AnimatedPercentageCircle onPress={() => {navigation.navigate('QuizPage', {quiz: "../../courses/arithmetic/1/quizzes/u1q1.json" })}} active={true} imgARatio={0.5} percentage={0} w={windowWidth / 30} r={windowWidth / 7} img={Images.other.play} barEmptyColor={'#056b7a'} />
-                        </View>
-                        <View flex={2} justifyContent={'center'}>
-                            <View height={'70%'} width={'90%'} alignItems={'center'}  borderRadius={20} backgroundColor={'#01778a'}>
-                                <Text style={[styles.whiteText, {fontSize: 18}]} marginTop={10}>{data.last_lesson.course}:</Text>
-                                <Text style={[styles.whiteText, {fontSize: 15}]} marginTop={5}>{data.last_lesson.quiz}</Text>
+
+                        {typeof data.progress.last_lesson?.course === "undefined" &&
+                        <View style={{flex: 1, flexDirection:"row", justifyContent:"space-evenly", alignItems:"center"}}>
+                            <View style={{ minHeight: "75%", width: "90%", padding: 5, alignItems: 'center', justifyContent:"center", borderRadius: 20, backgroundColor: '#01778a' }}>
+                                <Text style={[styles.whiteText, { fontSize: 13, textAlign:"center" }]}>{"Get started and play your first quiz below!"}</Text>
                             </View>
                         </View>
+                        }
+                        {typeof data.progress.last_lesson?.course !== "undefined" &&
+                        <View style={{flex:1, flexDirection:"row", justifyContent:"space-evenly"}}>
+                            {/* Needs a number instead of percentage for sizing due to svg*/}
+                            <AnimatedPercentageCircle style={{}} active={true} imgARatio={0.5} percentage={data?.progress?.[data.progress.last_lesson.course]?.percentage} w={windowWidth / 30} r={windowWidth / 7} img={Images.other.play} barEmptyColor={'#056b7a'} onPress={() => navLevelSelectPage(data.progress.last_lesson.course, data.progress.last_lesson.difficulty)}/>
+                            
+                            <View style={{ minHeight: "75%", width: "50%", padding: 5, alignItems: 'center',  borderRadius: 20, backgroundColor: '#01778a' }}>
+                                <Text style={[styles.whiteText, { fontSize: 12, textAlign:"center" }]}>{"Where you left off"}:</Text>
+                                <View style={{height:15}}/>
+                                <Text style={[styles.whiteText, { fontSize: 15, textAlign:"center" }]}>{data.progress.last_lesson.course}</Text>
+                                <Text style={[styles.whiteText, { fontSize: 14, textAlign:"center" }]}>{data.progress.last_lesson.difficulty}</Text>
+                            </View>
+                        </View>
+                        }
+                        
                     </View>
 
                     {/* View Current Courses*/}
                     <View style={[styles.courseSelectionContainer, styles.iosShadow]}>
-                        <Text style={[styles.courseHeaderText, styles.whiteText]} >Current Courses:</Text>
+                        <Text style={[styles.courseHeaderText, styles.whiteText]} >My Courses:</Text>
                         
                         <ScrollView width={'100%'}>
                             <View alignItems={'center'}>
@@ -98,9 +133,9 @@ const HomePage = ({style, navigation}) => {
                             </View>
                         </ScrollView>
 
-                        <TouchableOpacity style={styles.courseButton} onPress={() => {navigation.navigate('CourseSelectPage')}}>
+                        {/* <TouchableOpacity style={styles.courseButton} onPress={() => {navigation.navigate('CourseSelectPage')}}>
                             <Text style={[styles.courseHeaderText, {padding: '2%'}]}> Add/Remove Courses</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
 
                     {/* Current Streak */}
@@ -109,7 +144,7 @@ const HomePage = ({style, navigation}) => {
                         <Text style={styles.streakTitle}>Daily Streak:</Text>
 
                         {/* Information text */}
-                        <Text style={styles.infoText}>Log in daily to increase your streak!</Text>
+                        <Text style={styles.infoText}>Log in daily to earn a reward!</Text>
 
                         {/* Render the streak numbers */}
                         <View style={styles.numberBoxContainer}>
@@ -155,6 +190,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginTop: '3%',
         elevation: 2,
+        justifyContent: "center",
+        alignItems: "center"
     },
     courseSelectionContainer: {
         width: '85%',

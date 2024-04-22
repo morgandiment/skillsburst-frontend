@@ -4,6 +4,7 @@ import { StyleSheet, Text,  View, ScrollView, Dimensions} from 'react-native';
 import {Header, Navbar, ChapterBox, AnimatedPercentageCircleText} from '../../components/Index.js';
 
 import { UserContext } from '../../userContext.js'
+import {saveUserProgress} from "../../API/database_connection.js";
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -16,15 +17,15 @@ const ChapterSelectPage = ({style, route, navigation}) => {
     const data = useContext(UserContext);
 
     const initProgress = () => {
-        if (data.progress[name] === undefined){
+        if (typeof data.progress[name] === "undefined"){
             //take copy of progress
             const progressCopy = data.progress
 
-            //add new value to copy
             progressCopy[name] = {
                 percentage : 0,
                 difficulties : {}
             }
+            
             for (const difficulty of difficulties){
                 progressCopy[name].difficulties[difficulty] = {
                     percentage : 0,
@@ -35,6 +36,20 @@ const ChapterSelectPage = ({style, route, navigation}) => {
             }
 
             //overwrite old progress with updated
+            data.updateProgress(progressCopy);
+        } else {
+            const progressCopy = data.progress
+
+            for (const difficulty of difficulties){
+                if (data.progress[name].difficulties[difficulty] === undefined){
+                    progressCopy[name].difficulties[difficulty] = {
+                        percentage : 0,
+                        quizzes_passed : 0,
+                        num_of_quizzes : course.quizzes[difficulty].length,
+                        quizzes : {}
+                    }
+                }
+            }
             data.updateProgress(progressCopy);
         }
     };
@@ -58,8 +73,8 @@ const ChapterSelectPage = ({style, route, navigation}) => {
 
             //convert json object to array
             const quizArr = []
-            for(var i in data.progress[name].difficulties[difficulty].quizzes){
-                quizArr.push(data.progress[name].difficulties[difficulty].quizzes [i]);
+            for(var i in data.progress[name].difficulties[difficulty]?.quizzes){
+                quizArr.push(data.progress[name].difficulties[difficulty]?.quizzes[i]);
             }
                 
             for (const quiz of quizArr){
@@ -72,9 +87,13 @@ const ChapterSelectPage = ({style, route, navigation}) => {
         data.updateProgress(progressCopy)
     };
 
-    initProgress();
-    updateCompletedQuizzes();
-    updateCompletionPercentage();
+    //React.useEffect(() => {
+        initProgress();
+        updateCompletedQuizzes();
+        updateCompletionPercentage();
+        saveUserProgress(data.id, data.progress);
+    //})
+    
 
     // Switch to embedded map
     var difficultyViews = []

@@ -18,6 +18,11 @@ import OnboardingMainScreen from './NewUserPages/OnboardingMainScreen.js';
 import OpportunityPage from './MainPages/OpportunityPage.js';
 import OpportunityViewPage from './MainPages/OpportunityViewPage.js';
 //import AudioNotificationScreen from './SideTabPages/AudioNotificationsPage.js';
+import LoadingPage from "./MainPages/LoadingPage.js";
+import LessonLearningScreen from "./LearningPages/LessonLearningScreen.js";
+import MainLearningScreen from "./LearningPages/MainLearningScreen.js";
+import ModuleLearningScreen from "./LearningPages/ModuleLearningScreen.js";
+import NothingHerePage from "./NothingHerePage.js";
 
 export {
     Template,
@@ -39,4 +44,9 @@ export {
     OnboardingMainScreen,
     OpportunityPage,
     OpportunityViewPage,
+    LoadingPage,
+    LessonLearningScreen,
+    MainLearningScreen,
+    ModuleLearningScreen,
+    NothingHerePage,
 }

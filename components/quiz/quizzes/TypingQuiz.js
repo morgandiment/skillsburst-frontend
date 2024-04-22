@@ -62,7 +62,6 @@ const TypingQuiz = ({
         else if (text === 'Backspace') {
             currentLetters.current[index] = undefined
         }
-        console.log(currentLetters.current)
     }
 
     if (preset !== undefined) {

@@ -8,11 +8,14 @@ import Images from '../../images/Index';
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 const AnimatedPercentageCircle = ({
+    style,
+
     w = 10, // Width of the pecentage bar
     r = 100, // Radius of the percentage bar
     percentage = 0, // 0 - 1
     active = false, // Whether the button is currently useable
-    text = null,
+    bottomText = null,
+    
     mainColor = "#0EF0A4",
     barFillColor = "#0EF0A4",
     barEmptyColor = "#D9D9D9",
@@ -22,6 +25,9 @@ const AnimatedPercentageCircle = ({
   
     // Default image
     img = Images.default_Image,
+
+    textFlag = false, //true if you want to use an text instead of icon
+    centerText = "Text",
   }) => {
 
 
@@ -41,11 +47,11 @@ const AnimatedPercentageCircle = ({
     }
 
     const VariableText = () => {
-      if (text == null){
+      if (bottomText == null){
         return <View/>;
       }
       return (
-        <Text style={styles.text}>{text}</Text>
+        <Text style={styles.text}>{bottomText}</Text>
       );
     };
 
@@ -60,7 +66,7 @@ const AnimatedPercentageCircle = ({
     }));
   
     return (
-      <View style={{ alignItems:"center", width:"40%" }}>
+      <View style={[style, {  alignItems:"center", width:"40%"}]}>
         <View style={{width: total, height: total, alignItems: "center"}}>
 
           <Svg transform={[{rotate: "-90deg"}]}>
@@ -91,7 +97,12 @@ const AnimatedPercentageCircle = ({
 
            {/* Inner Button - size is automatically determined to fit within the percentage bar*/}
           <TouchableOpacity onPress={onPress} disabled={!active} style={{ flex:1, justifyContent: "center", alignItems: "center", position: "absolute", top: c-cWidth/2, width: cWidth, height: cWidth, backgroundColor: mainColor, borderRadius: cWidth}}>
-            <Image style={{flex: 1, aspectRatio: imgARatio, resizeMode: 'contain'}} source={img}/>
+            { !textFlag &&
+              <Image style={{flex: 1, aspectRatio: imgARatio, resizeMode: 'contain'}} source={img}/>
+            }
+            { textFlag &&
+              <Text style={styles.text}>{Math.floor(centerText * 100) + "%"}</Text>
+            }
           </TouchableOpacity>
   
         </View>

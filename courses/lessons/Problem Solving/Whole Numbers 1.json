@@ -1,0 +1,9 @@
+{
+    "name": "Whole Numbers 1 ",
+    "screen": "LessonLearningScreen", 
+    "learning_data": [{"name":"What are Numbers", "info":"Numbers are the base for all of mathematics, they represent the values which allow us to perform caclulations. There are many different types of numbers, positive numbers, negative numbers, whole numbers, decimal numbers, etc."}, 
+    {"name":"What are Whole Numbers", "info": "Whole numbers are numbers are simply any positive number that does not include a fraction or decimal point. Including the main whole numbers: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, which allow us to form any whole number we want."},
+    {"name":"How To Form Whole Numbers", "info":"Performing any of the main 4 operations in mathematics on whole numbers will usually give a whole number in return, for example: 1 + 4 = 5, which is a whole number."},
+    {"name":"How To Tell Which Numbers Are Whole", "info":"If a number does not have a decimal point i.e. a dot in the number then it is a whole number, and if the number is not a fraction, i.e. a line seperating two numbers e.g. 7 / 10, then it is a whole number."},
+    {"name":"Remember!", "info":"Remember that a whole number is only positive, and will be a formation of the main numbers of the number alphabet."}]
+}

@@ -1,0 +1,8 @@
+{
+    "name": "Binary",
+    "screen": "LessonLearningScreen", 
+    "learning_data": [{"name":"What is Binary", "info":"Binary is a numeriing scheme used by computers to represent characters on a computer. The values of binary can only be 0 and 1."}, 
+    {"name":"Binary can be Fun", "info": "Lets try to make a game out of binary. Lets say that the four elelements: fire, earth, wind, and water all have an associated binary value to them."},
+    {"name":"The Values", "info":"00 : earth 01 : wind   10 : fire    11 : water"},
+    {"name":"Remember", "info":"Remember!  Remember the rules to the game: 00 : earth  01 : wind"}]
+}

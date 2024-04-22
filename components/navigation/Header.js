@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, {useContext, useState} from 'react';
 import { StyleSheet, TouchableOpacity, View, Text, Dimensions, Platform } from 'react-native';
 import {Image} from "expo-image";
 
@@ -6,6 +6,7 @@ import Animated, { useSharedValue, withTiming } from 'react-native-reanimated';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 
+import { UserContext } from '../../userContext.js'
 import Images from '../../images/Index'
 
 const windowHeight = Dimensions.get('window').height;
@@ -15,6 +16,7 @@ const windowWidth = Dimensions.get('window').width;
 const tabWidth = windowWidth * 0.7;
 
 const Header = ({style, navigation}) => {
+  const data = useContext(UserContext);
 
   // position of tab: 0 -> fully on screen, -tabWidth -> fully off screen
   const x = useSharedValue(-tabWidth);
@@ -86,29 +88,24 @@ const Header = ({style, navigation}) => {
 
             {/* Mini Profile Display area */}
             <View style={ProfileDisplayStyles.profileDisplayContainer}> 
-              <Text style={ProfileDisplayStyles.profileDisplayText}>[Username]</Text>
+              <Text style={ProfileDisplayStyles.profileDisplayText}>{data.username}</Text>
 
               <Image style={ProfileDisplayStyles.profilePicture} source={Images.icons.username}/>
-              
-              <TouchableOpacity style={ProfileDisplayStyles.editProfileButton} onPress={() => { switchPage; navigation.navigate('EditProfile') } }>
-                <Text style={{fontWeight: 'bold',}}>Edit Profile</Text>
-              </TouchableOpacity>
-
             </View>
 
             {/* Text area */}
             <View height={'80%'} backgroundColor={'white'}> 
 
-              <TabEntry text={'Planning Board'}/>
-              <TabEntry text={'Invite Friends'}/>
-              <TabEntry text={'Rate App'}/>
-              <TabEntry text={'Feedback'} onPress={() => navigation.navigate('Feedback')}/>
+              <TabEntry text={'Planning Board'} onPress={() => console.log(JSON.stringify(data))}/>
+              <TabEntry text={'Invite Friends'} onPress={() => navigation.navigate("NothingHere")}/>
+              <TabEntry text={'Rate App'} onPress={() => navigation.navigate("NothingHere")}/>
+              <TabEntry text={'Feedback'} onPress={() => navigation.navigate("NothingHere")}/>
 
               <View style={TabStyles.textSeperator}/>
 
-              <TabEntry text={'Contact us'} onPress={() => navigation.navigate('Contact')} img={Images.icons.phone}/>
-              <TabEntry text={'Help'} onPress={() => navigation.navigate('Help')} img={Images.icons.question_mark_circled}/>
-              <TabEntry text={'Settings'} onPress={() => navigation.navigate('Settings')} img={Images.icons.gear}/>
+              <TabEntry text={'Contact us'} img={Images.icons.phone} onPress={() => navigation.navigate("NothingHere")}/>
+              <TabEntry text={'Help'} img={Images.icons.question_mark_circled} onPress={() => navigation.navigate("NothingHere")}/>
+              <TabEntry text={'Settings'} img={Images.icons.gear} onPress={() => navigation.navigate('Settings')}/>
 
             </View>
           </Animated.View>
@@ -203,8 +200,8 @@ const ProfileDisplayStyles = StyleSheet.create({
 
   profilePicture: {
     aspectRatio: 1,
-    height: "70%",
-    borderRadius: 100,//"100%",
+    height: "90%",
+    borderRadius: 100,
   },
 
   profileDisplayText: {

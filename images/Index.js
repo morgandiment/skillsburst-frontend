@@ -30,6 +30,8 @@ const images = {
         question_mark_circled: require("./question_mark_circled_icon.svg"),
         home: require("./home_icon.svg"),
         back_arrow: require("./back_arrow_icon.svg"),
+        graduation_hat: require("./graduation_hat_icon.svg"),
+        medal: require("./medal_icon.svg"),
 
         green: {
             literacy_book: require("./literacy_book_icon_green.svg"),

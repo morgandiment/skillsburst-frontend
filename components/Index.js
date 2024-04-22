@@ -15,6 +15,8 @@ import PercentageCircle from './buttons/PercentageCircle.js';
 import AnimatedPercentageCircleText from './buttons/AnimatedPercentageCircleText.js';
 import OpportunityBox from './visual/OpportunityBox.js';
 import OpportunityModal from './visual/OpportunityModal.js';
+import ScrollBox from './visual/ScrollBox.js';
+import ScrollBox2 from './visual/ScrollBox2.js';
 
 export {
     SimpleButton,
@@ -33,4 +35,6 @@ export {
     AnimatedPercentageCircleText,
     OpportunityBox,
     OpportunityModal,
+    ScrollBox,
+    ScrollBox2,
 }
