@@ -40,7 +40,7 @@ const Style = StyleSheet.create({
         backgroundColor: '#fec165'
     },
     chapterContainer: {
-        height: windowHeight / 2.5,
+        height: windowHeight / 5.5,
         width: '85%',
         elevation: 4,
         borderRadius: 10,
@@ -89,6 +89,7 @@ const Style = StyleSheet.create({
         height: '65%',
         alignSelf: 'center',
         marginTop: '2%',
+        
     },
     imgContainer: {
         height: '70%',

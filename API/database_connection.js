@@ -3,20 +3,22 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 import course from '../courses/problemSolving';
 
-const Api_Url = "https://75c3-92-40-198-74.ngrok-free.app"
-
+const Api_Url = "http://192.168.0.58:3000"
+                
 
 export async function registerUser(userData) {
     const url = `${Api_Url}/register/registerUser`;
+    let success = false
     try {
          const response = await axios.post(url, userData);
-         return response;
+         Alert.alert('Success', response.data.message)
+         success= true;
 
      } catch (error) {
-         console.error('Error:', error);
-         //Alert.alert('Error', error.message)
-         return false;
+        //  console.error('Error:', error);
+         Alert.alert('Error', error.response.data.message);
      };
+     return success;
 };
 
 export const loginUser = async (userData) => {
@@ -32,6 +34,7 @@ export const loginUser = async (userData) => {
     } catch (error) {
         //console.error('Error:',  error.response.data.message);
         //Alert.alert('Error' , error.response.data.message)
+        Alert.alert('Error', error.response.data.message);
         return false;
     }
 }
@@ -63,7 +66,7 @@ export async function getCourseData(courseName) {
          return response.data
 
      } catch (error) {
-         console.error('Error:', error);
+        //  console.error('Error:', error);
          //Alert.alert('Error', error.message)
          return false;
      };
@@ -89,7 +92,7 @@ export async function loadUserProgress(userID) {
         return response.data.userProgress;
 
      } catch (error) {
-        console.error('Error:', error);
+        // console.error('Error:', error);
         return {};
      };
 };
@@ -101,8 +104,35 @@ export async function updateFinishedIntro(userID, selectedPronouns, selectedStat
         return response;
 
      } catch (error) {
-        console.error('Error:', error);
+        // console.error('Error:', error);
         //Alert.alert('Error', error.message)
         return false;
      };
 };
+
+// export async function getOpportunityData(UserID){
+//     const url = `${Api_Url}/quiz/getOpportunityprogress`;
+//     try {
+//         const response = await axios.post(url, { userID : userID });
+//         return response.data.OpportunityData;
+
+//      } catch (error) {
+//         // console.error('Error:', error);
+//         return {};
+//      };
+// }
+
+
+
+// export async function saveOpportunityProgress(userID, userOpportunities) {
+//     const url = `${Api_Url}/quiz/saveOpportunityprogress`;
+//     try {
+//         await axios.post(url, { userID : userID, OpportunityData : userOpportunities });
+//         return true
+
+//      } catch (error) {
+//         console.error('Error:', error);
+//         //Alert.alert('Error', error.message)
+//         return false;
+//      };
+// };

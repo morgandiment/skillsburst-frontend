@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, Platform, Dimensions, TextInput, ScrollView} from 'react-native';
+import React, { useState, useEffect, useRef,useContext } from 'react';
+import { StyleSheet, View, TouchableOpacity, Text, Platform, Dimensions, TextInput, ScrollView, Alert} from 'react-native';
 import Animated, { useAnimatedProps, useSharedValue, withTiming } from 'react-native-reanimated'; 
 
 import CountdownCricle from '../components/CountdownCricle';
 import QuestionProgressBar from '../components/QuestionProgressBar'; // broken :,
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import {UserContext} from '../../../userContext.js'
+import { saveUserProgress } from '../../../API/database_connection.js';
 const windowHeight = Dimensions.get('window').height * 0.85;
 
 // Colours of answer buttons
@@ -30,6 +32,7 @@ const TypingQuiz = ({
   navigation,
 
 }) => {
+  const data = useContext(UserContext);
   const [currentQustionIndex, setCurrentQuestionIndex] = useState(0);
   const inputRefs = useRef([]);
   const currentLetters = useRef([]);
@@ -43,13 +46,18 @@ const TypingQuiz = ({
   const LetterEntry = ({index, preset, style, edi=true, val}) => {
     
     function HandleChange(text, index){
+        console.log(text , index ,'sssssss')
         if (text.length === 1 && index < inputRefs.current.length - 1) {
             if (currentLetters.current[index] === undefined) {
                 currentLetters.current[index] = text;
+                console.log(text , index ,'hhhhhhhhhhhhh')
+
+                //inputRefs.current[index + 1].focus();
+            }
+            console.log(text , index , inputRefs.current.length , inputRefs.current[index + 1]  ,'sssssss')
+            if (inputRefs.current[index + 1] != null ){
                 inputRefs.current[index + 1].focus();
             }
-
-            inputRefs.current[index + 1].focus();
         }
         else if (text.length == 1 && currentLetters.current[index] === undefined) {
             currentLetters.current[index] = text;
@@ -222,8 +230,42 @@ const TypingQuiz = ({
       var pass = false;
       if (decimalScore > passThreshold) {
         pass = true;
+        Alert.alert('Congrats you have passed')
+      } else{
+        Alert.alert('Sorry but you have failed')
       }
-      navigation.navigate("QuizEndPage", {course: course, difficulty: difficulty, quiz: quiz, pass: pass, results: decimalScore})
+      console.log(decimalScore , passThreshold)
+//, {course: course, difficulty: difficulty, quiz: quiz, pass: pass, results: decimalScore}
+      console.log(course, difficulty  , pass ,decimalScore)
+      // navigation.navigate("TypingResults", {course: course, difficulty: difficulty, quiz: quiz, pass: pass, results: decimalScore})
+      const progressCopy = data.progress
+      progressCopy[course.name].difficulties[difficulty].quizzes[quiz.name].last_try = {
+          passed : pass,
+          percentage : decimalScore,
+          time : null,
+          maxStreak: null,
+          score: score.current,
+      }
+
+      var best_try = progressCopy[course.name].difficulties[difficulty].quizzes[quiz.name].best_try
+      progressCopy[course.name].difficulties[difficulty].quizzes[quiz.name].best_try = {
+          passed : pass || best_try.passed,
+          percentage : Math.max(decimalScore, best_try.percentage),
+          time : pass ? null : best_try.time,
+          maxStreak: null,
+          score: score.current,
+      }
+
+      progressCopy.last_lesson = {
+          course : course.name,
+          difficulty : difficulty,
+          quiz : quiz.name
+      }
+
+      data.updateProgress(progressCopy);
+
+      saveUserProgress(data.id, data.progress);
+      navigation.navigate("HomePage")
     }
 
 

@@ -22,6 +22,7 @@ function QuizAutoBuild({ route, navigation }) {
   
 
   const { quiz, course, difficulty } = route.params;
+  console.log(route.params,'sssssssssssssssssssssssssssssss')
   if (quiz === undefined) {
    return (<View><Text>Error</Text></View>);
   }

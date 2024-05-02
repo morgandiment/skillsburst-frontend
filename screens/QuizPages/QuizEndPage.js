@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity, Dimensions, Alert } from 'react-native';
 import { MultipleChoiceResults } from '../../components/quiz/quizResults/Results';
 import { OpportunityModal } from '../../components/Index.js';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -64,6 +64,8 @@ const QuizEndPage = ({navigation, route}) => {
         switch (quiz.format) {
             case 'multiple_choice':
                 return <MultipleChoiceResults results={results}/>
+            case 'type_test':
+                return <MultipleChoiceResults results={results}/>
             default:
                 return;
         }
@@ -78,14 +80,17 @@ const QuizEndPage = ({navigation, route}) => {
             resultMessage = 'Better Luck Next Time!'
             bgColour = '#c14b4d'
         }
-
+        
+        if (pass && Math.random() < 0.33) { // 1 in 3 chance
+            Alert.alert('Well done','Well done passing checkout the opportunity page is now a new opportunity there for you')
+        }
         return (
             <View style={styles.passFail}>
                 <View style={[styles.circleStyle, { backgroundColor: bgColour }]}> 
                     <Image style={{flex: 1, aspectRatio: 0.5, resizeMode: 'contain'}} source={img}/>
 
                     {/* OPPORTUNITY MODAL POPUP*/}
-                    <OpportunityModal navigation={navigation} oppotunities={["Google!"]}/>
+                    {/* <OpportunityModal navigation={navigation} oppotunities={["Google!"]}/> */}
 
 
                 </View>

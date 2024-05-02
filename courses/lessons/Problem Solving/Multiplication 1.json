@@ -1,0 +1,8 @@
+{
+    "name": "Multiplication 1",
+    "screen": "LessonLearningScreen", 
+    "learning_data": [{"name":"What is Multiplication", "info":"Multiplication is a method in maths, where two numbers are multiplied together in order to create an exponenetially bigger number. The symbol of multiplication is represented by an x or a period (dot) . symbol (not to be confused by a decimal point number)."}, 
+    {"name":" How To Multiply", "info":"To multiply two numbers you essentially have to add a number by itself for a certain number of times, say we have the example 4 x 3, we will take the first number in this equation, that being 4, and we will add 4 to itself 3 times, so it will look like this 4 + 4 + 4, as we are multiplying by 3, meaning we add 4 to itself 3 times. This adds up to 12, which is the answer in this example."}, 
+    {"name":"Example 1", "info":"Lets try the example of 9 x 4, so as discussed in the previous example, we could approach this question by doing 9 + 9 + 9 + 9, as this is equivalent to 9 x 4, however, we can also do the verse order to this. If it is easier to multiply by the second value, we could do the opposite version. In this example, 9 x 4 is the same as 4 x 9, meaning we could do 4 + 4 + 4 + 4 + 4 + 4 + 4 + 4 + 4, which is 9 times 4 is added to itself, which gives the same result of 28, it just depends on the way you want to multiply an equation."}, 
+    {"name":"Remember", "info":"Remember that the order of multiplication questions can be reversed in order to get the same answer, just in case it is easier to do that way for you"}]
+}

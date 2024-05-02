@@ -72,7 +72,7 @@ const images = {
         dropdownArrowGrey: require('./dropdownArrowGrey.png'),
     },
 
-    skillsburst_banner_logo: require('./skillsburst_banner_logo.png'),
+    skillsburst_banner_logo: require('./skillsburst_banner_logo5.png'),
     default_Image: require('./defaultImage.png'),
 };
 

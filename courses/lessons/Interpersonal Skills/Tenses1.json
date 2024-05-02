@@ -1,0 +1,12 @@
+{
+    "name": "Tenses1",
+    "screen": "LessonLearningScreen", 
+    "learning_data": [
+    {"name":"What are Tenses ", "info": "Tenses are the verbs that let you describe the time that the event took place at. These can be divided into 3 types: past,present, and future tense, with each having a different time period associated. Lets look at each one individually"},
+    {"name":"Past Tense", "info":"Past tense refers to the time period that has already happened, for example: I walked my dog this is in the past tense because the person has already done the walking, so it happened in the past."},
+    {"name":"Present Tense", "info": "Present tense refers to the present time of action, meaning that is is occuring right at this moment, for example: I am walking my dog this is present tense, as the person is currently walking the dog right now."},
+    {"name":"Future Tense", "info": "Future tense refers to t he time period that has no happened yet, and will only occur some point after this refrence, for example: I will walk my dog Because the person talking about the event has not done it yet, this means it is in the future only."},
+    {"name":"Wording Matters ", "info":"Wordiing matters when it comes to tenses, as different words will change the tense being used. Words used to describe past tense include: has, was, did, or other verbs ending in ed, like finished. Present tense uses language, such as: have, am, doing, is, etc. Finally, future tense uses wording, like: need, will, do, and many more."}, 
+    {"name":"Context", "info": "There are many cases where you ill need to full read the sentence in order to understand what tnese is being used, as one word may not be enough, like this sentence: I have not done my homework yet This means that the homework will be done in the future, so this is a future tense sentence."},
+    {"name":"Remember", "info": "Remember to look out for key words in a sentence that give the tense of it, or look at the context around the words to understand what time period it may have been set in!"}]
+}

@@ -48,15 +48,18 @@ export default MainLearningScreen;
 const styles = StyleSheet.create({
     backButton: {
         backgroundColor: '#056b7a',
-        padding:10,
-        margin:10,
+        padding: 10,
+        margin: 10,
         borderRadius: 10,
         width: '20%',
+        justifyContent: 'center', // Align items vertically center
+        alignItems: 'center', // Align items horizontally center
     },
     backButtonText: {
         color: 'white',
         fontSize: 16,
         fontWeight: 'bold',
+        textAlign: 'center', // Center text horizontally
     },
     container: {
         flex: 1,
@@ -75,5 +78,6 @@ const styles = StyleSheet.create({
         fontSize: 25,
         color: '#056b7a',
         fontWeight: 'bold',
+        textAlign: 'center', // Center text horizontally
     }
 });

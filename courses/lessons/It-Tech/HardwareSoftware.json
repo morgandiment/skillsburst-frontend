@@ -1,0 +1,9 @@
+{
+    "name": "Hardware & Software",
+    "screen": "LessonLearningScreen", 
+    "learning_data": [{"name":"What is Hardware & Software  ", "info":"Hardware includes the physical parts of a computer, so things like the monitor, the CPU, etc. Software are the set of programs that tell the computer how to solve tasks, like Google, Instagram, etc."}, 
+    {"name":"The Computer Setup", "info":"By utilising the hardware on the outside and inside of the computer, we can select software applications in order to perform tasks that we need to do. You cannot access one part of the system if the other does not exist. Thtas how the computer is made up."}, 
+    {"name":"More Hardware Examples ", "info":"More examples of different hardware on a computer include: mouse, printers, SSDs, random access memory, computer data storage, graphics card, etc."}, 
+    {"name":"More Software Examples", "info":"More examples of different software on a computer include: facebook, OBS studio, discord, file explorer, figma, word, and many, many, more for other uses"},
+    {"name":"Remember", "info":"Remember that hardware and osftware need to be combined in order to get a computer to work"}]
+}
