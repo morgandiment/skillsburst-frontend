@@ -27,7 +27,7 @@ const MultipleChoiceQuiz = ({
   difficulty,
   quiz,
   passThreshold = 0.6, //percentage
-  maxTime = 999999,
+  maxTime = 30,
   navigation,
 
 }) => {

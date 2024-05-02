@@ -30,6 +30,7 @@ function QuizAutoBuild({ route, navigation }) {
   const [timeLeftLabel, setTimeLeftLabel] = useState(3);
   const initialised = useRef(false);
   const currentQuiz = useRef(getQuiz());
+  const [timerDone, setTimerDone] = useState(false);
 
   // Get current quiz based on format, only once
   function getQuiz() {
@@ -63,7 +64,8 @@ function QuizAutoBuild({ route, navigation }) {
     timer = setTimeout(() => {
       if(timeLeft <= 0){
         wh.value = withTiming(0, { duration: 300, easing: Easing.linear });
-        clearTimeout(timer);
+        setTimeout(() => setTimerDone(true), 100);
+        //clearTimeout(timer);
         return;
       }
 
@@ -91,7 +93,8 @@ function QuizAutoBuild({ route, navigation }) {
   return (
     <View style={styles.screenViewStyle}>
 
-      {currentQuiz.current}
+
+      {timerDone && currentQuiz.current}
 
       {/* Quiz countdown animation */}
       <Animated.View style={[styles.screenViewNoFlex, {width: wh, height: wh}]}>

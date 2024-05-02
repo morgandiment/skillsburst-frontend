@@ -30,7 +30,7 @@ const Navbar = ({ style, navigation }) => {
             <Image style={styles.imgSty} source={Images.icons.home}/>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate("NothingHere")}> 
+        <TouchableOpacity style={styles.navButton} onPress={() => {navigation.navigate("NothingHere"); console.log(JSON.stringify(data.progress))}}> 
             <Image style={styles.imgSty} source={Images.icons.medal}/>
         </TouchableOpacity>
         

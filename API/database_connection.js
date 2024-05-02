@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 import course from '../courses/problemSolving';
 
-const Api_Url = "https://75c3-92-40-198-74.ngrok-free.app"
+const Api_Url = "https://bd07-82-9-238-25.ngrok-free.app"
 
 
 export async function registerUser(userData) {

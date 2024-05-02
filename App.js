@@ -17,7 +17,6 @@ import { UserContext } from './userContext.js'
 const Stack = createNativeStackNavigator();
 
 function App() {
-  const [initialRoute, setInitialRoute] = React.useState("asdSignupPage");
 
   const [username, setUsername] = React.useState("")
   const [profilePicture, setProfilePicture] = React.useState("")
@@ -49,7 +48,6 @@ function App() {
       <GestureHandlerRootView style={{flex: 1}}>
         <NavigationContainer>
           <Stack.Navigator 
-            initialRouteName={initialRoute}
 
             screenOptions={{
               headerStyle: { 
@@ -59,7 +57,7 @@ function App() {
               headerTitleStyle: { fontWeight: 'bold'},
               headerShown: false,
               animation: 'fade',
-              //gestureEnabled: false,
+              gestureEnabled: false,
             }}
           >
             
