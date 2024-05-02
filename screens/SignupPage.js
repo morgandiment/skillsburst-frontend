@@ -5,7 +5,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { UserContext } from '../userContext.js'
-import {loginUser, registerUser} from "../API/database_connection.js";
+import {loginUser, registerUser,saveOpportunityProgress} from "../API/database_connection.js";
 
 import { SimpleButton, TextInputWithIcon } from '../components/Index.js';
 //import {  } from './Index.js';
@@ -45,60 +45,85 @@ function SignupPage({ navigation }) {
     setDate(selectedDate);
   };
 
-  const attemptSignup = () => {
+  const attemptSignup = async () => {
     const fullNamePattern = /^[a-z ,.'-]+$/i;
     setFullNameMessageVisible(!fullNamePattern.test(fullName));
 
     const emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     setEmailMessageVisible(!emailPattern.test(email.toLowerCase()));
 
-    //must be at least: 8 chars - one uppercase letter - one lowercase letter - one number - one special character
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&]{8,}$/;
+    // Must be at least: 8 chars - one uppercase letter - one lowercase letter - one number - one special character
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&'#])[A-Za-z\d@$!%*?&'#]{8,}$/;
+
     setPasswordMessageVisible(!passwordPattern.test(password));
 
-    setConfirmPasswordMessageVisible(password != confirmPassword);
+    const usernamePattern =username.includes(" ");
+    setUsernameMessageVisible((usernamePattern) || (username == ''));
+    console.log(username , usernamePattern , 'sdggs')
+    setConfirmPasswordMessageVisible((password !== confirmPassword) );
 
-    if (fullNameMessageVisible || emailMessageVisible || passwordMessageVisible || confirmPasswordMessageVisible){
-      return;
+    console.log('Yay', usernamePattern, emailMessageVisible, passwordMessageVisible, usernameMessageVisible, confirmPasswordMessageVisible);
+
+    if (!fullNamePattern.test(fullName) || !emailPattern.test(email.toLowerCase()) || !passwordPattern.test(password) || usernamePattern || username == ''|| (password !== confirmPassword)) {
+        console.log('failed', fullNameMessageVisible, emailMessageVisible, passwordMessageVisible, usernameMessageVisible, confirmPasswordMessageVisible);
+        return;
     }
-
+    console.log('passe')
     const userData = {
-      FirstName: fullName.split(" ")[0],
-      LastName: fullName.split(" ")[1],
-      Email: email,
-      Password: password,
-      DOB: date.toLocaleDateString('en-GB'),
-      Username: username,
+        FirstName: fullName.split(" ")[0],
+        LastName: fullName.split(" ")[1],
+        Email: email,
+        Password: password,
+        DOB: date.toLocaleDateString('en-GB'),
+        Username: username,
     };
 
-    //for testing we no use
-    registerUser(userData).then(() => {
-      try {
-        loginUser(userData).then( async (loginResponse) => {
-
-          userContextData.updateUsername(loginResponse.Username)
-          userContextData.updateId(loginResponse.UserID)
-          userContextData.updateFinishedIntro(loginResponse.finished_intro)
-          userContextData.updateProgress({})
-  
-          await AsyncStorage.setItem("token", `${loginResponse.UserID}`).then(() => {
-            navigation.navigate('OnboardingMainScreen'); 
-          });
-  
+    // For testing we don't use
+    result= await registerUser(userData)
+    console.log(result,'etgeujrtyfuij')
+    if (result == true){
+      let loginResponse =await loginUser(userData);
+      if (loginResponse) {
+        userContextData.updateUsername(loginResponse.Username);
+        userContextData.updateId(loginResponse.UserID);
+        userContextData.updateFinishedIntro(loginResponse.finished_intro);
+        userContextData.updateProgress({});
+       
+        await AsyncStorage.setItem("token", `${loginResponse.UserID}`).then(() => {
+            navigation.navigate('OnboardingMainScreen');
         });
-      } catch(e){
-        print("register fail")
       }
-      
-    });
-  }
+
+    } else{
+      console.log('failed')
+    }
+    // registerUser(userData).then(() => {
+    //     try {
+    //         loginUser(userData).then(async (loginResponse) => {
+
+    //             userContextData.updateUsername(loginResponse.Username);
+    //             userContextData.updateId(loginResponse.UserID);
+    //             userContextData.updateFinishedIntro(loginResponse.finished_intro);
+    //             userContextData.updateProgress({});
+
+    //             await AsyncStorage.setItem("token", `${loginResponse.UserID}`).then(() => {
+    //                 navigation.navigate('OnboardingMainScreen');
+    //             });
+
+    //         });
+    //     } catch (e) {
+    //         console.error("register fail", e);
+    //     }
+
+    // });
+};
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.screenViewStyle}>
         <Image
           style={styles.bannerLogoStyle}
-          source={require('../images/skillsburst_banner_logo.png')}
+          source={require('../images/skillsburst_banner_logo5.png')}
         />
 
         <View style={{width: "90%", borderWidth: 1}}/>
@@ -181,7 +206,7 @@ function SignupPage({ navigation }) {
               imagePath={Images.icons.username}
               onChangeText={setUsername}
 
-              failMessage="This username is already in use" 
+              failMessage="Not a valid username" 
               showFailMessage={usernameMessageVisible}
             />
           </View>
@@ -194,7 +219,7 @@ function SignupPage({ navigation }) {
             style={styles.signupButtonStyle}
             textStyle={{fontSize: 18}}
             title="Sign Up"
-            onPress={attemptSignup}
+            onPress={async () => await attemptSignup()}
           />
     
           <SimpleButton

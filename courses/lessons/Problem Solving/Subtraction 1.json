@@ -1,0 +1,8 @@
+{
+    "name": "Subtraction 1",
+    "screen": "LessonLearningScreen", 
+    "learning_data": [{"name":"What is Subtraction", "info":" Subtraction is a method in maths, where two numbers values are taken away from each other, creating a smaller number than the two given e.g. 3-1 is 2. The sybmol representing subtraction (also known as minus) is -"}, 
+    {"name":"How to Subtract", "info":" Subtracting two numbers is similar to adding them but in the reverse order, so for example 7 - 3 is 4, and utilising the original number set to create bigger numbers, we can do for example, 49 - 39 is 10."}, 
+    {"name":" How to Subtract", "info":"This methdod can also be applied to larger numbers, such as 178 - 78, which is 100."}, 
+    {"name":"Remember", "info":" Remember to use the number line method in the previous tutorial, as this will help you subtract larger numbers  "}]
+}

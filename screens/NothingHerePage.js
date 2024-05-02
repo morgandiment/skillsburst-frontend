@@ -17,7 +17,7 @@ function LoadingScreen({ navigation }) {
 
             <View style={styles.container}>
 
-                <Image source={require('../images/skillsburst_banner_logo.png')} style={styles.image} />
+                <Image source={require('../images/skillsburst_banner_logo5.png')} style={styles.image} />
                 <Text style={{fontSize:20, fontWeight: 'bold',}}>Oops, theres nothing here</Text>
 
             </View>

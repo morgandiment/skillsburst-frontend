@@ -23,7 +23,19 @@ function LoginPage({ navigation }) {
       Username: username,
       Password: password,
     };
+    setUsernameMessageVisible(false);
+    setPasswordMessageVisible(false);
+    if (username == '' ){
+      console.log('eeeeeeeeeeeeeeee')
+      setUsernameMessageVisible(true);
+      return;
+    } 
+    if (password == '' ){
+      setPasswordMessageVisible(true);
+      return;
+    }
 
+    
     loginUser(userData).then( async (loginResponse) => {
       if (loginResponse){ //login successful
 
@@ -58,7 +70,7 @@ function LoginPage({ navigation }) {
         <View style={styles.screenViewStyle}>
           <Image
             style={styles.bannerLogoStyle}
-            source={require('../images/skillsburst_banner_logo.png')}
+            source={require('../images/skillsburst_banner_logo5.png')}
           />
 
           <ScrollView

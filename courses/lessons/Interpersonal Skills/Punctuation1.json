@@ -1,0 +1,14 @@
+{
+    "name": "Punctuation1",
+    "screen": "LessonLearningScreen", 
+    "learning_data": [
+    {"name":"What is Punctuation", "info":"Punctuation is a pivital part of english, as it focuses on clarifying and seperating elements and wording within a sentence. I have just showed two examples of punctuation, the comma, and the fullstop. There are many types of punctuation, and each have different use cases so we will exlpore the main ones now."},
+    {"name":"Fullstop", "info":"The fullstop is the most important piece of punctuation that can be used in a sentence as it determines when the end of the sentence will be, creating many effects in the process, and determining word grouping. Its symbol is ."},
+    {"name":"Commas", "info":"Commas are used to separate words within a sentence, kind of like a mini pause. It can be used frequently within sentences and when listing items, but mainly just to keep sentences progressing without the need for a full stop. Its symbol is ,"},
+    {"name":"Question & Exclamation Marks", "info":"Question marks are used at the end of questions, in order to represent that a question is being asked. Its symbol is ? . An exclamation mark is used whenever you want to emphasise a certain word or point, and is the equivalent of shouting, so should be rarely used except if making a big point even bigger. Its symbol is ! ."},
+    {"name":"Colons", "info":"A normal colon is used in order to represent that start of a list, or if you want to start ordering words, and is rarely used otherwise. Its symbol is : . Semi-colons are a bit different, as they typically follow the structure of a comma, but with a semi-colon, it is represented as an even longer pause than a comma, but not as long as a fullstop, and so can be used to extent a sentence, but using them regullarly like a comma is not  recommended. Its symbol is ;"},
+    {"name":"Others", "info":"There are many other examples of punctuation that we havent discussed, like: speech marks, percentages, arrows, brackets, hashtags, etc. however they will not be refrenced in the next section, so we will continue with the knowledeg you have now of punctuation thus far."},
+    {"name":"Remember", "info":"Remember to take a look at these notes again if you get stuck or forget what each piece of punctuation does, as they all have unique jobs when making sentences."}
+    ]
+
+}

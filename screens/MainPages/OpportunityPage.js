@@ -1,9 +1,9 @@
 import { StyleSheet, Text,  View, ScrollView, Dimensions} from 'react-native';
-
+import React , {useState, useContext,useEffect} from 'react';
 // Change path as needed
 import {Header, Navbar, OpportunityBox, OpportunityModal} from '../../components/Index.js';
 import opportunities from '../../opportunities/opportunities.js';
-
+import { UserContext } from '../../userContext.js'
 // Page template for pages that require both header and footer 
 const OpportunityBoxes = ({opps, navigation}) => {
     const qArr = [];
@@ -25,6 +25,10 @@ const OpportunityBoxes = ({opps, navigation}) => {
 
 
 const OpportunityPage = ({navigation}) => {
+    const userData = useContext(UserContext);
+    // userData.updateOpportunities({OpportunityData: ["BCS Careers Inspiration","Google Learn"]})
+    // console.log(userData.opportunities,'ssssssssssss')
+
     return (
         <View style={{flex: 1}}>
             

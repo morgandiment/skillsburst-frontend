@@ -45,7 +45,7 @@ function OnboardingMainScreen({ navigation }) {
             onDone={handleOnDone}
             pages={[
             {
-                image: <Image source={require('../../images/skillsburst_banner_logo.png')} style={styles.image} />,
+                image: <Image source={require('../../images/skillsburst_banner_logo5.png')} style={styles.image} />,
                 backgroundColor: '#056371',
                 title: 'Welcome to Skill Bursts',
                 subtitle: 'Swipe to continue',

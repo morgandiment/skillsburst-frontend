@@ -52,10 +52,9 @@ const Style = StyleSheet.create({
         textAlign: 'center',
     },
     topView: {
-        flex:1,
-        height:"100%",
-        justifyContent:"center",
-        alignItems:"center",
+        flex: 1, // Change to flex: 1 to occupy the entire height of chapterContainer
+        justifyContent: 'center', // Center vertically
+        alignItems: 'center', // Center horizontally
         padding: 5,
     },
     line: {
@@ -66,11 +65,11 @@ const Style = StyleSheet.create({
         marginTop: '1%',
     },
     titleText: {
-        flex: 1, // Adjust the flex property to allow centering vertically
         fontSize: 36,
         fontWeight: 'bold',
         textAlign: 'center',
-        color:'#056b7a'
+        color:'#056b7a',
+        flexWrap: 'wrap',
     },
     img: {
         width: '100%',

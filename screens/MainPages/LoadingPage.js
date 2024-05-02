@@ -3,7 +3,7 @@ import React, { useState, useRef, useContext } from 'react';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { getUserData, loadUserProgress } from "../../API/database_connection.js";
+import { getUserData, loadUserProgress,getOpportunityData } from "../../API/database_connection.js";
 
 import { UserContext } from '../../userContext.js'
 
@@ -19,7 +19,7 @@ function LoadingScreen({ navigation }) {
                         userData.updateId(response.UserID)
                         userData.updateFinishedIntro(response.finished_intro)
                         userData.updateProgress({})
-
+                      
                         loadUserProgress(response.UserID).then((userProgress) => {
                             userData.updateProgress(userProgress);
 
@@ -30,6 +30,7 @@ function LoadingScreen({ navigation }) {
                             }
                             
                         });
+                        
     
                     })
                 } else {
@@ -44,7 +45,7 @@ function LoadingScreen({ navigation }) {
 
     return ( 
         <View style={styles.container}>
-            <Image source={require('../../images/skillsburst_banner_logo.png')} style={styles.image} />
+            <Image source={require('../../images/skillsburst_banner_logo5.png')} style={styles.image} />
         </View>
     );
 }

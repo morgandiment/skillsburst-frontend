@@ -1,0 +1,10 @@
+{
+    "name": "Speech1",
+    "screen": "LessonLearningScreen", 
+    "learning_data": [{"name":"Speech Importance", "info":"How we use speech is very important in our day-to-day lives. The main pillars of speech being nouns, adjectives, verbs, and adverbs respectively. We will look at each one individually to see how these grouped terms define speech."}, 
+    {"name":"Nouns", "info": "Nouns are used to identify people, places, and everything around us, these are the names of objects that we are talking about, for example, words like: table, giraffe, John, Australia are all considered nouns"},
+    {"name":"Adjectives", "info":"Adjectives are words that are used to describe the condition or properties of a noun i.e. describing words. Examples of adjectives are: red, round, huge,tiled, etc"},
+    {"name":"Verbs", "info": "Verbs are words that are used to describe an action or state within a sentence. Examples of verbs in sentences include: run, dance, go, destroy, impersonate, develop, and much more."},
+    {"name":"Adverbs", "info": "Adverbs are words that modify adjectives, verbs, or adverbs within a word group. These words usually end in ly and examples of them are: sadly, suddenly, often, fast, etc."},
+    {"name":"Remember!", "info": "Remember to keep in mind what each of these word types do in order to find out which words belong to which group."}]
+}

@@ -83,7 +83,7 @@ const Header = ({style, navigation}) => {
   const SideTab = () => {
     return (
       <View style={{height: windowHeight, width: windowWidth}}>
-        <GestureDetector>
+        {/*<GestureDetector>*/}
           <Animated.View style={[TabStyles.tab, {height: windowHeight, left: x}]}>
 
             {/* Mini Profile Display area */}
@@ -109,7 +109,7 @@ const Header = ({style, navigation}) => {
 
             </View>
           </Animated.View>
-        </GestureDetector>
+        {/*</GestureDetector>*/}
       </View>
     );
   }

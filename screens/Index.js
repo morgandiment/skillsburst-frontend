@@ -23,7 +23,7 @@ import LessonLearningScreen from "./LearningPages/LessonLearningScreen.js";
 import MainLearningScreen from "./LearningPages/MainLearningScreen.js";
 import ModuleLearningScreen from "./LearningPages/ModuleLearningScreen.js";
 import NothingHerePage from "./NothingHerePage.js";
-
+import TypingResults from './QuizPages/TypingResults';
 export {
     Template,
     QuizAutoBuild,
@@ -49,4 +49,5 @@ export {
     MainLearningScreen,
     ModuleLearningScreen,
     NothingHerePage,
+    TypingResults,
 }

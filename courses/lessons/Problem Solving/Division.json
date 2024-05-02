@@ -1,0 +1,10 @@
+{
+    "name": "Division 1",
+    "screen": "LessonLearningScreen", 
+    "learning_data": [{"name":"What is Division ", "info":"Division is another mathmatical operation that can be performed on two numbers, this is the opposite to multiplication, as you are trying to find the amount of times a number goes into another number. This is represented by the division symbol ÷"}, 
+    {"name":"How To Divide ", "info":"Dividing is the most complex operation out of the main 4. The order of the equation matters heavily, as the order cannot be changed in any way. The first number in a division equation is the number that is bein divided and the second number in the equation is the number that is dividing. The second number in the equation  asks the question how many times do I go into the first number."}, 
+    {"name":" How to Divide 2", "info":"The easiest way to think about division is the opposite of multiplication. Say we have 36 ÷ 9, we have to look at how many times 9 goes into 36. The easiest way to do this is to take the second value 9, and multiply it by a random value that you think would be close to giving the answer of the division. 3 x 9 would be relatively close to giving 36, 3 x 9 = 27, which is very close, maybe 4 x 9 would give us the answer, 4 x 9 = 36, which is the correct answer, and therefore 36 ÷ 9 = 4, as 9 goes into 36, 4 times in total."}, 
+    {"name":" Example 1", "info":"Another example is 70 ÷ 10, so think about how many times 10 goes into 70, well 10 x 7 = 70, so therefore, 70 ÷ 10 = 7, as 10 is in 70, 7 times."}, 
+    {"name":"Example 2", "info":"A final example is 90 ÷ 18, this is quite a big number so breaking it down is easiest, maybe 3 x 18 would give 90, so we can do 18 + 18 + 18, which gives 54, which is close, maybe try 5 x 18, which is 18 + 18 + 18 + 18 + 18, which if added up correctly does give 90, therefore 90 ÷ 18 = 5, great job."}, 
+    {"name":"Remember", "info":"Remember to always think about how many times the second number in a division equation goes into the first number, and draw out the multiplication of the second number in order to find the answer everytime"}]
+}

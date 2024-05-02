@@ -7,7 +7,7 @@ import Animated, { Easing } from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {SimpleButton, AnimatedButton } from './components/Index.js';
-import {NothingHerePage, MainLearningScreen, ModuleLearningScreen, LessonLearningScreen, LoadingPage, OpportunityPage, OpportunityViewPage, QuizEndPage, QuizAutoBuild, OnboardingMainScreen, CoursePreviewPage, LevelSelectPage, LandingPage, CourseSelectPage, LoginPage, SignupPage, HomePage, ProfileEditPage, SettingsPage, ChapterSelectPage, Feedback, HelpPage, ContactPage } from './screens/Index.js';
+import {NothingHerePage, MainLearningScreen, ModuleLearningScreen, LessonLearningScreen, LoadingPage, OpportunityPage, OpportunityViewPage, QuizEndPage, QuizAutoBuild, OnboardingMainScreen, CoursePreviewPage, LevelSelectPage, LandingPage, CourseSelectPage, LoginPage, SignupPage, HomePage, ProfileEditPage, SettingsPage, ChapterSelectPage, Feedback, HelpPage, ContactPage , TypingResults} from './screens/Index.js';
 import TemplatePage from './screens/TemplatePage.js';
 
 import Courses from './courses/index.js';
@@ -24,7 +24,6 @@ function App() {
   const [progress, setProgress] = React.useState({})
   const [dailyStreak, setDailyStreak] = React.useState(1)
   const [finishedIntro, setFinishedIntro] = React.useState(false)
-
   return (
     <UserContext.Provider value={{
       username : username,
@@ -44,6 +43,7 @@ function App() {
 
       finished_intro : finishedIntro,
       updateFinishedIntro : setFinishedIntro,
+
     }}>
       <GestureHandlerRootView style={{flex: 1}}>
         <NavigationContainer>
@@ -79,7 +79,7 @@ function App() {
             {/* Need to add some way of back swipe prevention - as going back to quiz you just took makes no sense and breaks everything */}
             <Stack.Screen name="QuizPage" component={QuizAutoBuild} options={{title: 'Quiz Page'}}/>
             <Stack.Screen name="QuizEndPage" component={QuizEndPage} options={{title: 'Quiz End Page', animation: 'none'}}/>
-
+            <Stack.Screen name="TypingResults" component={TypingResults} options={{title: 'TypingResults'}}/>
             {/* Course Pages*/}
             <Stack.Screen name="ChapterSelectPage" component={ChapterSelectPage} options={{title: 'Chapter select Page'}}/>
 
